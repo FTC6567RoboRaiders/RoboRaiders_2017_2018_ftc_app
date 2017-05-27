@@ -13,7 +13,7 @@ package org.firstinspires.ftc.teamcode; // This line imports necessary software 
 
 // This is a sample autonomous op mode.
 
-public class TrueProphetClimberBlue extends TrueProphetOp { // This line establishes the name of the op mode and extends
+public class TrueProphetClimberBlue extends TrueProphetAutonomous { // This line establishes the name of the op mode and extends
     // the header file "TrueProphetOp", which in turn extends the
     // header file "LinearOpMode", in order to access all of the
     // information and public voids in "TrueProphetOp" and to
