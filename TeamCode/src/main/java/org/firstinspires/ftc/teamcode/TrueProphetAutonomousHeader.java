@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 
-public abstract class TrueProphetAutonomous extends LinearOpMode { // This line establishes this program as a public abstract class
+public abstract class TrueProphetAutonomousHeader extends LinearOpMode { // This line establishes this program as a public abstract class
     // that extends the header file "LinearOpMode". This makes it
     // a header file itself that the real autonomous op modes will
     // extend.
