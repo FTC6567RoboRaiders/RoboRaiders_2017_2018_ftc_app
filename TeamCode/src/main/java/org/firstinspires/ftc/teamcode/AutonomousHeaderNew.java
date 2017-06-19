@@ -25,9 +25,7 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
         telemetry.update();
     }
 
-    // Lower speeds need higher threshold values, but are best
-
-    public void cosineEncodersForward(int distance, double power, double threshold) {
+    public void cosineEncodersForward(int distance, double maxPower, int threshold) {
 
         if (opModeIsActive()) {
 
@@ -41,14 +39,14 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
             motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            setMotorPower(power, power);
+            setMotorPower(maxPower, maxPower);
 
             while (motorRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
                 int i = motorRight.getCurrentPosition();
 
-                setMotorPower((-(power / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (power / 2),
-                        (-(power / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (power / 2));
+                setMotorPower((-(maxPower / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2),
+                        (-(maxPower / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2));
 
                 telemetry.addData("In While Loop", true);
                 telemetry.addData("COUNTS", COUNTS);
@@ -63,7 +61,7 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
         }
     }
 
-    public void halfCosineEncodersForward(int distance, double power, double threshold) { // Needs a slightly higher threshold, but is best
+    public void halfCosineEncodersForward(int distance, double maxPower, int threshold) {
 
         if (opModeIsActive()) {
 
@@ -77,14 +75,14 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
             motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            setMotorPower(power, power);
+            setMotorPower(maxPower, maxPower);
 
             while (motorRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
                 int i = motorRight.getCurrentPosition();
 
-                setMotorPower((-(power / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (power / 2),
-                        (-(power / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (power / 2));
+                setMotorPower((-(maxPower / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2),
+                        (-(maxPower / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2));
 
                 telemetry.addData("In While Loop", true);
                 telemetry.addData("COUNTS", COUNTS);
@@ -99,7 +97,7 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
         }
     }
 
-    public void cosineEncodersBackward(int distance, double power, double threshold) {
+    public void cosineEncodersBackward(int distance, double maxPower, int threshold) {
 
         if (opModeIsActive()) {
 
@@ -113,14 +111,14 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
             motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            setMotorPower(-power, -power);
+            setMotorPower(-maxPower, -maxPower);
 
             while (-motorRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
                 int i = -motorRight.getCurrentPosition();
 
-                setMotorPower(-((-(power / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (power / 2)),
-                        -((-(power / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (power / 2)));
+                setMotorPower(-((-(maxPower / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2)),
+                        -((-(maxPower / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2)));
 
                 telemetry.addData("In While Loop", true);
                 telemetry.addData("COUNTS", COUNTS);
@@ -135,7 +133,7 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
         }
     }
 
-    public void halfCosineEncodersBackward(int distance, double power, double threshold) { // Needs a slightly higher threshold, but is best
+    public void halfCosineEncodersBackward(int distance, double maxPower, int threshold) {
 
         if (opModeIsActive()) {
 
@@ -149,14 +147,14 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
             motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            setMotorPower(-power, -power);
+            setMotorPower(-maxPower, -maxPower);
 
             while (-motorRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
                 int i = -motorRight.getCurrentPosition();
 
-                setMotorPower(-((-(power / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (power / 2)),
-                        -((-(power / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (power / 2)));
+                setMotorPower(-((-(maxPower / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2)),
+                        -((-(maxPower / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2)));
 
                 telemetry.addData("In While Loop", true);
                 telemetry.addData("COUNTS", COUNTS);
@@ -177,22 +175,3 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
         motorRight.setPower(right);
     }
 }
-/*for (int i = 500; i < COUNTS; i++) {
-
-                motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                while (motorRight.getCurrentPosition() < 1) {
-
-                    setMotorPower((-0.5 * (Math.cos(i * ((2 * Math.PI) / COUNTS) * power))) + (power / 2),
-                            (-0.5 * (Math.cos(i * ((2 * Math.PI) / COUNTS) * power))) + (power / 2));
-
-                    telemetry.addData("In Loop", true);
-                    telemetry.addData("COUNTS", COUNTS);
-                    telemetry.addData("Current Position", motorRight.getCurrentPosition());
-                    telemetry.addData("i", i);
-                    telemetry.addData("Left Speed", motorLeft.getPower());
-                    telemetry.addData("Right Speed", motorRight.getPower());
-                    telemetry.update();
-                }
-            }*/
