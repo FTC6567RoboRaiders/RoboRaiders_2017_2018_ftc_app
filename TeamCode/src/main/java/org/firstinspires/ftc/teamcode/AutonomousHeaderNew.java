@@ -43,15 +43,15 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
 
             while (motorRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
-                int i = motorRight.getCurrentPosition();
+                int currentEncoderCount = motorRight.getCurrentPosition();
 
-                setMotorPower((-(maxPower / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2),
-                        (-(maxPower / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2));
+                setMotorPower((-(maxPower / 2) * (Math.cos((currentEncoderCount + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2),
+                        (-(maxPower / 2) * (Math.cos((currentEncoderCount + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2));
 
                 telemetry.addData("In While Loop", true);
                 telemetry.addData("COUNTS", COUNTS);
                 telemetry.addData("Current Position", motorRight.getCurrentPosition());
-                telemetry.addData("i", i);
+                telemetry.addData("currentEncoderCount", currentEncoderCount);
                 telemetry.addData("Left Speed", motorLeft.getPower());
                 telemetry.addData("Right Speed", motorRight.getPower());
                 telemetry.update();
@@ -79,15 +79,15 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
 
             while (motorRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
-                int i = motorRight.getCurrentPosition();
+                int currentEncoderCount = motorRight.getCurrentPosition();
 
-                setMotorPower((-(maxPower / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2),
-                        (-(maxPower / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2));
+                setMotorPower((-(maxPower / 2) * (Math.cos((currentEncoderCount + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2),
+                        (-(maxPower / 2) * (Math.cos((currentEncoderCount + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2));
 
                 telemetry.addData("In While Loop", true);
                 telemetry.addData("COUNTS", COUNTS);
                 telemetry.addData("Current Position", motorRight.getCurrentPosition());
-                telemetry.addData("i", i);
+                telemetry.addData("currentEncoderCount", currentEncoderCount);
                 telemetry.addData("Left Speed", motorLeft.getPower());
                 telemetry.addData("Right Speed", motorRight.getPower());
                 telemetry.update();
@@ -115,15 +115,15 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
 
             while (-motorRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
-                int i = -motorRight.getCurrentPosition();
+                int currentEncoderCount = -motorRight.getCurrentPosition();
 
-                setMotorPower(-((-(maxPower / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2)),
-                        -((-(maxPower / 2) * (Math.cos((i + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2)));
+                setMotorPower(-((-(maxPower / 2) * (Math.cos((currentEncoderCount + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2)),
+                        -((-(maxPower / 2) * (Math.cos((currentEncoderCount + threshold) * ((2 * Math.PI) / (COUNTS + (threshold * 2)))))) + (maxPower / 2)));
 
                 telemetry.addData("In While Loop", true);
                 telemetry.addData("COUNTS", COUNTS);
                 telemetry.addData("Current Position", -motorRight.getCurrentPosition());
-                telemetry.addData("i", i);
+                telemetry.addData("currentEncoderCount", currentEncoderCount);
                 telemetry.addData("Left Speed", motorLeft.getPower());
                 telemetry.addData("Right Speed", motorRight.getPower());
                 telemetry.update();
@@ -151,15 +151,15 @@ public abstract class AutonomousHeaderNew extends LinearOpMode {
 
             while (-motorRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
-                int i = -motorRight.getCurrentPosition();
+                int currentEncoderCount = -motorRight.getCurrentPosition();
 
-                setMotorPower(-((-(maxPower / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2)),
-                        -((-(maxPower / 2) * (Math.cos((i + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2)));
+                setMotorPower(-((-(maxPower / 2) * (Math.cos((currentEncoderCount + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2)),
+                        -((-(maxPower / 2) * (Math.cos((currentEncoderCount + (((COUNTS * 2) + threshold) / 2)) * ((2 * Math.PI) / ((COUNTS * 2) + (threshold * 2)))))) + (maxPower / 2)));
 
                 telemetry.addData("In While Loop", true);
                 telemetry.addData("COUNTS", COUNTS);
                 telemetry.addData("Current Position", -motorRight.getCurrentPosition());
-                telemetry.addData("i", i);
+                telemetry.addData("currentEncoderCount", currentEncoderCount);
                 telemetry.addData("Left Speed", motorLeft.getPower());
                 telemetry.addData("Right Speed", motorRight.getPower());
                 telemetry.update();
