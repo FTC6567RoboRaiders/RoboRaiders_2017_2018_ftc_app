@@ -19,52 +19,52 @@ public class AutonomousNew extends AutonomousHeaderNew {
 
         waitForStart();
 
-        cosineEncodersForward(40, 1.0, 250);
+        cosineEncodersForward(40, 1.0);
         Thread.sleep(1000);
 
-        halfCosineEncodersForward(40, 1.0, 300);
+        halfCosineEncodersForward(40, 1.0);
         Thread.sleep(1000);
 
-        cosineEncodersForward(40, 0.5, 450);
+        cosineEncodersForward(40, 0.5);
         Thread.sleep(1000);
 
-        halfCosineEncodersForward(40, 0.5, 600);
+        halfCosineEncodersForward(40, 0.5);
         Thread.sleep(1000);
 
-        cosineEncodersForward(6, 1.0, 45);
+        cosineEncodersForward(6, 1.0);
         Thread.sleep(1000);
 
-        halfCosineEncodersForward(6, 1.0, 50);
+        halfCosineEncodersForward(6, 1.0);
         Thread.sleep(1000);
 
-        cosineEncodersForward(6, 0.5, 65);
+        cosineEncodersForward(6, 0.5);
         Thread.sleep(1000);
 
-        halfCosineEncodersForward(6, 0.5, 70);
+        halfCosineEncodersForward(6, 0.5);
         Thread.sleep(1000);
 
-        cosineEncodersBackward(40, 1.0, 250);
+        cosineEncodersBackward(40, 1.0);
         Thread.sleep(1000);
 
-        halfCosineEncodersBackward(40, 1.0, 300);
+        halfCosineEncodersBackward(40, 1.0);
         Thread.sleep(1000);
 
-        cosineEncodersBackward(40, 0.5, 450);
+        cosineEncodersBackward(40, 0.5);
         Thread.sleep(1000);
 
-        halfCosineEncodersBackward(40, 0.5, 600);
+        halfCosineEncodersBackward(40, 0.5);
         Thread.sleep(1000);
 
-        cosineEncodersBackward(6, 1.0, 45);
+        cosineEncodersBackward(6, 1.0);
         Thread.sleep(1000);
 
-        halfCosineEncodersBackward(6, 1.0, 50);
+        halfCosineEncodersBackward(6, 1.0);
         Thread.sleep(1000);
 
-        cosineEncodersBackward(6, 0.5, 65);
+        cosineEncodersBackward(6, 0.5);
         Thread.sleep(1000);
 
-        halfCosineEncodersBackward(6, 0.5, 70);
+        halfCosineEncodersBackward(6, 0.5);
         Thread.sleep(1000);
     }
 }
