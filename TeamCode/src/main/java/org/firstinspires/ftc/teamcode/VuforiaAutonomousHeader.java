@@ -28,9 +28,6 @@ import java.util.List;
  * Created by Simon on 11/6/16.
  */
 
-@Autonomous(name = "Vuforia")
-@Disabled
-
 public abstract class VuforiaAutonomousHeader extends LinearOpMode {
 
     DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
