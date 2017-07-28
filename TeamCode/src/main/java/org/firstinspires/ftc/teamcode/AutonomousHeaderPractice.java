@@ -61,7 +61,7 @@ public abstract class AutonomousHeaderPractice extends LinearOpMode {
 
     public void moveForwardWhenRed(double power) {
 
-        while (opModeIsActive()) {
+        while (opModeIsActive()) { // Run forever
 
             sensorColorCache = sensorColorReader.read(0x04, 1); // Color Number
 
