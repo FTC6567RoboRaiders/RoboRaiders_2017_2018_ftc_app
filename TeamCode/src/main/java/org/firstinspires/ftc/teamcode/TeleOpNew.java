@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDevice;
@@ -12,6 +14,9 @@ import com.qualcomm.robotcore.util.Range;
 /**
  * Created by Katelin Zichittella on 7/30/2017.
  */
+
+@TeleOp
+//@Disabled
 
 public class TeleOpNew extends OpMode {
 
@@ -26,11 +31,15 @@ public class TeleOpNew extends OpMode {
     boolean startCount = false;
     boolean ballInPrevious = false;
     boolean ballInCurrent = false;
+    boolean allBallsIn = false;
     int ballCount = 0;
 
     boolean ascentCurrent = false;
     boolean ascentPrevious = false;
     boolean startAscent = false;
+
+    double leftFactor = 1;
+    double rightFactor = 1;
 
     @Override
     public void init() {
@@ -55,8 +64,8 @@ public class TeleOpNew extends OpMode {
     @Override
     public void loop() {
 
-        float left = gamepad1.left_stick_y;
-        float right = gamepad1.right_stick_y;
+        float left = -gamepad1.left_stick_y;
+        float right = -gamepad1.right_stick_y;
 
         left = Range.clip(left, -1, 1);
         right = Range.clip(right, -1, 1);
@@ -64,19 +73,29 @@ public class TeleOpNew extends OpMode {
         left = (float) scaleInput(left);
         right = (float) scaleInput(right);
 
-        setMotorPower(left, right);
+        setMotorPower(left * leftFactor, right * rightFactor);
 
-        ascentCurrent = gamepad1.x;
+        telemetry.addData("startCount", startCount);
+        telemetry.addData("ballInCurrent", ballInCurrent);
+        telemetry.addData("allBallsIn", allBallsIn);
+        telemetry.addData("ballCount", ballCount);
+        telemetry.addData("startAscent", startAscent);
+        telemetry.addData("Mode", motorRight.getMode());
+        telemetry.addData("Current Position", motorRight.getCurrentPosition());
+        telemetry.addData("left * leftFactor", left * leftFactor);
+        telemetry.addData("right * rightFactor", right * rightFactor);
+        telemetry.update();
 
         if (gamepad1.a) {
 
             startCount = true;
+            allBallsIn = false;
+            ballCount = 0;
         }
 
         if (gamepad1.b) {
 
             startCount = false;
-            ballCount = 0;
         }
 
         if (startCount) {
@@ -98,13 +117,24 @@ public class TeleOpNew extends OpMode {
             else if (!ballInCurrent && ballInPrevious) { // Ball is completely entered
 
                 ballInPrevious = ballInCurrent;
+
+                if (ballCount == 5) {
+
+                    allBallsIn = true; // Last ball is completely entered
+                }
             }
 
-            if (ballInCurrent && ballCount >= 6) {
+            if (allBallsIn) {
 
-                motorLeft.setPower(-left);
+                leftFactor = 0;
+            }
+            else {
+
+                leftFactor = 1;
             }
         }
+
+        ascentCurrent = gamepad1.x;
 
         if (ascentCurrent && !ascentPrevious) {
 
@@ -130,7 +160,11 @@ public class TeleOpNew extends OpMode {
 
                 if (right > 0) {
 
-                    motorRight.setPower(0);
+                    rightFactor = 0;
+                }
+                else {
+
+                    rightFactor = 1;
                 }
             }
         }
