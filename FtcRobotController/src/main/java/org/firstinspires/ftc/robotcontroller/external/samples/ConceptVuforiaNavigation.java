@@ -91,7 +91,6 @@ public class ConceptVuforiaNavigation extends LinearOpMode {
     public static final String TAG = "Vuforia Sample";
 
     OpenGLMatrix lastLocation = null;
-
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
