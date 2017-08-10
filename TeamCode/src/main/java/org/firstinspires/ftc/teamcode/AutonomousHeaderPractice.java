@@ -68,7 +68,7 @@ public abstract class AutonomousHeaderPractice extends LinearOpMode {
             telemetry.addData("Color Number", sensorColorCache[0] & 0xFF);
             telemetry.update();
 
-            if ((sensorColorCache[0] & 0xFF) > 10 && (sensorColorCache[0] & 0xFF) < 12) { // Sees Red
+            if ((sensorColorCache[0] & 0xFF) > 9 && (sensorColorCache[0] & 0xFF) < 12) { // Sees Red
 
                 motorLeft.setPower(power);
                 motorRight.setPower(power);

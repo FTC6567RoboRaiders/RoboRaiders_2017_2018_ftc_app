@@ -1,18 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDevice;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -22,23 +17,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-import java.util.List;
-
 /**
- * Created by Simon on 11/6/16.
+ * Created by Katelin Zichittella on 11/6/16.
  */
 
 public abstract class VuforiaAutonomousHeader extends LinearOpMode {
 
     DcMotor motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight;
-
-    byte[] rangeSensorLeftCache;
-    byte[] rangeSensorRightCache;
-
-    I2cDevice rangeSensorLeft;
-    I2cDevice rangeSensorRight;
-    I2cDeviceSynch rangeSensorLeftReader;
-    I2cDeviceSynch rangeSensorRightReader;
 
     public VuforiaLocalizer vuforiaLocalizer;
     public VuforiaLocalizer.Parameters parameters;
@@ -46,13 +31,27 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
     public VuforiaTrackable target;
     public VuforiaTrackableDefaultListener listener;
 
-    public OpenGLMatrix lastKnownLocation;
     public OpenGLMatrix phoneLocation;
 
     public static final String VUFORIA_KEY = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
-    public float robotX = 0;
-    public float robotY = 0;
-    public float robotAngle = 0;
+
+    int MAX_TARGETS = 4;
+    double ON_AXIS = 10;
+    double CLOSE_ENOUGH = 20;
+
+    double YAW_GAIN = 0.018;
+    double LATERAL_GAIN = 0.0027;
+    double AXIAL_GAIN = 0.0017;
+
+    VuforiaTrackables targets = null;
+    boolean targetFound = false;
+    String targetName = null;
+    double robotX = 0;
+    double robotY = 0;
+    double robotBearing = 0;
+    double targetRange = 0;
+    double targetBearing = 0;
+    double relativeBearing = 0;
 
     public void initialize() {
 
@@ -60,19 +59,9 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-
-        /*rangeSensorLeft = hardwareMap.i2cDevice.get("rangeSensorLeft");
-        rangeSensorRight = hardwareMap.i2cDevice.get("rangeSensorRight");
-        rangeSensorLeftReader = new I2cDeviceSynchImpl(rangeSensorLeft, I2cAddr.create8bit(0x28), false);
-        rangeSensorRightReader = new I2cDeviceSynchImpl(rangeSensorRight, I2cAddr.create8bit(0x30), false);
-        rangeSensorLeftReader.engage();
-        rangeSensorRightReader.engage();*/
 
         telemetry.addData("Initialized", true);
         telemetry.update();
@@ -111,7 +100,6 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
         listener.setPhoneInformation(phoneLocation, parameters.cameraDirection);
     }
 
-
     public OpenGLMatrix createMatrix(float x, float y, float z, float u, float v, float w)
     {
         return OpenGLMatrix.translation(x, y, z).
@@ -119,9 +107,69 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
                         AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, u, v, w));
     }
 
-    public String formatMatrix(OpenGLMatrix matrix)
-    {
+    public String formatMatrix(OpenGLMatrix matrix) {
+
         return matrix.formatAsTransform();
+    }
+
+    public void activateTracking() {
+
+        if (targets != null) {
+
+            targets.activate();
+        }
+    }
+
+    public boolean targetsAreVisible() {
+
+        int targetTestID = 0;
+
+        while ((targetTestID < MAX_TARGETS) && !targetIsVisible(targetTestID)) {
+
+            targetTestID++;
+        }
+        return (targetFound);
+    }
+
+    public boolean targetIsVisible(int targetId) {
+
+        VuforiaTrackable target = targets.get(targetId);
+        VuforiaTrackableDefaultListener listener = (VuforiaTrackableDefaultListener)target.getListener();
+        OpenGLMatrix location  = null;
+
+        if ((target != null) && (listener != null) && listener.isVisible()) {
+
+            targetFound = true;
+            targetName = target.getName();
+
+            location = listener.getUpdatedRobotLocation();
+
+            if (location != null) {
+
+                VectorF trans = location.getTranslation();
+                Orientation rot = Orientation.getOrientation(location, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+                robotX = trans.get(0);
+                robotY = trans.get(1);
+
+                robotBearing = rot.thirdAngle;
+
+                targetRange = Math.hypot(robotX, robotY);
+
+                targetBearing = Math.toDegrees(-Math.asin(robotY / targetRange));
+
+                relativeBearing = targetBearing - robotBearing;
+            }
+
+            targetFound = true;
+        }
+        else {
+
+            targetFound = false;
+            targetName = "None";
+        }
+
+        return targetFound;
     }
 
     public void setMotorPower(double left, double right) {
