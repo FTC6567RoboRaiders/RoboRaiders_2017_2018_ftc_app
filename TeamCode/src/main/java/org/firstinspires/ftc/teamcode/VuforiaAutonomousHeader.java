@@ -196,7 +196,8 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
 
         return targetFound;
     }
-// this isn't in the source code, does this have to do with the fact we are specifying it to our own robot?
+// this isn't in the source code, does this have to do
+// with the fact we are specifying it to our own robot?
     public void setMotorPower(double left, double right) {
 
         motorFrontLeft.setPower(left);
