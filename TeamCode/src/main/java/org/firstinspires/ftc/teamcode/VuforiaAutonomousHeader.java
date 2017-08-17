@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 
@@ -43,6 +44,10 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
     double LATERAL_GAIN = 0.0027;
     double AXIAL_GAIN = 0.0017;
 
+    double driveAxial = 0;
+    double driveLateral = 0;
+    double driveYaw = 0;
+
     VuforiaTrackables targets = null;
     boolean targetFound = false;
     String targetName = null;
@@ -52,32 +57,7 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
     double targetRange = 0;
     double targetBearing = 0;
     double relativeBearing = 0;
-    /*
-    public boolean cruiseControl(double standOffDistance) {
-        boolean closeEnough;
 
-
-        double Y  = (relativeBearing * YAW_GAIN);
-
-
-        double L  =(robotY * LATERAL_GAIN);
-
-
-        double A  = (-(robotX + standOffDistance) * AXIAL_GAIN);
-
-  // Katelin this was in the code we sourced from; you marked that it should be included but we didn't include
-  // it the other day at your house so I wasn't sure if we skipped it on purpose... I commented it out bc
-  // the variable myRobot is established in a part that you marked not to include and I wasn't sure what I should do.
-        myRobot.setYaw(Y);
-        myRobot.setAxial(A);
-        myRobot.setLateral(L);
-
-        closeEnough = ( (Math.abs(robotX + standOffDistance) < CLOSE_ENOUGH) &&
-                (Math.abs(robotY) < ON_AXIS));
-
-        return (closeEnough);
-    }
-    */
     public void initialize() {
 
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
@@ -196,13 +176,29 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
 
         return targetFound;
     }
-// this isn't in the source code, does this have to do
-// with the fact we are specifying it to our own robot?
-    public void setMotorPower(double left, double right) {
 
-        motorFrontLeft.setPower(left);
-        motorBackLeft.setPower(left);
-        motorFrontRight.setPower(right);
-        motorBackRight.setPower(right);
+    public boolean cruiseControl(double standOffDistance) {
+
+        boolean closeEnough;
+
+        double yaw = (relativeBearing * YAW_GAIN);
+
+        double lateral = (robotY * LATERAL_GAIN);
+
+        double axial = (-(robotX + standOffDistance) * AXIAL_GAIN);
+
+        driveAxial = Range.clip(axial, -1, 1);
+        driveLateral = Range.clip(lateral, -1, 1);
+        driveYaw = Range.clip(yaw, -1, 1);
+
+        closeEnough = ( (Math.abs(robotX + standOffDistance) < CLOSE_ENOUGH) &&
+                (Math.abs(robotY) < ON_AXIS));
+
+        return (closeEnough);
+    }
+
+    public void moveRobot() {
+
+
     }
 }
