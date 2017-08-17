@@ -105,16 +105,11 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
         listener.setPhoneInformation(phoneLocation, parameters.cameraDirection);
     }
 
-    public OpenGLMatrix createMatrix(float x, float y, float z, float u, float v, float w)
-    {
+    public OpenGLMatrix createMatrix(float x, float y, float z, float u, float v, float w) {
+
         return OpenGLMatrix.translation(x, y, z).
                 multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, u, v, w));
-    }
-
-    public String formatMatrix(OpenGLMatrix matrix) {
-
-        return matrix.formatAsTransform();
     }
 
     public void activateTracking() {
@@ -156,13 +151,10 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
 
                 robotX = trans.get(0);
                 robotY = trans.get(1);
-
-                robotBearing = rot.thirdAngle;
-
                 targetRange = Math.hypot(robotX, robotY);
 
+                robotBearing = rot.thirdAngle;
                 targetBearing = Math.toDegrees(-Math.asin(robotY / targetRange));
-
                 relativeBearing = targetBearing - robotBearing;
             }
 
@@ -182,16 +174,14 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
         boolean closeEnough;
 
         double yaw = (relativeBearing * YAW_GAIN);
-
         double lateral = (robotY * LATERAL_GAIN);
-
         double axial = (-(robotX + standOffDistance) * AXIAL_GAIN);
 
         driveAxial = Range.clip(axial, -1, 1);
         driveLateral = Range.clip(lateral, -1, 1);
         driveYaw = Range.clip(yaw, -1, 1);
 
-        closeEnough = ( (Math.abs(robotX + standOffDistance) < CLOSE_ENOUGH) &&
+        closeEnough = ((Math.abs(robotX + standOffDistance) < CLOSE_ENOUGH) &&
                 (Math.abs(robotY) < ON_AXIS));
 
         return (closeEnough);
@@ -200,5 +190,13 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
     public void moveRobot() {
 
 
+    }
+
+    public void setMotorPower(double left, double right) {
+
+        motorBackLeft.setPower(left);
+        motorBackRight.setPower(right);
+        motorFrontLeft.setPower(left);
+        motorFrontRight.setPower(right);
     }
 }

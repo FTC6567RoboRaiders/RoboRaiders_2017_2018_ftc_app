@@ -25,14 +25,19 @@ public class VuforiaAutonomous extends VuforiaAutonomousHeader {
 
         visionTargets.activate();
 
+        activateTracking();
+
         while (opModeIsActive()) {
 
-            if (targetsAreVisible()) {
+            if (targetsAreVisible() && !cruiseControl(TARGET_DISTANCE)) {
 
                 cruiseControl(TARGET_DISTANCE);
+                moveRobot();
             }
+            else {
 
-            moveRobot();
+                setMotorPower(0, 0);
+            }
         }
     }
 }
