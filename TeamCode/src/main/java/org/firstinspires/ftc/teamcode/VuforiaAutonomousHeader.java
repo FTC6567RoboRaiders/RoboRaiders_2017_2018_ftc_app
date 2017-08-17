@@ -52,7 +52,32 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
     double targetRange = 0;
     double targetBearing = 0;
     double relativeBearing = 0;
+    /*
+    public boolean cruiseControl(double standOffDistance) {
+        boolean closeEnough;
 
+
+        double Y  = (relativeBearing * YAW_GAIN);
+
+
+        double L  =(robotY * LATERAL_GAIN);
+
+
+        double A  = (-(robotX + standOffDistance) * AXIAL_GAIN);
+
+  // Katelin this was in the code we sourced from; you marked that it should be included but we didn't include
+  // it the other day at your house so I wasn't sure if we skipped it on purpose... I commented it out bc
+  // the variable myRobot is established in a part that you marked not to include and I wasn't sure what I should do.
+        myRobot.setYaw(Y);
+        myRobot.setAxial(A);
+        myRobot.setLateral(L);
+
+        closeEnough = ( (Math.abs(robotX + standOffDistance) < CLOSE_ENOUGH) &&
+                (Math.abs(robotY) < ON_AXIS));
+
+        return (closeEnough);
+    }
+    */
     public void initialize() {
 
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
@@ -171,7 +196,7 @@ public abstract class VuforiaAutonomousHeader extends LinearOpMode {
 
         return targetFound;
     }
-
+// this isn't in the source code, does this have to do with the fact we are specifying it to our own robot?
     public void setMotorPower(double left, double right) {
 
         motorFrontLeft.setPower(left);
