@@ -15,6 +15,8 @@ public class VuforiaAutonomous extends VuforiaAutonomousHeader {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        double TARGET_DISTANCE =  400.0;
+
         initialize();
 
         setupVuforia();
@@ -26,11 +28,11 @@ public class VuforiaAutonomous extends VuforiaAutonomousHeader {
         while (opModeIsActive()) {
 
             if (targetsAreVisible()) {
+
                 cruiseControl(TARGET_DISTANCE);
             }
 
             moveRobot();
-
         }
     }
 }
