@@ -1,4 +1,4 @@
-package com.roboraiders.summer; // These lines import necessary software for this op mode.
+package com.roboraiders.reference; // These lines import necessary software for this op mode.
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;

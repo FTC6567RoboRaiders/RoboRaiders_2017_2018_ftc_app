@@ -1,4 +1,4 @@
-package com.roboraiders.summer; // These lines import necessary software for this program.
+package com.roboraiders.reference; // These lines import necessary software for this program.
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;

@@ -1,7 +1,6 @@
-package com.roboraiders.summer;
+package com.roboraiders.reference;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /**
  * Created by Katelin Zichittella on 6/7/2017.
