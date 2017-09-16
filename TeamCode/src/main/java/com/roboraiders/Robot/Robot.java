@@ -62,7 +62,6 @@ public class Robot
         rightBack.setPower(0);
         leftBack.setPower(0);
 
-
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
