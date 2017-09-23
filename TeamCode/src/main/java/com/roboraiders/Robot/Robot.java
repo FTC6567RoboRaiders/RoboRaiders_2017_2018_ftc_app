@@ -18,10 +18,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Robot
 {
     /*Robot Motors */
-    public DcMotor  leftFront   = null;
-    public DcMotor  rightFront  = null;
-    public DcMotor  leftBack     = null;
-    public DcMotor  rightBack    = null;
+    public DcMotor  motorleftFront   = null;
+    public DcMotor  motorrightFront  = null;
+    public DcMotor  motorleftBack     = null;
+    public DcMotor  motorrightBack    = null;
 
 
     /* local OpMode members. */
@@ -44,33 +44,55 @@ public class Robot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftFront  = hwMap.get(DcMotor.class, "left_Front");
-        rightFront = hwMap.get(DcMotor.class, "right_Front");
-        leftBack = hwMap.get(DcMotor.class, "left_Back");
-        rightBack = hwMap.get(DcMotor.class, "right_Back");
+        motorleftFront  = hwMap.get(DcMotor.class, "left_Front");
+        motorrightFront = hwMap.get(DcMotor.class, "right_Front");
+        motorleftBack = hwMap.get(DcMotor.class, "left_Back");
+        motorrightBack = hwMap.get(DcMotor.class, "right_Back");
 
         // Defines the directions the motors will spin
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorleftFront.setDirection(DcMotor.Direction.FORWARD);
+        motorrightFront.setDirection(DcMotor.Direction.REVERSE);
+        motorleftBack.setDirection(DcMotor.Direction.FORWARD);
+        motorrightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         // Set all motors to zero power
-        rightFront.setPower(0);
-        leftFront.setPower(0);
-        rightBack.setPower(0);
-        leftBack.setPower(0);
+        motorrightFront.setPower(0);
+        motorleftFront.setPower(0);
+        motorrightBack.setPower(0);
+        motorleftBack.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorleftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorrightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorleftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorrightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 
     }
+
+    /** setDriveMotorPower
+     *
+     * @param leftFront
+     * @param rightFront
+     * @param leftBack
+     * @param rightBack
+     */
+    public void setDriveMotorPower (float leftFront, float rightFront, float leftBack, float rightBack){
+
+        motorleftFront.setPower(leftFront);
+        motorrightFront.setPower(rightFront);
+        motorleftBack.setPower(leftBack);
+        motorrightBack.setPower(rightBack);
+
+    }
+
+
+
+
  }
+
+
 
