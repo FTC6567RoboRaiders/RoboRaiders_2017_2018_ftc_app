@@ -10,8 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 @Autonomous
 @Disabled
 
-public class
-VuforiaAutonomous extends VuforiaAutonomousHeader {
+public class VuforiaAutonomous extends VuforiaAutonomousHeader {
 
     @Override
     public void runOpMode() throws InterruptedException {

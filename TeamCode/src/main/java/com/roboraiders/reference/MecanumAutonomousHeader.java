@@ -9,12 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public abstract class MecanumAutonomousHeader extends LinearOpMode {
 
-
-
-
-
-
-
     DcMotor motorBackLeft, motorBackRight, motorFrontLeft, motorFrontRight;
 
     public void initialize() {
