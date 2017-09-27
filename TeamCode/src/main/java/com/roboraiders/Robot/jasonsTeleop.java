@@ -12,16 +12,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp
 
 public class jasonsTeleop extends OpMode {
-
+    Robot robot = new Robot();
     DcMotor motorBackLeft, motorBackRight, motorFrontLeft, motorFrontRight;
 
     @Override
     public void init() { /*This is the initialization routine that the robot undergoes. */
 
-        motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");           // These lines establish a link between
-        motorBackRight = hardwareMap.dcMotor.get("motorBackRight");         // the code and the hardware for the
-        motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");         // motors. The names in quotations are
-        motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");       //the names of the motors we set on the phone.
+        motorBackLeft = hardwareMap.dcMotor.get("left_Back");           // These lines establish a link between
+        motorBackRight = hardwareMap.dcMotor.get("right_Back");         // the code and the hardware for the
+        motorFrontLeft = hardwareMap.dcMotor.get("left_Front");         // motors. The names in quotations are
+        motorFrontRight = hardwareMap.dcMotor.get("right_Front");       //the names of the motors we set on the phone.
 
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);             //These lines reverse the right motors
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);            //in order to negate the fact that the
@@ -41,7 +41,10 @@ public class jasonsTeleop extends OpMode {
         float motorLeftfront = gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x;   //correspond to the back left, back right, front left,
         float motorRightfront = gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;  // and front right wheels of the robot.
 
-        float maxpwr = Math.max(Math.abs(motorLeftback),Math.abs(motorRightback), Math.abs(motorLeftfront), Math.abs( motorRightfront));
+        float maxpwrA = Math.max(Math.abs(motorLeftback),Math.abs(motorRightback));
+        float maxpwrB = Math.max (Math.abs(motorLeftfront), Math.abs( motorRightfront));
+        float maxpwr = Math.max(Math.abs (maxpwrA), Math.abs(maxpwrB));
+
             motorLeftback = motorLeftback / maxpwr;
             motorRightback = motorRightback / maxpwr;
             motorLeftfront = motorLeftfront / maxpwr;
