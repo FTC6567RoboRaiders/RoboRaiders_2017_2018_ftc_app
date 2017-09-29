@@ -6,6 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+<<<<<<< Updated upstream
+=======
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.roboraiders.reference.RevColorSensorNew;
+>>>>>>> Stashed changes
 
 /**
  * This is NOT an Op Mode.
@@ -13,6 +18,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * This class will be used to define all functions for our 2017 - 2018 robot.
  *
  */
+<<<<<<< Updated upstream
 
 public class Robot {
 
@@ -27,6 +33,20 @@ public class Robot {
 
     /* Local OpMode Members */
     HardwareMap hwMap =  null;
+=======
+public class Robot
+{
+    /*Robot Motors */
+    public DcMotor  motorFrontLeft   = null;
+    public DcMotor  motorFrontRight  = null;
+    public DcMotor  motorBackLeft     = null;
+    public DcMotor  motorBackRight    = null;
+    public ColorSensor color_sensor = null;
+    public Servo servoJoule = null;
+
+    /* local OpMode members. */
+    HardwareMap hwMap           =  null;
+>>>>>>> Stashed changes
 
     /* Constructor */
     public Robot(){
@@ -51,6 +71,7 @@ public class Robot {
         motorFrontRight = hwMap.get(DcMotor.class, "right_Front");
         motorBackLeft = hwMap.get(DcMotor.class, "left_Back");
         motorBackRight = hwMap.get(DcMotor.class, "right_Back");
+        color_sensor = hwMap.get(ColorSensor.class, )
 
         // Defines the directions the motors will spin
         motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -94,6 +115,16 @@ public class Robot {
         motorBackLeft.setPower(leftBack);
         motorBackRight.setPower(rightBack);
     }
+<<<<<<< Updated upstream
+=======
+
+    public void init() {
+        color_sensor = hardwareMap.colorSensor.get("Color");
+
+    }
+
+
+>>>>>>> Stashed changes
  }
 
 
