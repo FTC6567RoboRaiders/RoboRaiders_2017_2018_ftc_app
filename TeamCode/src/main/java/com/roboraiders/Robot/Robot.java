@@ -1,10 +1,14 @@
 package com.roboraiders.Robot;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -14,7 +18,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  *
  */
 
-public class Robot {
+public class Robot extends LinearOpMode {
 
     /* Robot Motors */
     public DcMotor motorFrontLeft = null;
@@ -24,6 +28,11 @@ public class Robot {
     public Servo servoJewel = null;
     public ColorSensor sensorColor;
     public DistanceSensor sensorDistance;
+    public ModernRoboticsI2cRangeSensor rangeSensor;
+
+    I2cDeviceSynch rangeSensorReader;
+    byte[] rangeSensorCache;
+
 
     /* Local OpMode Members */
     HardwareMap hwMap =  null;
@@ -77,6 +86,7 @@ public class Robot {
         // Define and initialize sensors
         sensorColor = hwMap.get(ColorSensor.class, "sensor_color_distance");
         sensorDistance = hwMap.get(DistanceSensor.class, "sensor_color_distance");
+        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
     }
 
     /** setDriveMotorPower
@@ -87,11 +97,28 @@ public class Robot {
      * @param rightBack
      */
 
-    public void setDriveMotorPower(float leftFront, float rightFront, float leftBack, float rightBack){
+    public void setDriveMotorPower(double leftFront, double rightFront, double leftBack, double rightBack){
 
         motorFrontLeft.setPower(leftFront);
         motorFrontRight.setPower(rightFront);
         motorBackLeft.setPower(leftBack);
         motorBackRight.setPower(rightBack);
+    }
+
+    public void moveUntilWall (double distance) {
+
+        if (opModeIsActive()) {
+
+            setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
+
+            rangeSensorCache = rangeSensorReader.read(0x04, 1);
+
+            while ((rangeSensorCache[0] & 0xFF) > distance && opModeIsActive()) {
+
+                rangeSensorCache = rangeSensorReader.read(0x04, 1);
+
+            setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
+            // reached, stop the robot."
+        }
     }
 }
