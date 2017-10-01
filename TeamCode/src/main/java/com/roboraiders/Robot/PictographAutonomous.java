@@ -3,7 +3,6 @@ package com.roboraiders.Robot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.roboraiders.Robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -18,9 +17,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 @Autonomous
 @Disabled
 
-public class VuMarkNew extends LinearOpMode {
+public class PictographAutonomous extends LinearOpMode {
 
     Robot robot = new Robot();
+
     VuforiaLocalizer vuforia;
 
     @Override

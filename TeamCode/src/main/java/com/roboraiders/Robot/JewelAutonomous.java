@@ -1,15 +1,17 @@
 package com.roboraiders.Robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
- * Created by Alex Snyder on 9/27/17.
+ * Created by Nick Urbin and Kevin McCrudden on 10/1/17.
  */
 
 @Autonomous
+@Disabled
 
-public class ColorSensorAutonomous extends LinearOpMode {
+public class JewelAutonomous extends LinearOpMode {
 
     public Robot robot = new Robot();
 
