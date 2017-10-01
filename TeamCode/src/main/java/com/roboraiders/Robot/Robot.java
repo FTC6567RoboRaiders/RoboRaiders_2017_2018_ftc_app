@@ -1,13 +1,11 @@
 package com.roboraiders.Robot;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -20,24 +18,24 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Robot {
 
-    /* Robot Motors */
+    /* Robot Motors, Servos, and Sensors */
     public DcMotor motorFrontLeft = null;
     public DcMotor motorFrontRight = null;
     public DcMotor motorBackLeft = null;
     public DcMotor motorBackRight = null;
+    
     public Servo servoJewel = null;
-    public ColorSensor sensorColor;
-    public DistanceSensor sensorDistance;
-    public ModernRoboticsI2cRangeSensor rangeSensor;
 
+    public ColorSensor colorSensor;
+    public DistanceSensor distanceSensor;
+    public ModernRoboticsI2cRangeSensor rangeSensor;
     I2cDeviceSynch rangeSensorReader;
     byte[] rangeSensorCache;
-
 
     /* Local OpMode Members */
     HardwareMap hwMap =  null;
 
-    /* Variables */
+    /* Public Variables */
     public String pictograph;
 
     /* Constructor */
@@ -87,8 +85,8 @@ public class Robot {
         servoJewel = hwMap.get(Servo.class, "servo_Jewel");
 
         // Define and initialize sensors
-        sensorColor = hwMap.get(ColorSensor.class, "sensor_color_distance");
-        sensorDistance = hwMap.get(DistanceSensor.class, "sensor_color_distance");
+        colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
+        distanceSensor = hwMap.get(DistanceSensor.class, "sensor_color_distance");
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
     }
 
@@ -108,7 +106,7 @@ public class Robot {
         motorBackRight.setPower(rightBack);
     }
 
-    public void moveUntilWall (double distance) {
+    public void moveUntilWall(double distance) {
 
         setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
 
