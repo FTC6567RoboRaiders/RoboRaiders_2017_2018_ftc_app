@@ -28,6 +28,9 @@ public class Robot {
     /* Local OpMode Members */
     HardwareMap hwMap =  null;
 
+    /* Variables */
+    public String pictograph;
+
     /* Constructor */
     public Robot(){
 
