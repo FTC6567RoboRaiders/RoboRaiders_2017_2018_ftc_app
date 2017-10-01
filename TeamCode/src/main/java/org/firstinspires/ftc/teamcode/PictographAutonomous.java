@@ -39,15 +39,28 @@ public class PictographAutonomous extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+            String pictograph;
 
-                telemetry.addData("VuMark", "%s visible", vuMark);
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+            if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+
+                pictograph = "LEFT";
+            }
+            else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+
+                pictograph = "CENTER";
+            }
+            else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+
+                pictograph = "RIGHT";
             }
             else {
-                telemetry.addData("VuMark", "not visible");
+
+                pictograph = "UNKNOWN";
             }
 
+            telemetry.addData("Pictograph", pictograph);
             telemetry.update();
         }
     }
