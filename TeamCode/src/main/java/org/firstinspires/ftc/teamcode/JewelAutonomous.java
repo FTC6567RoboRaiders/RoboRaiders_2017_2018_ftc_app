@@ -1,8 +1,9 @@
-package com.roboraiders.Robot;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.roboraiders.Robot.Robot;
 
 /**
  * Created by Nick Urbin and Kevin McCrudden on 10/1/17.

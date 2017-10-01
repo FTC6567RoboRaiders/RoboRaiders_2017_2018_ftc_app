@@ -1,15 +1,16 @@
-package com.roboraiders.Robot;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.roboraiders.Robot.Robot;
 
 /**
- * Created by Jason Sember on 9/23/2017.
+ * Created by Alex Snyder on 9/29/2017.
  */
 
 @TeleOp
 
-public class TeleOpNew extends OpMode {
+public class TeleOpNew2 extends OpMode {
 
     public Robot robot = new Robot();
 
