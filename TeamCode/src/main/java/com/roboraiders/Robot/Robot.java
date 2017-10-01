@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  *
  */
 
-public class Robot extends LinearOpMode {
+public class Robot {
 
     /* Robot Motors */
     public DcMotor motorFrontLeft = null;
@@ -107,18 +107,16 @@ public class Robot extends LinearOpMode {
 
     public void moveUntilWall (double distance) {
 
-        if (opModeIsActive()) {
+        setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
 
-            setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
+        rangeSensorCache = rangeSensorReader.read(0x04, 1);
+
+        while ((rangeSensorCache[0] & 0xFF) > distance) {
 
             rangeSensorCache = rangeSensorReader.read(0x04, 1);
-
-            while ((rangeSensorCache[0] & 0xFF) > distance && opModeIsActive()) {
-
-                rangeSensorCache = rangeSensorReader.read(0x04, 1);
-
-            setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
-            // reached, stop the robot."
         }
+
+        setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
+        // reached, stop the robot."
     }
 }
