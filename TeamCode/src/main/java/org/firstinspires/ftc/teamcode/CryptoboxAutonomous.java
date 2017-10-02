@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.roboraiders.Robot.Robot;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * Created by Alex Snyder and Fiona Beer on 10/1/2017.
