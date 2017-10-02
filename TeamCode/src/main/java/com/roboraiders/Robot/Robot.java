@@ -12,7 +12,22 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * This is NOT an Op Mode.
  *
- * This class will be used to define all functions for our 2017 - 2018 robot.
+ * This class will be used to define all "basic" functions for our 2017 - 2018 robot.
+ * <br>
+ * Basic functions would include things like:
+ * <ul>
+ *     <li>Setting power to motors</li>
+ *     <li>Obtaining color sensor information</li>
+ *     <li>Obtaining distance sensor information</li>
+ *     <li>Obtaining encoder counts</li>
+ *     <li>Setting servo position(s)</li>
+ * </ul>
+ * <br>
+ * Any advanced functionality, lets say like <u>following a white line</u> or <u>moving the
+ * robot until a given distance from a barrier</u> should be handled in a different class
+ * (e.g. a Driver class).
+ * <br>
+ * <b>Author(s):</b> Jason Sember, Alex Synder, Katelin Zichittella, add your name here ...
  *
  */
 
@@ -38,19 +53,22 @@ public class Robot {
     /* Public Variables */
     public String pictograph;
 
-    /* Constructor */
+    /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
+     *
+     */
     public Robot(){
 
     }
 
     /**  init - initialize the robot
-     *
-     *
-     *
+     * <br>
+     * <b>Author(s):</b> Jason Sember
+     * <br>
      * @param ahwMap - hardware map for the robot
      *
+     *
+     *
      */
-
     public void initialize(HardwareMap ahwMap) {
 
         // Save reference to hardware map
@@ -90,12 +108,14 @@ public class Robot {
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
     }
 
-    /** setDriveMotorPower
-     *
-     * @param leftFront
-     * @param rightFront
-     * @param leftBack
-     * @param rightBack
+    /** setDriveMotorPower sets the power for the drive motors
+     * <br>
+     * <b>Author(s):</b> Jason Sember
+     * <br>
+     * @param leftFront power setting for the left front motor
+     * @param rightFront power setting for the right front motor
+     * @param leftBack power setting for the left back motor
+     * @param rightBack power setting for the right back motor
      */
 
     public void setDriveMotorPower(double leftFront, double rightFront, double leftBack, double rightBack){
@@ -106,6 +126,22 @@ public class Robot {
         motorBackRight.setPower(rightBack);
     }
 
+    /** moveUntilWall will move the robot until it reaches a defined distance from a barrier
+     *
+     * <br>
+     * <b>Note:</b> This method we may want to move to a Drive class that will handle all of
+     * the "heavy" work of moving and positioning the robot during autonomous, the team will
+     * need to discuss how we want to organize this
+     * <br>
+     * <b>Author(s):</b> Alex Synder, Katelin Zichittella
+     * <br>
+     *
+     *
+     * @param distance the distance from the wall that the robot should be away from a barrier
+     *                 or in this case the field perimeter wall
+     *
+     *
+     */
     public void moveUntilWall(double distance) {
 
         setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
@@ -118,6 +154,6 @@ public class Robot {
         }
 
         setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
-        // reached, stop the robot."
+                                                // reached, stop the robot."
     }
 }
