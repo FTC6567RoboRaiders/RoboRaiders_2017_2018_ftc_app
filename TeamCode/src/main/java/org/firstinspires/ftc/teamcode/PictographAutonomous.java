@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @Autonomous
-@Disabled
+//@Disabled
 
 public class PictographAutonomous extends LinearOpMode {
 
@@ -60,6 +60,7 @@ public class PictographAutonomous extends LinearOpMode {
         }
 
         telemetry.addData("Pictograph", robot.pictograph);
+        telemetry.addData("IMU Angle", robot.angles.firstAngle);
         telemetry.update();
     }
 }

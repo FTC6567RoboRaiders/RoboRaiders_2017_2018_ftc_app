@@ -191,6 +191,5 @@ public class TeleOpNew extends OpMode {
         float maxpwrA = Math.max(Math.abs(pwr1), Math.abs(pwr2));
         float maxpwrB = Math.max (Math.abs(pwr3), Math.abs(pwr4));
         return Math.max(Math.abs(maxpwrA), Math.abs(maxpwrB));
-
     }
 }

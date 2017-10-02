@@ -5,13 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.roboraiders.Robot.Robot;
 
-
 /**
  * Created by Alex Snyder and Fiona Beer on 10/1/2017.
  */
 
 @Autonomous
-@Disabled
+//@Disabled
 
 public class CryptoboxAutonomous extends LinearOpMode {
 
@@ -37,11 +36,10 @@ public class CryptoboxAutonomous extends LinearOpMode {
         robot.setDriveMotorPower(0, 0, 0, 0);
         Thread.sleep(500);
 
-
-
-
-
+        telemetry.addData("Range Sensor", robot.rangeSensorCache[0] & 0xFF);
+        telemetry.update();
     }
+
     /* public void moveUntilWall (double distance) {
 
         robot.setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
@@ -56,5 +54,4 @@ public class CryptoboxAutonomous extends LinearOpMode {
         setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
         // reached, stop the robot."
     }*/
-
 }

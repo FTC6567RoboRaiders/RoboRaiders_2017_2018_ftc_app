@@ -1,5 +1,6 @@
 package com.roboraiders.Robot;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,11 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
  * This is NOT an Op Mode.
@@ -44,14 +50,17 @@ public class Robot {
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
     public ModernRoboticsI2cRangeSensor rangeSensor;
-    I2cDeviceSynch rangeSensorReader;
-    byte[] rangeSensorCache;
+    public I2cDeviceSynch rangeSensorReader;
+    public byte[] rangeSensorCache;
+    public BNO055IMU imu;
 
     /* Local OpMode Members */
     HardwareMap hwMap =  null;
 
     /* Public Variables */
     public String pictograph;
+    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+    public Orientation angles;
 
     /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
      *
@@ -106,6 +115,10 @@ public class Robot {
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
         distanceSensor = hwMap.get(DistanceSensor.class, "sensor_color_distance");
         rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        imu.initialize(parameters);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 
     /** setDriveMotorPower sets the power for the drive motors
@@ -117,7 +130,6 @@ public class Robot {
      * @param leftBack power setting for the left back motor
      * @param rightBack power setting for the right back motor
      */
-
     public void setDriveMotorPower(double leftFront, double rightFront, double leftBack, double rightBack){
 
         motorFrontLeft.setPower(leftFront);
@@ -155,5 +167,39 @@ public class Robot {
 
         setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
                                                 // reached, stop the robot."
+    }
+
+    public void imuTurnLeft(float degrees, double power) {
+
+        float heading = angles.firstAngle;
+
+        setDriveMotorPower(-power, power, -power, power);
+
+        while (heading < degrees) {
+
+            if (heading >= 180) {
+
+                heading = 360 - heading;
+            }
+        }
+
+        setDriveMotorPower(-0.0, 0.0, -0.0, 0.0);
+    }
+
+    public void imuTurnRight(float degrees, double power) {
+
+        float heading = angles.firstAngle;
+
+        setDriveMotorPower(power, -power, power, -power);
+
+        while (heading < degrees) {
+
+            if (heading >= 180) {
+
+                heading = 360 - heading;
+            }
+        }
+
+        setDriveMotorPower(-0.0, 0.0, -0.0, 0.0);
     }
 }
