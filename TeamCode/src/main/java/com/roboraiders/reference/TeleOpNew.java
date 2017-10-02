@@ -1,5 +1,6 @@
 package com.roboraiders.reference;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,7 +16,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp
-//@Disabled
+@Disabled
 
 public class TeleOpNew extends OpMode {
 

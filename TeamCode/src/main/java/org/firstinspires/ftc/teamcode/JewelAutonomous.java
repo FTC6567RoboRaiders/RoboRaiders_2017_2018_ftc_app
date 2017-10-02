@@ -21,12 +21,12 @@ public class JewelAutonomous extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            robot.sensorColor.red();
+          /*  robot.sensorColor.red();
             robot.sensorColor.blue();
 
             telemetry.addData("Red", robot.sensorColor.red());
             telemetry.addData("Blue", robot.sensorColor.blue());
-            telemetry.update();
+            telemetry.update();*/
         }
     }
 }

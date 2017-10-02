@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.roboraiders.Robot.Robot;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  */
 
 @Autonomous
+@Disabled
 
 public class CryptoboxAutonomous extends LinearOpMode {
 
@@ -41,7 +43,7 @@ public class CryptoboxAutonomous extends LinearOpMode {
 
 
     }
-    public void moveUntilWall (double distance) {
+    /* public void moveUntilWall (double distance) {
 
         robot.setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
 
@@ -54,6 +56,6 @@ public class CryptoboxAutonomous extends LinearOpMode {
 
         setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
         // reached, stop the robot."
-    }
+    }*/
 
 }

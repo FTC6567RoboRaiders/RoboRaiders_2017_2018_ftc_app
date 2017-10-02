@@ -1,6 +1,7 @@
 package com.roboraiders.reference; // These lines import necessary software for this op mode.
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /**
  * Created by Katelin Zichittella on 10/31/2016.
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous // This line establishes this op mode as an autonomous op mode and allows for it to be
 // displayed in the drop down list on the Driver Station phone to be chosen to run.
+@Disabled
 
 public class TalosBeaconClaimRed extends TalosAutonomousHeader { // This line establishes the name
     // of the op mode and extends the header file "TalosAutonomousHeader", which in turn extends the

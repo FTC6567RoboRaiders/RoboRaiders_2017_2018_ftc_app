@@ -1,5 +1,6 @@
 package com.roboraiders.reference; // These lines import necessary software for this op mode.
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,6 +18,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp // This line establishes this op mode as a teleop op mode and allows for it to be displayed
 // in the drop down list on the Driver Station phone to be chosen to run.
+@Disabled
 
 public class TalosTeleOp extends OpMode { // This line establishes the name of the op mode and
     // extends the header file "OpMode" in order to create a teleop op mode.
