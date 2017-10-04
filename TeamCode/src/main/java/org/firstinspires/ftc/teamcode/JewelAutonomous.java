@@ -21,7 +21,8 @@ public class JewelAutonomous extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         robot.initialize(hardwareMap);
-        robot.servoJewel.setPosition (0.0);
+        //robot.servoJewel.setPosition(0.0);
+
         waitForStart();
 
         robot.colorSensor.red();
@@ -31,16 +32,11 @@ public class JewelAutonomous extends LinearOpMode {
         telemetry.addData("Blue", robot.colorSensor.blue());
         telemetry.update();
 
-        robot.servoJewel.setPosition(0.5);
+        //robot.servoJewel.setPosition(0.5);
 
-
-
-        telemetry.update();
         //assuming red alliance
-       //  if (robot.sensorColor == 500){
+        /*if (robot.colorSensor.red() = ) {
 
-         }
-//
-
-
+        }*/
     }
+}

@@ -170,8 +170,6 @@ public class Robot {
                                                 // reached, stop the robot."
     }*/
 
-
-
     public void imuTurnLeft(float degrees, double power) {
 
         float heading = angles.firstAngle;
