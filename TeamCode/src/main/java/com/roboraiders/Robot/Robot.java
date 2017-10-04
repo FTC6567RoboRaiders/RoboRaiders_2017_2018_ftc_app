@@ -45,13 +45,13 @@ public class Robot {
     public DcMotor motorBackLeft = null;
     public DcMotor motorBackRight = null;
     
-    public Servo servoJewel = null;
+    //public Servo servoJewel = null;
 
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
     public ModernRoboticsI2cRangeSensor rangeSensor;
-    public I2cDeviceSynch rangeSensorReader;
-    public byte[] rangeSensorCache;
+    /*public I2cDeviceSynch rangeSensorReader;
+    public byte[] rangeSensorCache;*/
     public BNO055IMU imu;
 
     /* Local OpMode Members */
@@ -109,7 +109,7 @@ public class Robot {
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize servos
-        servoJewel = hwMap.get(Servo.class, "servo_Jewel");
+        //servoJewel = hwMap.get(Servo.class, "servo_Jewel");
 
         // Define and initialize sensors
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
@@ -149,12 +149,13 @@ public class Robot {
      * <br>
      *
      *
-     * @param distance the distance from the wall that the robot should be away from a barrier
-     *                 or in this case the field perimeter wall
+     *
      *
      *
      */
-    public void moveUntilWall(double distance) {
+    /*@param distance the distance from the wall that the robot should be away from a barrier
+     *                 or in this case the field perimeter wall*/
+    /*public void moveUntilWall(double distance) {
 
         setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
 
@@ -167,7 +168,7 @@ public class Robot {
 
         setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
                                                 // reached, stop the robot."
-    }
+    }*/
 
     public void imuTurnLeft(float degrees, double power) {
 

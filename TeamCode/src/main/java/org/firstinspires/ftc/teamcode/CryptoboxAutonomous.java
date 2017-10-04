@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.roboraiders.Robot.Robot;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 /**
  * Created by Alex Snyder and Fiona Beer on 10/1/2017.
  */
@@ -19,11 +21,11 @@ public class CryptoboxAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        robot.initialize(hardwareMap); //sets parameters for initialize sequence
+        robot.initialize(hardwareMap); //sets parameters for initialize sequence0
 
         waitForStart();
 
-        robot.moveUntilWall(6); //robot moves to wall until it is six inches away.
+        /*robot.moveUntilWall(6); //robot moves to wall until it is six inches away.
         robot.setDriveMotorPower(0, 0, 0, 0);
 
         robot.setDriveMotorPower(1, 1, 1, 1); //move forward for two seconds
@@ -34,9 +36,10 @@ public class CryptoboxAutonomous extends LinearOpMode {
         robot.setDriveMotorPower(1, -1, -1, 1); //robot strafes right
         Thread.sleep(1000);
         robot.setDriveMotorPower(0, 0, 0, 0);
-        Thread.sleep(500);
+        Thread.sleep(500);*/
 
-        telemetry.addData("Range Sensor", robot.rangeSensorCache[0] & 0xFF);
+        //telemetry.addData("Range Sensor", robot.rangeSensorCache[0] & 0xFF);
+        telemetry.addData("Range Sensor", robot.rangeSensor.getDistance(DistanceUnit.CM));
         telemetry.update();
     }
 

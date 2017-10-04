@@ -10,7 +10,7 @@ import com.roboraiders.Robot.Robot;
 
 @TeleOp
 
-public class TeleOpNew extends OpMode {
+public class TeleOpNewMecanumTank extends OpMode {
 
     public Robot robot = new Robot();
 
@@ -52,12 +52,13 @@ public class TeleOpNew extends OpMode {
         LeftFront = (float) scaleInput(LeftFront);
         RightFront = (float) scaleInput(RightFront);
 
-        robot.setDriveMotorPower(LeftBack, RightBack, RightFront, LeftFront);
+        robot.setDriveMotorPower(LeftBack, RightBack, LeftFront, RightFront);
 
     }*/
 
     @Override
     public void loop() {
+
 
         LeftBack = gamepad1.left_stick_y - gamepad1.left_stick_x;
         RightBack = gamepad1.right_stick_y + gamepad1.left_stick_x;
@@ -76,7 +77,7 @@ public class TeleOpNew extends OpMode {
         LeftFront = (float) scaleInput(LeftFront);
         RightFront = (float) scaleInput(RightFront);
 
-        robot.setDriveMotorPower(LeftBack, RightBack, RightFront, LeftFront);
+        robot.setDriveMotorPower(LeftBack, RightBack, LeftFront, RightFront);
     }
 
     @Override
