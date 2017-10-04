@@ -5,12 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.roboraiders.Robot.Robot;
 
+
 /**
  * Created by Nick Urbin and Kevin McCrudden on 10/1/17.
  */
 
 @Autonomous
-//@Disabled
+
 
 public class JewelAutonomous extends LinearOpMode {
 
@@ -19,14 +20,27 @@ public class JewelAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        while (opModeIsActive()) {
+        robot.initialize(hardwareMap);
+        robot.servoJewel.setPosition (0.0);
+        waitForStart();
 
-            robot.colorSensor.red();
-            robot.colorSensor.blue();
+        robot.colorSensor.red();
+        robot.colorSensor.blue();
 
-            telemetry.addData("Red", robot.colorSensor.red());
-            telemetry.addData("Blue", robot.colorSensor.blue());
-            telemetry.update();
-        }
+        telemetry.addData("Red", robot.colorSensor.red());
+        telemetry.addData("Blue", robot.colorSensor.blue());
+        telemetry.update();
+
+        robot.servoJewel.setPosition(0.5);
+
+
+
+        telemetry.update();
+        //assuming red alliance
+       //  if (robot.sensorColor == 500){
+
+         }
+
+
+
     }
-}
