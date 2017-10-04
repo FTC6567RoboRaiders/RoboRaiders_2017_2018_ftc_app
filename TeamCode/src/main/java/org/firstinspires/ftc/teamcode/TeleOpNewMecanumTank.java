@@ -59,11 +59,21 @@ public class TeleOpNewMecanumTank extends OpMode {
     @Override
     public void loop() {
 
-
-        LeftBack = gamepad1.left_stick_y - gamepad1.left_stick_x;
-        RightBack = gamepad1.right_stick_y + gamepad1.left_stick_x;
-        LeftFront = gamepad1.left_stick_y + gamepad1.left_stick_x;
-        RightFront = gamepad1.right_stick_y - gamepad1.left_stick_x;
+        /*----------------------------------------------------------------------*/
+        /* For tank drive mecanum, the left and right joystick in the y-axis    */
+        /* direction on gamepad 1 control the left and right side motors        */
+        /* respectively.  The left joystick in the x-axis controls the strafing */
+        /* motion of the robot                                                  */
+        /*                                                                      */
+        /* GAMEPAD1                                                             */
+        /* Left Joystick  - y-axis forward/backward motion of the left wheels   */
+        /* Left Joystick  - x-axis strafing left or right                       */
+        /* Right Joystick - y-axis forward/backward motion of the right wheels  */
+        /*----------------------------------------------------------------------*/
+        LeftBack = gamepad1.left_stick_y + gamepad1.left_stick_x;
+        RightBack = gamepad1.right_stick_y - gamepad1.left_stick_x;
+        LeftFront = gamepad1.left_stick_y - gamepad1.left_stick_x;
+        RightFront = gamepad1.right_stick_y + gamepad1.left_stick_x;
 
         maxpwr = findMaxPower(LeftBack, LeftFront, RightBack, RightFront);
 
