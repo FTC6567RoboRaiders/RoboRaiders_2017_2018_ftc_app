@@ -1,6 +1,15 @@
 package com.roboraiders.Robot;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import java.util.Locale;
 
 /**
  * Created by Alex Snyder and Nick Urbin (and a little bit from Kevin Mccrudden) on 10/8/17.
@@ -17,12 +26,10 @@ public abstract class RoboRaiderAuto extends LinearOpMode {
 
     public void SelectJewel(Robot Bot, int allianceColor) throws InterruptedException {
 
-
-
         telemetry.addData("Red", Bot.colorSensor.red());
         telemetry.addData("Blue", Bot.colorSensor.blue());
         telemetry.update();
-// does the Bot need to move forward at all? or no? discuss with program team. this programs assumes no.
+        // does the Bot need to move forward at all? or no? discuss with program team. this programs assumes no.
         Bot.servoJewel.setPosition(0.5);// lower arm with color sensor
 
         //assuming color sensor is mounted facing right
@@ -71,8 +78,18 @@ public abstract class RoboRaiderAuto extends LinearOpMode {
             Thread.sleep (500);
         }
 
+    }
 
+    public void readDistance(Robot Bot) {
 
+        // loop and read the distance data.
+        // Note we use opModeIsActive() as our loop condition because it is an interruptable method.
+        while (opModeIsActive()) {
+            // send the info back to driver station using telemetry function.
+            telemetry.addData("Distance (cm)",
+                    String.format(Locale.US, "%.02f", Bot.distanceSensor.getDistance(DistanceUnit.CM)));
 
+            telemetry.update();
+        }
     }
 }
