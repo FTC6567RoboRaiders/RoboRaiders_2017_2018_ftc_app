@@ -25,7 +25,7 @@ public class CryptoboxAutonomous extends LinearOpMode {
 
         waitForStart();
 
-        /*robot.moveUntilWall(6); //robot moves to wall until it is six inches away.
+        robot.moveUntilWall(6); //robot moves to wall until it is six inches away.
         robot.setDriveMotorPower(0, 0, 0, 0);
 
         robot.setDriveMotorPower(1, 1, 1, 1); //move forward for two seconds
@@ -36,10 +36,10 @@ public class CryptoboxAutonomous extends LinearOpMode {
         robot.setDriveMotorPower(1, -1, -1, 1); //robot strafes right
         Thread.sleep(1000);
         robot.setDriveMotorPower(0, 0, 0, 0);
-        Thread.sleep(500);*/
+        Thread.sleep(500);
 
         //telemetry.addData("Range Sensor", robot.rangeSensorCache[0] & 0xFF);
-        telemetry.addData("Range Sensor", robot.rangeSensor.getDistance(DistanceUnit.CM));
+        telemetry.addData("Distance Sensor", robot.distanceSensor.getDistance(DistanceUnit.CM));
         telemetry.update();
     }
 
@@ -57,4 +57,6 @@ public class CryptoboxAutonomous extends LinearOpMode {
         setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
         // reached, stop the robot."
     }*/
+
+
 }
