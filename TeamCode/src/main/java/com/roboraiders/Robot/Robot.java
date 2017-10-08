@@ -162,7 +162,7 @@ public class Robot {
      *
      */
     /*@param distance the distance from the wall that the robot should be away from a barrier
-     *                 or in this case the field perimeter wall*/
+     *                 or in this case the field perimeter wall
     public void moveUntilWall(double distance) {
 
         setDriveMotorPower(0.24, 0.24, 0.24, 0.24); // ...set all of the motors to a positive speed of 0.24...
@@ -176,9 +176,9 @@ public class Robot {
 
         setDriveMotorPower(0.0, 0.0, 0.0, 0.0); // "Once the desired distance away from the barrier is
                                                 // reached, stop the robot."
-    }
+    }*/
 
-    public void runOpMode() {
+    /*public void runOpMode() {
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
@@ -233,7 +233,7 @@ public class Robot {
                 relativeLayout.setBackgroundColor(Color.WHITE);
             }
         });
-    }
+    }*/
 
     public void imuTurnLeft(float degrees, double power) {
 

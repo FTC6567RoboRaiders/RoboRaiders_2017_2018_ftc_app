@@ -1,20 +1,16 @@
-package com.roboraiders.reference;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.roboraiders.Robot.Robot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -25,16 +21,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by Nick on 10/8/17.
  */
 
-public class SensorTest extends LinearOpMode {
+@Autonomous
 
-    public Servo servoJewel = null;
+public class SensorTest extends LinearOpMode {
 
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
-    public ModernRoboticsI2cRangeSensor rangeSensor;
-    /*public I2cDeviceSynch rangeSensorReader;
-    public byte[] rangeSensorCache;*/
-    public BNO055IMU imu;
+    //public BNO055IMU imu;
 
     /* Local OpMode Members */
     HardwareMap hwMap =  null;
@@ -44,15 +37,12 @@ public class SensorTest extends LinearOpMode {
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
 
-
-
     VuforiaLocalizer vuforia;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         initialize(hardwareMap);
-
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -65,7 +55,6 @@ public class SensorTest extends LinearOpMode {
         relicTrackables.activate();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
-
         waitForStart();
 
         colorSensor.red();
@@ -73,7 +62,6 @@ public class SensorTest extends LinearOpMode {
 
         telemetry.addData("Red", colorSensor.red());
         telemetry.addData("Blue", colorSensor.blue());
-
 
         if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
@@ -95,9 +83,7 @@ public class SensorTest extends LinearOpMode {
         telemetry.addData("Pictograph", pictograph);
         telemetry.addData("IMU Angle", angles.firstAngle);
 
-
         telemetry.update();
-
     }
 
     public void initialize(HardwareMap ahwMap) {
@@ -107,10 +93,9 @@ public class SensorTest extends LinearOpMode {
 
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
         distanceSensor = hwMap.get(DistanceSensor.class, "sensor_color_distance");
-        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
-        imu = hwMap.get(BNO055IMU.class, "imu");
+        //imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        imu.initialize(parameters);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //imu.initialize(parameters);
+        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 }

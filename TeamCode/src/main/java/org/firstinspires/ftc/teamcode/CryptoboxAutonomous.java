@@ -25,7 +25,7 @@ public class CryptoboxAutonomous extends LinearOpMode {
 
         waitForStart();
 
-        robot.moveUntilWall(6); //robot moves to wall until it is six inches away.
+        //robot.moveUntilWall(6); //robot moves to wall until it is six inches away.
         robot.setDriveMotorPower(0, 0, 0, 0);
 
         robot.setDriveMotorPower(1, 1, 1, 1); //move forward for two seconds
