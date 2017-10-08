@@ -42,48 +42,48 @@ public class SensorTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initialize(hardwareMap);
+        while (opModeIsActive()) {
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        parameters.vuforiaLicenseKey = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate");
-        relicTrackables.activate();
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            initialize(hardwareMap);
 
-        waitForStart();
+            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+            parameters.vuforiaLicenseKey = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
+            parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+            this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+            VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+            VuforiaTrackable relicTemplate = relicTrackables.get(0);
+            relicTemplate.setName("relicVuMarkTemplate");
+            relicTrackables.activate();
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
-        colorSensor.red();
-        colorSensor.blue();
+            waitForStart();
 
-        telemetry.addData("Red", colorSensor.red());
-        telemetry.addData("Blue", colorSensor.blue());
+            colorSensor.red();
+            colorSensor.blue();
 
-        if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+            telemetry.addData("Red", colorSensor.red());
+            telemetry.addData("Blue", colorSensor.blue());
 
-            pictograph = "LEFT";
+            if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+
+                pictograph = "LEFT";
+            } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+
+                pictograph = "CENTER";
+            } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+
+                pictograph = "RIGHT";
+            } else {
+
+                pictograph = "UNKNOWN";
+            }
+
+            telemetry.addData("Pictograph", pictograph);
+            telemetry.addData("IMU Angle", angles.firstAngle);
+
+            telemetry.update();
         }
-        else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
-
-            pictograph = "CENTER";
-        }
-        else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
-
-            pictograph = "RIGHT";
-        }
-        else {
-
-            pictograph = "UNKNOWN";
-        }
-
-        telemetry.addData("Pictograph", pictograph);
-        telemetry.addData("IMU Angle", angles.firstAngle);
-
-        telemetry.update();
     }
 
     public void initialize(HardwareMap ahwMap) {
