@@ -27,7 +27,7 @@ public class SensorTest extends LinearOpMode {
 
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
-    //public BNO055IMU imu;
+    public BNO055IMU imu;
 
     /* Local OpMode Members */
     HardwareMap hwMap =  null;
@@ -57,33 +57,33 @@ public class SensorTest extends LinearOpMode {
 
         waitForStart();
 
-        colorSensor.red();
-        colorSensor.blue();
+        while (opModeIsActive()) {
 
-        telemetry.addData("Red", colorSensor.red());
-        telemetry.addData("Blue", colorSensor.blue());
+            colorSensor.red();
+            colorSensor.blue();
 
-        if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+            telemetry.addData("Red", colorSensor.red());
+            telemetry.addData("Blue", colorSensor.blue());
 
-            pictograph = "LEFT";
+            if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+
+                pictograph = "LEFT";
+            } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+
+                pictograph = "CENTER";
+            } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+
+                pictograph = "RIGHT";
+            } else {
+
+                pictograph = "UNKNOWN";
+            }
+
+            telemetry.addData("Pictograph", pictograph);
+            telemetry.addData("IMU Angle", angles.firstAngle);
+
+            telemetry.update();
         }
-        else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
-
-            pictograph = "CENTER";
-        }
-        else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
-
-            pictograph = "RIGHT";
-        }
-        else {
-
-            pictograph = "UNKNOWN";
-        }
-
-        telemetry.addData("Pictograph", pictograph);
-        telemetry.addData("IMU Angle", angles.firstAngle);
-
-        telemetry.update();
     }
 
     public void initialize(HardwareMap ahwMap) {
@@ -93,9 +93,9 @@ public class SensorTest extends LinearOpMode {
 
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
         distanceSensor = hwMap.get(DistanceSensor.class, "sensor_color_distance");
-        //imu = hwMap.get(BNO055IMU.class, "imu");
+        imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        //imu.initialize(parameters);
-        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        imu.initialize(parameters);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 }
