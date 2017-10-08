@@ -93,7 +93,7 @@ public class Robot {
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
         motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         motorFrontRight.setPower(0);

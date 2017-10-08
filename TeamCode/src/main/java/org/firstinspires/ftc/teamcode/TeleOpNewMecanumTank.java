@@ -14,14 +14,13 @@ public class TeleOpNewMecanumTank extends OpMode {
 
     public Robot robot = new Robot();
 
-
     /* Define variables */
     float LeftBack;   // Power for left back motor
     float RightBack;  // Power for right back motor
     float LeftFront;  // Power for left front motor
     float RightFront; // Power for right front motor
 
-    float maxpwr;     // Maximum power if the four motors
+    float maxpwr;     // Maximum power of the four motors
 
     @Override
     public void init() {
@@ -31,30 +30,6 @@ public class TeleOpNewMecanumTank extends OpMode {
         telemetry.addData("Initialized", true);
         telemetry.update() ;
     }
-
-    /*@Override
-    public void loop() {
-
-        LeftBack = gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
-        RightBack = gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
-        LeftFront = gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x;
-        RightFront = gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;
-
-        maxpwr = findMaxPower(LeftBack, LeftFront, RightBack, RightFront);
-
-        LeftBack = LeftBack / maxpwr;
-        RightBack = RightBack / maxpwr;
-        LeftFront = LeftFront / maxpwr;
-        RightFront = RightFront / maxpwr;
-
-        LeftBack = (float) scaleInput(LeftBack);
-        RightBack = (float) scaleInput(RightBack);
-        LeftFront = (float) scaleInput(LeftFront);
-        RightFront = (float) scaleInput(RightFront);
-
-        robot.setDriveMotorPower(LeftBack, RightBack, LeftFront, RightFront);
-
-    }*/
 
     @Override
     public void loop() {
