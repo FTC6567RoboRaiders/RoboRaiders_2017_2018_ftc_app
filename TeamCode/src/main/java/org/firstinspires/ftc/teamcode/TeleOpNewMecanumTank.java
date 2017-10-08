@@ -62,7 +62,7 @@ public class TeleOpNewMecanumTank extends OpMode {
         LeftFront = (float) scaleInput(LeftFront);
         RightFront = (float) scaleInput(RightFront);
 
-        robot.setDriveMotorPower(LeftBack, RightBack, LeftFront, RightFront);
+        robot.setDriveMotorPower(LeftBack/2, RightBack/2, LeftFront/2, RightFront/2);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.roboraiders.Robot.RoboRaiderAuto;
+import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
 
@@ -11,7 +9,9 @@ import com.roboraiders.Robot.Robot;
  * Created by (mostly) Nick Urbin and (a little bit) Kevin McCrudden on 10/1/17.
  */
 
-  class JewelAutonomous extends RoboRaiderAuto {
+@Autonomous
+
+public class JewelAutonomous extends RoboRaidersAuto {
 
     int red = 1;
     int blue = 2;
@@ -29,14 +29,8 @@ import com.roboraiders.Robot.Robot;
         robot.colorSensor.red();
         robot.colorSensor.blue();
 
-        SelectJewel(robot, red);
-
-
-        }
-
-
-
-
-        //}
+        selectJewel(robot, red);
     }
+}
+
 
