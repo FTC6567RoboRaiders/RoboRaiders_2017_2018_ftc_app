@@ -197,4 +197,17 @@ public class Robot {
 
         setDriveMotorPower(-0.0, 0.0, -0.0, 0.0);
     }
+
+    /**
+     *
+     * This program will measure the distance of how far away the robot is from something.
+     *
+     * @param units units of measure for the distance
+     * @return the distance of the object in units
+     */
+    public double getRevDistance(DistanceUnit units) {
+
+        return distanceSensor.getDistance(units);
+
+    }
 }

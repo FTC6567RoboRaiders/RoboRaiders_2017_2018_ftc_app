@@ -80,16 +80,6 @@ public abstract class RoboRaiderAuto extends LinearOpMode {
 
     }
 
-    public void readDistance(Robot Bot) {
 
-        // loop and read the distance data.
-        // Note we use opModeIsActive() as our loop condition because it is an interruptable method.
-        while (opModeIsActive()) {
-            // send the info back to driver station using telemetry function.
-            telemetry.addData("Distance (cm)",
-                    String.format(Locale.US, "%.02f", Bot.distanceSensor.getDistance(DistanceUnit.CM)));
 
-            telemetry.update();
-        }
-    }
 }
