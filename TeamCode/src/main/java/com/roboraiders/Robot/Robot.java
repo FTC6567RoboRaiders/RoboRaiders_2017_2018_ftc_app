@@ -1,26 +1,16 @@
 package com.roboraiders.Robot;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.view.View;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
-import java.util.Locale;
 
 /**
  * This is NOT an Op Mode.
@@ -56,9 +46,6 @@ public class Robot {
 
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
-    public ModernRoboticsI2cRangeSensor rangeSensor;
-    /*public I2cDeviceSynch rangeSensorReader;
-    public byte[] rangeSensorCache;*/
     public BNO055IMU imu;
 
     /* Local OpMode Members */
@@ -116,12 +103,11 @@ public class Robot {
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize servos
-        //servoJewel = hwMap.get(Servo.class, "servo_Jewel");
+        servoJewel = hwMap.get(Servo.class, "servo_Jewel");
 
         // Define and initialize sensors
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
         distanceSensor = hwMap.get(DistanceSensor.class, "sensor_color_distance");
-        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
@@ -143,58 +129,5 @@ public class Robot {
         motorFrontRight.setPower(rightFront);
         motorBackLeft.setPower(leftBack);
         motorBackRight.setPower(rightBack);
-    }
-
-
-    /** moveUntilWall will move the robot until it reaches a defined distance from a barrier
-     *
-     * <br>
-     * <b>Note:</b> This method we may want to move to a Drive class that will handle all of
-     * the "heavy" work of moving and positioning the robot during autonomous, the team will
-     * need to discuss how we want to organize this
-     * <br>
-     * <b>Author(s):</b> Alex Synder, Katelin Zichittella
-     * <br>
-     *
-     *
-     *
-     *
-     *
-     */
-    /*@param distance the distance from the wall that the robot should be away from a barrier
-     *                 or in this case the field perimeter wall */
-
-    public void imuTurnLeft(float degrees, double power) {
-
-        float heading = angles.firstAngle;
-
-        setDriveMotorPower(-power, power, -power, power);
-
-        while (heading < degrees) {
-
-            if (heading >= 180) {
-
-                heading = 360 - heading;
-            }
-        }
-
-        setDriveMotorPower(-0.0, 0.0, -0.0, 0.0);
-    }
-
-    public void imuTurnRight(float degrees, double power) {
-
-        float heading = angles.firstAngle;
-
-        setDriveMotorPower(power, -power, power, -power);
-
-        while (heading < degrees) {
-
-            if (heading >= 180) {
-
-                heading = 360 - heading;
-            }
-        }
-
-        setDriveMotorPower(-0.0, 0.0, -0.0, 0.0);
     }
 }

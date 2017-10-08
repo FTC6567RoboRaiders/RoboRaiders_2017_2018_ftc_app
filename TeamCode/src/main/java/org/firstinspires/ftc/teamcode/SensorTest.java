@@ -32,10 +32,9 @@ public class SensorTest extends LinearOpMode {
 
     HardwareMap hwMap =  null;
 
-    public String pictograph;
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
-
+    public String pictograph;
     VuforiaLocalizer vuforia;
 
     @Override
@@ -58,6 +57,7 @@ public class SensorTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             colorSensor.red();
             colorSensor.blue();
@@ -65,13 +65,16 @@ public class SensorTest extends LinearOpMode {
             if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
                 pictograph = "LEFT";
-            } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+            }
+            else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
 
                 pictograph = "CENTER";
-            } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+            }
+            else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
 
                 pictograph = "RIGHT";
-            } else {
+            }
+            else {
 
                 pictograph = "UNKNOWN";
             }
@@ -87,7 +90,6 @@ public class SensorTest extends LinearOpMode {
 
     public void initialize(HardwareMap ahwMap) {
 
-        // Save reference to hardware map
         hwMap = ahwMap;
 
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
@@ -95,6 +97,5 @@ public class SensorTest extends LinearOpMode {
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 }
