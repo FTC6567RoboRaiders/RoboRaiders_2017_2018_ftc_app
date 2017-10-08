@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -29,10 +30,8 @@ public class SensorTest extends LinearOpMode {
     public DistanceSensor distanceSensor;
     public BNO055IMU imu;
 
-    /* Local OpMode Members */
     HardwareMap hwMap =  null;
 
-    /* Public Variables */
     public String pictograph;
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
@@ -53,17 +52,15 @@ public class SensorTest extends LinearOpMode {
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate");
         relicTrackables.activate();
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         waitForStart();
 
         while (opModeIsActive()) {
 
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
             colorSensor.red();
             colorSensor.blue();
-
-            telemetry.addData("Red", colorSensor.red());
-            telemetry.addData("Blue", colorSensor.blue());
 
             if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
@@ -79,9 +76,11 @@ public class SensorTest extends LinearOpMode {
                 pictograph = "UNKNOWN";
             }
 
+            telemetry.addData("Red", colorSensor.red());
+            telemetry.addData("Blue", colorSensor.blue());
+            telemetry.addData("Distance", distanceSensor.getDistance(DistanceUnit.CM));
             telemetry.addData("Pictograph", pictograph);
             telemetry.addData("IMU Angle", angles.firstAngle);
-
             telemetry.update();
         }
     }
