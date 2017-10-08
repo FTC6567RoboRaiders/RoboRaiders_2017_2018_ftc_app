@@ -52,7 +52,7 @@ public class Robot {
     public DcMotor motorBackLeft = null;
     public DcMotor motorBackRight = null;
     
-    //public Servo servoJewel = null;
+    public Servo servoJewel = null;
 
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
@@ -144,6 +144,7 @@ public class Robot {
         motorBackLeft.setPower(leftBack);
         motorBackRight.setPower(rightBack);
     }
+
 
     /** moveUntilWall will move the robot until it reaches a defined distance from a barrier
      *
