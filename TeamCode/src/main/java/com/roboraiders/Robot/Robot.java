@@ -62,7 +62,7 @@ public class Robot {
     public BNO055IMU imu;
 
     /* Local OpMode Members */
-    HardwareMap hwMap =  null;
+    public HardwareMap hwMap =  null;
 
     /* Public Variables */
     public String pictograph;

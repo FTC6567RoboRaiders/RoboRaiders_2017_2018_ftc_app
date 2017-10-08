@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.roboraiders.Robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -26,15 +28,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public class SensorTest extends LinearOpMode {
 
-    public ColorSensor colorSensor;
-    public DistanceSensor distanceSensor;
-    public BNO055IMU imu;
-
-    HardwareMap hwMap =  null;
-
-    public String pictograph;
-    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-    public Orientation angles;
+    public Robot robot = new Robot();
 
     VuforiaLocalizer vuforia;
 
@@ -57,44 +51,74 @@ public class SensorTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            /*RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            colorSensor.red();
-            colorSensor.blue();
+            robot.colorSensor.red();
+            robot.colorSensor.blue();
 
             if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
-                pictograph = "LEFT";
+                robot.pictograph = "LEFT";
             } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
 
-                pictograph = "CENTER";
+                robot.pictograph = "CENTER";
             } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
 
-                pictograph = "RIGHT";
+                robot.pictograph = "RIGHT";
             } else {
 
-                pictograph = "UNKNOWN";
+                robot.pictograph = "UNKNOWN";
             }
 
-            telemetry.addData("Red", colorSensor.red());
-            telemetry.addData("Blue", colorSensor.blue());
-            telemetry.addData("Distance", distanceSensor.getDistance(DistanceUnit.CM));
-            telemetry.addData("Pictograph", pictograph);
-            telemetry.addData("IMU Angle", angles.firstAngle);
-            telemetry.update();
+            telemetry.addData("Red", robot.colorSensor.red());
+            telemetry.addData("Blue", robot.colorSensor.blue());
+            telemetry.addData("Distance", robot.distanceSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("Pictograph", robot.pictograph);
+            telemetry.addData("IMU Angle", robot.angles.firstAngle);
+            telemetry.update();*/
+
+            encodersStrafeRight(20, 0.5);
         }
     }
 
     public void initialize(HardwareMap ahwMap) {
 
         // Save reference to hardware map
-        hwMap = ahwMap;
+        robot.hwMap = ahwMap;
 
-        colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
-        distanceSensor = hwMap.get(DistanceSensor.class, "sensor_color_distance");
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        imu.initialize(parameters);
+        robot.colorSensor = robot.hwMap.get(ColorSensor.class, "sensor_color_distance");
+        robot.distanceSensor = robot.hwMap.get(DistanceSensor.class, "sensor_color_distance");
+        robot.imu = robot.hwMap.get(BNO055IMU.class, "imu");
+        robot.parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        robot.imu.initialize(robot.parameters);
+    }
+
+    public void encodersStrafeRight(int distance, double power) {
+
+        if (opModeIsActive()) {
+
+            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            int DIAMETER = 4;
+            int GEAR_RATIO = 1;
+            int PULSES = 1120;
+            double CIRCUMFERENCE = Math.PI * DIAMETER;
+            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO;
+            double COUNTS = PULSES * ROTATIONS;
+
+            COUNTS = COUNTS + Math.abs(robot.motorBackRight.getCurrentPosition());
+
+            robot.setDriveMotorPower(power, -power, -power, power);
+
+            while (robot.motorBackRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
+
+            }
+
+            robot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+        }
     }
 }
