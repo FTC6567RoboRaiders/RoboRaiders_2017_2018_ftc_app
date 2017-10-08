@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.roboraiders.Robot.RoboRaiderAuto;
+import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
 
@@ -11,7 +11,7 @@ import com.roboraiders.Robot.Robot;
 
 @Autonomous
 
-public class JewelAutonomous extends RoboRaiderAuto {
+public class JewelAutonomous extends RoboRaidersAuto {
 
     int red = 1;
     int blue = 2;
@@ -29,7 +29,7 @@ public class JewelAutonomous extends RoboRaiderAuto {
         robot.colorSensor.red();
         robot.colorSensor.blue();
 
-        SelectJewel(robot, red);
+        selectJewel(robot, red);
     }
 }
 
