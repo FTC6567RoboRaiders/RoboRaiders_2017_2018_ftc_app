@@ -3,6 +3,7 @@ package com.roboraiders.Robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -44,12 +45,12 @@ public class Robot {
     public DcMotor motorBackLeft = null;
     public DcMotor motorBackRight = null;
     
-    public Servo servoJewel = null;
+    //public Servo servoJewel = null;
 
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
     public BNO055IMU imu;
-    public DigitalChannel digitalTouch;
+    //public DigitalChannel digitalTouch;
 
     /* Local OpMode Members */
     public HardwareMap hwMap =  null;
@@ -61,9 +62,6 @@ public class Robot {
     public int walls = 0;
     public boolean currState = false;
     public boolean prevState = false;
-    public VuforiaLocalizer vuforia;
-    public VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-    public VuforiaTrackable relicTemplate = relicTrackables.get(0);
 
     /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
      *
@@ -93,10 +91,10 @@ public class Robot {
         motorBackRight = hwMap.get(DcMotor.class, "right_Back");
 
         // Defines the directions the motors will spin
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
+        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         motorFrontRight.setPower(0);
@@ -112,7 +110,7 @@ public class Robot {
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize servos
-        servoJewel = hwMap.get(Servo.class, "servo_Jewel");
+        //servoJewel = hwMap.get(Servo.class, "servo_Jewel");
 
         // Define and initialize sensors
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
@@ -120,17 +118,10 @@ public class Robot {
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
-        digitalTouch = hwMap.get(DigitalChannel.class, "sensor_digital");
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        //digitalTouch = hwMap.get(DigitalChannel.class, "sensor_digital");
+        //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
         // Vuforia initialization
-        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        parameters.vuforiaLicenseKey = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-        relicTemplate.setName("relicVuMarkTemplate");
-        relicTrackables.activate();
     }
 
     /** setDriveMotorPower sets the power for the drive motors

@@ -22,7 +22,7 @@ public class JewelAutonomous extends RoboRaidersAuto {
     public void runOpMode() throws InterruptedException {
 
         robot.initialize(hardwareMap);
-        robot.servoJewel.setPosition(0.0);
+        //robot.servoJewel.setPosition(0.0);
 
         waitForStart();
 

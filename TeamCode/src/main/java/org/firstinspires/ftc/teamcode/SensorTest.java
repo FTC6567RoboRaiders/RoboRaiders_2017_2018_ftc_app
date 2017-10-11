@@ -30,15 +30,15 @@ public class SensorTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            robot.currState = robot.digitalTouch.getState();
+            //robot.currState = robot.digitalTouch.getState();
 
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
+            //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
             robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             robot.colorSensor.red();
             robot.colorSensor.blue();
 
-            if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+            /*if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
                 robot.pictograph = "LEFT";
             }
@@ -53,7 +53,7 @@ public class SensorTest extends LinearOpMode {
             else {
 
                 robot.pictograph = "UNKNOWN";
-            }
+            }*/
 
             telemetry.addData("Red", robot.colorSensor.red());
             telemetry.addData("Blue", robot.colorSensor.blue());
