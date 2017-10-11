@@ -3,14 +3,16 @@ package com.roboraiders.Robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * This is NOT an Op Mode.
@@ -47,6 +49,7 @@ public class Robot {
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
     public BNO055IMU imu;
+    public DigitalChannel digitalTouch;
 
     /* Local OpMode Members */
     public HardwareMap hwMap =  null;
@@ -55,6 +58,12 @@ public class Robot {
     public String pictograph;
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
+    public int walls = 0;
+    public boolean currState = false;
+    public boolean prevState = false;
+    public VuforiaLocalizer vuforia;
+    VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+    public VuforiaTrackable relicTemplate = relicTrackables.get(0);
 
     /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
      *
@@ -111,7 +120,17 @@ public class Robot {
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        digitalTouch = hwMap.get(DigitalChannel.class, "sensor_digital");
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+
+        // Vuforia initialization
+        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameters.vuforiaLicenseKey = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        relicTemplate.setName("relicVuMarkTemplate");
+        relicTrackables.activate();
     }
 
     /** setDriveMotorPower sets the power for the drive motors
