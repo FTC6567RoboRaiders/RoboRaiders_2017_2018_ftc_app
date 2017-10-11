@@ -14,19 +14,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @Autonomous
 //@Disabled
 
-public class CryptoboxAutonomous extends LinearOpMode {
+public class CryptoboxAutonomous extends RoboRaiderAuto {
 
     public Robot robot = new Robot();
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        robot.initialize(hardwareMap); //sets parameters for initialize sequence0
+        robot.initialize(hardwareMap); //sets parameters for initialize sequence
 
         waitForStart();
-
-        //robot.moveUntilWall(6); //robot moves to wall until it is six inches away.
-        robot.setDriveMotorPower(0, 0, 0, 0);
 
         robot.setDriveMotorPower(1, 1, 1, 1); //move forward for two seconds
         Thread.sleep(2000);
@@ -38,9 +35,7 @@ public class CryptoboxAutonomous extends LinearOpMode {
         robot.setDriveMotorPower(0, 0, 0, 0);
         Thread.sleep(500);
 
-        //telemetry.addData("Range Sensor", robot.rangeSensorCache[0] & 0xFF);
-        telemetry.addData("Distance Sensor", robot.distanceSensor.getDistance(DistanceUnit.CM));
-        telemetry.update();
+        touchSensorCount();
     }
 
 }
