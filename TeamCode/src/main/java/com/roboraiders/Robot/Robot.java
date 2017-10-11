@@ -62,7 +62,7 @@ public class Robot {
     public boolean currState = false;
     public boolean prevState = false;
     public VuforiaLocalizer vuforia;
-    VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+    public VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
     public VuforiaTrackable relicTemplate = relicTrackables.get(0);
 
     /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
