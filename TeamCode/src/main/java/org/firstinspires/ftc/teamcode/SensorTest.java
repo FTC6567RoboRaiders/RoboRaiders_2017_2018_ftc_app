@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -17,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 @Autonomous
 
-public class SensorTest extends LinearOpMode {
+public class SensorTest extends RoboRaidersAuto {
 
     public Robot robot = new Robot();
 
@@ -32,13 +33,13 @@ public class SensorTest extends LinearOpMode {
 
             //robot.currState = robot.digitalTouch.getState();
 
-            //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
+            /*RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
             robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             robot.colorSensor.red();
             robot.colorSensor.blue();
 
-            /*if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+            if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
                 robot.pictograph = "LEFT";
             }
@@ -53,7 +54,7 @@ public class SensorTest extends LinearOpMode {
             else {
 
                 robot.pictograph = "UNKNOWN";
-            }*/
+            }
 
             telemetry.addData("Red", robot.colorSensor.red());
             telemetry.addData("Blue", robot.colorSensor.blue());
@@ -62,7 +63,7 @@ public class SensorTest extends LinearOpMode {
             telemetry.addData("IMU Angle", robot.angles.firstAngle);
             telemetry.update();
 
-            encodersStrafeRight(20, 0.5);
+            encodersStrafeRight(robot, 20, 0.5);
 
             robot.setDriveMotorPower(0.2, -0.2, -0.2, 0.2);
 
@@ -79,35 +80,17 @@ public class SensorTest extends LinearOpMode {
             if (robot.walls == 2) {
 
                 robot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
-            }
-        }
-    }
+            }*/
 
-    public void encodersStrafeRight(int distance, double power) {
+            imuTurnLeft(robot, 90, 0.5);
+            Thread.sleep(1000);
+            imuTurnRight(robot, 90, 0.5);
+            Thread.sleep(1000);
 
-        if (opModeIsActive()) {
-
-            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            int DIAMETER = 4;
-            int GEAR_RATIO = 1;
-            int PULSES = 1120;
-            double CIRCUMFERENCE = Math.PI * DIAMETER;
-            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO;
-            double COUNTS = PULSES * ROTATIONS;
-
-            COUNTS = COUNTS + Math.abs(robot.motorBackRight.getCurrentPosition());
-
-            robot.setDriveMotorPower(power, -power, -power, power);
-
-            while (robot.motorBackRight.getCurrentPosition() < COUNTS && opModeIsActive()) {
-
-            }
-
-            robot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+            encodersStrafeLeft(robot, 30, 0.5);
+            Thread.sleep(1000);
+            encodersStrafeRight(robot, 30, 0.5);
+            Thread.sleep(1000);
         }
     }
 }

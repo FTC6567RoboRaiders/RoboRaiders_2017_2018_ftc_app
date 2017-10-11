@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @Autonomous
 //@Disabled
 
-public class CryptoboxAutonomous extends RoboRaiderAuto {
+public class CryptoboxAutonomous extends RoboRaidersAuto {
 
     public Robot robot = new Robot();
 
@@ -35,7 +36,6 @@ public class CryptoboxAutonomous extends RoboRaiderAuto {
         robot.setDriveMotorPower(0, 0, 0, 0);
         Thread.sleep(500);
 
-        touchSensorCount();
+        touchSensorCount(robot);
     }
-
 }

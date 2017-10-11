@@ -1,6 +1,11 @@
 package com.roboraiders.Robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import java.util.Locale;
@@ -23,7 +28,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         telemetry.addData("Blue", bot.colorSensor.blue());
         telemetry.update();
         // does the bot need to move forward at all? or no? discuss with program team. this programs assumes no.
-        bot.servoJewel.setPosition(0.5);// lower arm with color sensor
+        //bot.servoJewel.setPosition(0.5);// lower arm with color sensor
 
         //assuming color sensor is mounted facing right
 
@@ -76,12 +81,124 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     public void readDistance(Robot bot) {
 
         // loop and read the distance data.
-        // note we use opModeIsActive() as our loop condition because it is an interruptable method.
+        // note we use opModeIsActive() as our loop condition because it is an interruptable method
         while (opModeIsActive()) {
-            // send the info back to driver station using telemetry function.
+            // send the info back to driver station using telemetry function
             telemetry.addData("Distance (cm)",
                     String.format(Locale.US, "%.02f", bot.distanceSensor.getDistance(DistanceUnit.CM)));
             telemetry.update();
+        }
+    }
+
+    public void imuTurnRight(Robot bot, float degrees, double power) {
+
+        bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        float heading = bot.angles.firstAngle;
+
+        bot.setDriveMotorPower(power, -power, power, -power);
+
+        while (heading < degrees) {
+
+            bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            heading = bot.angles.firstAngle;
+
+            if (heading < 0) {
+
+                heading = 360 + heading;
+            }
+        }
+
+        bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+    }
+
+    public void imuTurnLeft(Robot bot, float degrees, double power) {
+
+        bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        float heading = bot.angles.firstAngle;
+
+        bot.setDriveMotorPower(-power, power, -power, power);
+
+        while (heading < degrees) {
+
+            bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            heading = bot.angles.firstAngle;
+
+            if (heading < 0) {
+
+                heading = 360 + heading;
+            }
+        }
+
+        bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+    }
+
+    public void encodersStrafeRight(Robot bot, int distance, double power) {
+
+        if (opModeIsActive()) {
+
+            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            int DIAMETER = 4;
+            int GEAR_RATIO = 1;
+            int PULSES = 1120;
+            double CIRCUMFERENCE = Math.PI * DIAMETER;
+            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO;
+            double COUNTS = PULSES * ROTATIONS;
+
+            COUNTS = COUNTS + Math.abs(bot.motorFrontLeft.getCurrentPosition());
+
+            bot.setDriveMotorPower(power, -power, -power, power);
+
+            while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
+
+            }
+
+            bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+        }
+    }
+
+    public void encodersStrafeLeft(Robot bot, int distance, double power) {
+
+        if (opModeIsActive()) {
+
+            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            int DIAMETER = 4;
+            int GEAR_RATIO = 1;
+            int PULSES = 1120;
+            double CIRCUMFERENCE = Math.PI * DIAMETER;
+            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO;
+            double COUNTS = PULSES * ROTATIONS;
+
+            COUNTS = Math.abs(bot.motorFrontLeft.getCurrentPosition()) - COUNTS;
+
+            bot.setDriveMotorPower(-power, power, power, -power);
+
+            while (bot.motorFrontLeft.getCurrentPosition() > COUNTS && opModeIsActive()) {
+
+            }
+
+            bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+        }
+    }
+
+    public void touchSensorCount(Robot bot) {
+
+        bot.setDriveMotorPower(0.2, -0.2, -0.2, 0.2);  //robot is moving at 20% power
+
+        if (bot.currState && bot.currState != bot.prevState) { //if both values are not zero, then it is not equal to the previous state (which must be zero)
+
+            bot.walls++; // add 1 to the current "walls" value
+            bot.prevState = bot.currState; //now the previous state is the same as the current state
+        }
+        else if (!bot.currState && bot.currState != bot.prevState) { //if both values are not zero then it is equal to the previous state
+
+            bot.prevState = bot.currState; //now the previous state equals the current state
+        }
+
+        if (bot.walls == 2) { //if the robot has hit two walls, stop the robot
+
+            bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
         }
     }
 }
