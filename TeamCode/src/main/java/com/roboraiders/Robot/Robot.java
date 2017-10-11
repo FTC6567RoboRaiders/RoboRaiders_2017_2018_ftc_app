@@ -1,26 +1,18 @@
 package com.roboraiders.Robot;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.view.View;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
-import java.util.Locale;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * This is NOT an Op Mode.
@@ -56,18 +48,22 @@ public class Robot {
 
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
-    public ModernRoboticsI2cRangeSensor rangeSensor;
-    /*public I2cDeviceSynch rangeSensorReader;
-    public byte[] rangeSensorCache;*/
     public BNO055IMU imu;
+    public DigitalChannel digitalTouch;
 
     /* Local OpMode Members */
-    HardwareMap hwMap =  null;
+    public HardwareMap hwMap =  null;
 
     /* Public Variables */
     public String pictograph;
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
+    public int walls = 0;
+    public boolean currState = false;
+    public boolean prevState = false;
+    public VuforiaLocalizer vuforia;
+    public VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+    public VuforiaTrackable relicTemplate = relicTrackables.get(0);
 
     /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
      *
@@ -116,16 +112,25 @@ public class Robot {
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize servos
-        //servoJewel = hwMap.get(Servo.class, "servo_Jewel");
+        servoJewel = hwMap.get(Servo.class, "servo_Jewel");
 
         // Define and initialize sensors
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
         distanceSensor = hwMap.get(DistanceSensor.class, "sensor_color_distance");
-        rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        digitalTouch = hwMap.get(DigitalChannel.class, "sensor_digital");
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+
+        // Vuforia initialization
+        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameters.vuforiaLicenseKey = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        relicTemplate.setName("relicVuMarkTemplate");
+        relicTrackables.activate();
     }
 
     /** setDriveMotorPower sets the power for the drive motors
@@ -143,58 +148,5 @@ public class Robot {
         motorFrontRight.setPower(rightFront);
         motorBackLeft.setPower(leftBack);
         motorBackRight.setPower(rightBack);
-    }
-
-
-    /** moveUntilWall will move the robot until it reaches a defined distance from a barrier
-     *
-     * <br>
-     * <b>Note:</b> This method we may want to move to a Drive class that will handle all of
-     * the "heavy" work of moving and positioning the robot during autonomous, the team will
-     * need to discuss how we want to organize this
-     * <br>
-     * <b>Author(s):</b> Alex Synder, Katelin Zichittella
-     * <br>
-     *
-     *
-     *
-     *
-     *
-     */
-    /*@param distance the distance from the wall that the robot should be away from a barrier
-     *                 or in this case the field perimeter wall */
-
-    public void imuTurnLeft(float degrees, double power) {
-
-        float heading = angles.firstAngle;
-
-        setDriveMotorPower(-power, power, -power, power);
-
-        while (heading < degrees) {
-
-            if (heading >= 180) {
-
-                heading = 360 - heading;
-            }
-        }
-
-        setDriveMotorPower(-0.0, 0.0, -0.0, 0.0);
-    }
-
-    public void imuTurnRight(float degrees, double power) {
-
-        float heading = angles.firstAngle;
-
-        setDriveMotorPower(power, -power, power, -power);
-
-        while (heading < degrees) {
-
-            if (heading >= 180) {
-
-                heading = 360 - heading;
-            }
-        }
-
-        setDriveMotorPower(-0.0, 0.0, -0.0, 0.0);
     }
 }
