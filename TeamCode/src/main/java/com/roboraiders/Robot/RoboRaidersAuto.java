@@ -93,19 +93,22 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     public void imuTurnRight(Robot bot, float degrees, double power) {
 
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        float heading = bot.angles.firstAngle;
+        float heading = bot.angles.thirdAngle;
 
         bot.setDriveMotorPower(power, -power, power, -power);
 
         while (heading < degrees) {
 
             bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            heading = bot.angles.firstAngle;
+            heading = bot.angles.thirdAngle;
 
             if (heading < 0) {
 
                 heading = 360 + heading;
             }
+
+            telemetry.addData("Heading", bot.angles.thirdAngle);
+            telemetry.update();
         }
 
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
@@ -114,19 +117,22 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     public void imuTurnLeft(Robot bot, float degrees, double power) {
 
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        float heading = bot.angles.firstAngle;
+        float heading = bot.angles.thirdAngle;
 
         bot.setDriveMotorPower(-power, power, -power, power);
 
         while (heading < degrees) {
 
             bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            heading = bot.angles.firstAngle;
+            heading = bot.angles.thirdAngle;
 
             if (heading < 0) {
 
                 heading = 360 + heading;
             }
+
+            telemetry.addData("Heading", bot.angles.thirdAngle);
+            telemetry.update();
         }
 
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
@@ -151,6 +157,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
+                telemetry.addData("COUNTS", COUNTS);
+                telemetry.update();
             }
 
             bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
@@ -176,6 +184,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             while (bot.motorFrontLeft.getCurrentPosition() > COUNTS && opModeIsActive()) {
 
+                telemetry.addData("COUNTS", COUNTS);
+                telemetry.update();
             }
 
             bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
