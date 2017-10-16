@@ -36,6 +36,7 @@ public class CryptoboxAutonomous extends RoboRaidersAuto {
         robot.setDriveMotorPower(0, 0, 0, 0);
         Thread.sleep(500);
 
-        touchSensorCount(robot);
+        touchSensorCount(robot, 2, 0.2);
+        distanceSensorCount(robot, 2, 4, 0.2);
     }
 }
