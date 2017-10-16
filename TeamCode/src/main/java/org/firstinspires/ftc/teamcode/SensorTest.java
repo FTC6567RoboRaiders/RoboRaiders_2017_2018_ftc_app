@@ -29,65 +29,68 @@ public class SensorTest extends RoboRaidersAuto {
 
         waitForStart();
 
-        //robot.currState = robot.digitalTouch.getState();
+        while (opModeIsActive()) {
 
-        /*RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
-        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            robot.currStateTouch = robot.digitalTouch.getState();
 
-        robot.colorSensor.red();
-        robot.colorSensor.blue();
+            /*RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
+            robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+            robot.colorSensor.red();
+            robot.colorSensor.blue();
 
-            robot.pictograph = "LEFT";
+            if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+
+                robot.pictograph = "LEFT";
+            }
+            else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+
+                robot.pictograph = "CENTER";
+            }
+            else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+
+                robot.pictograph = "RIGHT";
+            }
+            else {
+
+                robot.pictograph = "UNKNOWN";
+            }
+
+            telemetry.addData("Red", robot.colorSensor.red());
+            telemetry.addData("Blue", robot.colorSensor.blue());
+            telemetry.addData("Distance", robot.distanceSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("Pictograph", robot.pictograph);
+            telemetry.addData("IMU Angle", robot.angles.firstAngle);
+            telemetry.update();
+
+            encodersStrafeRight(robot, 20, 0.5);
+
+            robot.setDriveMotorPower(0.2, -0.2, -0.2, 0.2);
+
+            if (robot.currState && robot.currState != robot.prevState) {
+
+                robot.walls++;
+                robot.prevState = robot.currState;
+            }
+            else if (!robot.currState && robot.currState != robot.prevState) {
+
+                robot.prevState = robot.currState;
+            }
+
+            if (robot.walls == 2) {
+
+                robot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+            }*/
+
+            imuTurnLeft(robot, 90, 0.5);
+            Thread.sleep(1000);
+            imuTurnRight(robot, 90, 0.5);
+            Thread.sleep(1000);
+
+            encodersStrafeLeft(robot, 30, 0.5);
+            Thread.sleep(1000);
+            encodersStrafeRight(robot, 30, 0.5);
+            Thread.sleep(1000);
         }
-        else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
-
-            robot.pictograph = "CENTER";
-        }
-        else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
-
-            robot.pictograph = "RIGHT";
-        }
-        else {
-
-            robot.pictograph = "UNKNOWN";
-        }
-
-        telemetry.addData("Red", robot.colorSensor.red());
-        telemetry.addData("Blue", robot.colorSensor.blue());
-        telemetry.addData("Distance", robot.distanceSensor.getDistance(DistanceUnit.CM));
-        telemetry.addData("Pictograph", robot.pictograph);
-        telemetry.addData("IMU Angle", robot.angles.firstAngle);
-        telemetry.update();
-
-        encodersStrafeRight(robot, 20, 0.5);
-
-        robot.setDriveMotorPower(0.2, -0.2, -0.2, 0.2);
-
-        if (robot.currState && robot.currState != robot.prevState) {
-
-            robot.walls++;
-            robot.prevState = robot.currState;
-        }
-        else if (!robot.currState && robot.currState != robot.prevState) {
-
-            robot.prevState = robot.currState;
-        }
-
-        if (robot.walls == 2) {
-
-            robot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
-        }*/
-
-        imuTurnLeft(robot, 90, 0.5);
-        Thread.sleep(1000);
-        imuTurnRight(robot, 90, 0.5);
-        Thread.sleep(1000);
-
-        /*encodersStrafeLeft(robot, 30, 0.5);
-        Thread.sleep(1000);
-        encodersStrafeRight(robot, 30, 0.5);
-        Thread.sleep(1000);*/
     }
 }

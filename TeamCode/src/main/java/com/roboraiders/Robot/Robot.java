@@ -50,7 +50,7 @@ public class Robot {
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
     public BNO055IMU imu;
-    //public DigitalChannel digitalTouch;
+    public DigitalChannel digitalTouch;
 
     /* Local OpMode Members */
     public HardwareMap hwMap =  null;
@@ -59,9 +59,12 @@ public class Robot {
     public String pictograph;
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
-    public int walls = 0;
-    public boolean currState = false;
-    public boolean prevState = false;
+    public int wallsTouch = 0;
+    public double wallsDistance = 0;
+    public boolean currStateTouch = false;
+    public boolean prevStateTouch = false;
+    public boolean currStateDistance = false;
+    public boolean prevStateDistance = false;
 
     /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
      *
@@ -118,8 +121,8 @@ public class Robot {
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
-        //digitalTouch = hwMap.get(DigitalChannel.class, "sensor_digital");
-        //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        digitalTouch = hwMap.get(DigitalChannel.class, "sensor_digital");
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
         // Vuforia initialization
     }
