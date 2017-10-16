@@ -31,7 +31,7 @@ public class SensorTest extends RoboRaidersAuto {
 
         while (opModeIsActive()) {
 
-            //robot.currState = robot.digitalTouch.getState();
+            robot.currStateTouch = robot.digitalTouch.getState();
 
             /*RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
             robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);

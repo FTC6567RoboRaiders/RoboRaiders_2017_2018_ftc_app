@@ -182,23 +182,59 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
     }
 
-    public void touchSensorCount(Robot bot) {
+    public void touchSensorCount(Robot bot, int wall, double power) { //establishes parameters for method
 
-        bot.setDriveMotorPower(0.2, -0.2, -0.2, 0.2);  //robot is moving at 20% power
+        bot.setDriveMotorPower(power, -power, -power, power);  //robot is moving at whatever power is specified
 
-        if (bot.currState && bot.currState != bot.prevState) { //if both values are not zero, then it is not equal to the previous state (which must be zero)
+        if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the wall (if the current state is true
+                                                               //and the current state is not equal to the previous state)
+                                                               //Anyway, if the touch sensor is being pressed:
 
-            bot.walls++; // add 1 to the current "walls" value
-            bot.prevState = bot.currState; //now the previous state is the same as the current state
+            bot.wallsTouch++; // add 1 to the current "wallsTouch" variable
+            bot.prevStateTouch = bot.currStateTouch; //now the previous state is the same as the current state
         }
-        else if (!bot.currState && bot.currState != bot.prevState) { //if both values are not zero then it is equal to the previous state
+        else if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch sensor is not being pressed:
 
-            bot.prevState = bot.currState; //now the previous state equals the current state
+            bot.prevStateTouch = bot.currStateTouch; //now the previous state equals the current state, don't change anything to the "walls" variable
         }
 
-        if (bot.walls == 2) { //if the robot has hit two walls, stop the robot
+        if (bot.wallsTouch == wall) { //if the robot has hit two walls, stop the robot
 
-            bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+            bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop moving
         }
+    }
+
+    public void distanceSensorCount(Robot bot, double power, int distanceFromWall, int wall) { //establishes method
+
+        bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
+
+        if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= distanceFromWall) { //if the distance of the sensor is greater than the
+                                                                                   //pre-specified value, aka the robot is farther
+                                                                                   //away from the wall than you really want
+
+            bot.currStateDistance = true;
+        }
+
+        else {
+
+            bot.currStateDistance = false;
+        }
+
+        if (bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the robot sees the wall and it didn't see the wall before
+                                                                                       //basically, if the robot sees the wall
+
+            bot.wallsDistance++; // add 1 to the current "wallsDistance" variable
+            bot.prevStateDistance = bot.currStateDistance; //now the previous state is the same as the current state
+        }
+        else if (!bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the touch sensor is not being pressed:
+
+            bot.prevStateDistance = bot.currStateDistance; //now the previous state equals the current state, don't change anything to the "walls" variable
+        }
+
+        if (bot.wallsDistance == wall) { //if the robot has hit two walls, stop the robot
+
+            bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop moving
+        }
+
     }
 }
