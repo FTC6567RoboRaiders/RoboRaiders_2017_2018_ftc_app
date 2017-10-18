@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboraiders.Robot.Robot;
@@ -9,10 +8,8 @@ import com.roboraiders.Robot.Robot;
  * Created by Jason Sember on 9/23/2017.
  */
 
-
 @TeleOp
 
-@Disabled
 public class TeleOpNewMecanumTank extends OpMode {
 
     public Robot robot = new Robot();
@@ -65,7 +62,7 @@ public class TeleOpNewMecanumTank extends OpMode {
         LeftFront = (float) scaleInput(LeftFront);
         RightFront = (float) scaleInput(RightFront);
 
-        robot.setDriveMotorPower(LeftBack/2, RightBack/2, LeftFront/2, RightFront/2);
+        robot.setDriveMotorPower(LeftFront/2, RightFront/2, LeftBack/2, RightBack/2);
     }
 
     @Override

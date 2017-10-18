@@ -27,21 +27,7 @@ public class SensorTest extends RoboRaidersAuto {
 
         waitForStart();
 
-        robot.currStateTouch = robot.digitalTouch.getState();
-        if (robot.distanceSensor.getDistance(DistanceUnit.CM) <= 20) { //if the distance of the
-            // sensor is less than the
-            //pre-specified value, aka the robot is passing
-            //close to the wall
-
-            robot.currStateDistance = true; //the robot is currently passing a wall
-        }
-        else { //if the distance of the sensor is greater than the
-            //pre-specified value, aka the robot is between walls
-
-            robot.currStateDistance = false; //the robot is not currently passing a wall
-        }
-
-        robot.colorSensor.red();
+        /*robot.colorSensor.red();
         robot.colorSensor.blue();
         robot.distanceSensor.getDistance(DistanceUnit.CM);
         robot.digitalTouch.getState();
@@ -83,7 +69,7 @@ public class SensorTest extends RoboRaidersAuto {
         encodersStrafeRight(robot, 30, 0.5);
         Thread.sleep(1000);
 
-        touchSensorCount(robot, 2, 0.2);
+        touchSensorCount(robot, 2, 0.2);*/
         distanceSensorCount(robot, 2, 0.2);
     }
 }
