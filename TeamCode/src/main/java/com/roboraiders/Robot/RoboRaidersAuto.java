@@ -6,9 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-import java.util.Locale;
 
 /**
  * Created by Alex Snyder on 10/8/17.
@@ -207,24 +204,10 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
     }
 
-    public void distanceSensorCount(Robot bot, int wallsTarget, int distanceFromWall, double power) { //establishes
-                                                                                            //parameters for method
+    public void distanceSensorCount(Robot bot, int wallsTarget, double power) { //establishes
+                                                                              //parameters for method
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
-
-        if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= distanceFromWall) { //if the distance of the
-                                                                                 // sensor is less than the
-                                                                               //pre-specified value, aka the robot is passing
-                                                                             //close to the wall
-
-            bot.currStateDistance = true; //the robot is currently passing a wall
-        }
-
-        else { //if the distance of the sensor is greater than the
-            //pre-specified value, aka the robot is between walls
-
-            bot.currStateDistance = false; //the robot is not currently passing a wall
-        }
 
         if (bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the robot sees the
                                                                                      //wall and it didn't see the wall before
