@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboraiders.Robot.Robot;
@@ -11,8 +12,7 @@ import com.roboraiders.Robot.Robot;
 
 @TeleOp
 
-@Disable
-
+@Disabled
 public class TeleOpNewMecanumTank extends OpMode {
 
     public Robot robot = new Robot();
