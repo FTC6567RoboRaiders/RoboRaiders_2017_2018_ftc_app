@@ -8,7 +8,10 @@ import com.roboraiders.Robot.Robot;
  * Created by Jason Sember on 9/23/2017.
  */
 
+
 @TeleOp
+
+@Disable
 
 public class TeleOpNewMecanumTank extends OpMode {
 

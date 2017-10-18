@@ -35,10 +35,10 @@ public class TeleOpNewMecanum extends OpMode {
     @Override
     public void loop() {
 
-        LeftBack = gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
-        RightBack = gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
-        LeftFront = gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;
-        RightFront = gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x;
+        LeftBack = gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
+        RightBack = gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
+        LeftFront = gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x;
+        RightFront = gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;
 
         maxpwr = findMaxPower(LeftBack, LeftFront, RightBack, RightFront);
 
@@ -53,6 +53,7 @@ public class TeleOpNewMecanum extends OpMode {
         RightFront = (float) scaleInput(RightFront);
 
         robot.setDriveMotorPower(LeftFront/2, RightFront/2, LeftBack/2, RightBack/2);
+
     }
 
     @Override
