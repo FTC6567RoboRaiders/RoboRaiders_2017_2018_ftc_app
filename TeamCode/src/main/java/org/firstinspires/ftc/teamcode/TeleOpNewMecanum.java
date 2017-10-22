@@ -29,12 +29,15 @@ public class TeleOpNewMecanum extends OpMode {
         robot.initialize(hardwareMap);
 
         telemetry.addData("Initialized", true);
-        telemetry.update() ;
+        telemetry.update();
     }
 
     @Override
     public void loop() {
 
+        /*
+        are the right_stick powers right?
+         */
         LeftBack = gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
         RightBack = gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
         LeftFront = gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;
