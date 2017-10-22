@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -63,7 +64,7 @@ public class HubBot_REV_Touch extends LinearOpMode {
     public void runOpMode() {
 
         // get a reference to our digitalTouch object.
-        digitalTouch = hardwareMap.get(DigitalChannel.class, "sensor_digital");
+        digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
 
         // set the digital channel to input.
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);

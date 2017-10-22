@@ -37,19 +37,17 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         if (bot.colorSensor.red() > 675 &&  bot.colorSensor.red() <= 775) { // ball on the right is red
             //using motor power until we get math figured out for encoders
 
-            bot.setDriveMotorPower(-1,1,1,-1); //strafe left
+            encodersStrafeLeft(bot, 6, 0.5); //strafe left
             Thread.sleep (500);
-            bot.setDriveMotorPower(0,0,0,0);
-            Thread.sleep (500);
-            bot.setDriveMotorPower(1, -1, -1, 1); //strafe right to original position
+
+            encodersStrafeRight(bot, 6, 0.5); //strafe right to original position
             Thread.sleep (500);
         }
         else { //if the ball on the right is blue
-            bot.setDriveMotorPower(1, -1, -1, 1); //strafe right
+            encodersStrafeRight(bot, 6, 0.5); //strafe right
             Thread.sleep (500);
-            bot.setDriveMotorPower(0,0,0,0);
-            Thread.sleep (500);
-            bot.setDriveMotorPower(-1,1,1,-1); //strafe left to original position
+
+            encodersStrafeLeft(bot, 6, 0.5); //strafe left to original position
             Thread.sleep (500);
 
         }
@@ -59,19 +57,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         //if {allianceColorRed == false){               // therefore blue alliance
         if (bot.colorSensor.blue() <= 675  && bot.colorSensor.blue() >= 575) {      // ball on the right is blue
-            bot.setDriveMotorPower(-1, 1, 1, -1); //strafe left
+
+            encodersStrafeLeft(bot, 6, 0.5); //strafe left
             Thread.sleep(500);
-            bot.setDriveMotorPower(0, 0, 0, 0);
-            Thread.sleep(500);
-            bot.setDriveMotorPower(1, -1, -1, 1); //strafe right to original position
+
+            encodersStrafeRight(bot, 6, 0.5); //strafe right to original position
             Thread.sleep(500);
         }
-        else {
-            bot.setDriveMotorPower(1, -1, -1, 1); //strafe right
+        else {//ball on right is red
+            encodersStrafeRight(bot, 6, 0.5); //strafe right
             Thread.sleep (500);
-            bot.setDriveMotorPower(0,0,0,0);
-            Thread.sleep (500);
-            bot.setDriveMotorPower(-1,1,1,-1); //strafe left to original position
+
+            encodersStrafeLeft(bot, 6, 0.5); //strafe left to original position
             Thread.sleep (500);
         }
 
@@ -187,8 +184,17 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         while (bot.wallsTouch < wallsTarget && opModeIsActive()) {
 
             bot.currStateTouch = bot.digitalTouch.getState();
+            if (bot.digitalTouch.getState() == true) {
+                telemetry.addData("Digital Touch", "Is Not Pressed");
+            } else {
+                telemetry.addData("Digital Touch", "Is Pressed");
+            }
 
-            if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the wall
+
+            //button was pressed
+            //note: a false returned from getState() means that the button was pressed.
+
+            if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the wall
                 //(if the current state is true and the current
                 //state is not equal to the previous state)
                 //Anyway, if the touch sensor is just starting to be pressed:
@@ -196,7 +202,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 bot.wallsTouch++; //add 1 to the current "wallsTouch" variable
                 bot.prevStateTouch = bot.currStateTouch; //now the previous state is the same as the current state
             }
-            else if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch
+            //button was not pressed
+            //note: a true is returned from getState() which means that the button is not being pressed.
+            else if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch
                 //sensor is just starting to not be pressed:
 
                 bot.prevStateTouch = bot.currStateTouch; //now the previous state equals the current state,
