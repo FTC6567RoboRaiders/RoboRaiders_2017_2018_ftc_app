@@ -27,7 +27,7 @@ public class SensorTest extends RoboRaidersAuto {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        //while (opModeIsActive()) {
 
             /*robot.colorSensor.red();
             robot.colorSensor.blue();
@@ -70,6 +70,6 @@ public class SensorTest extends RoboRaidersAuto {
             */
             touchSensorCount(robot, 2, 0.2);
             //distanceSensorCount(robot, 3, 0.3);
-        }
+        //}
     }
 }
