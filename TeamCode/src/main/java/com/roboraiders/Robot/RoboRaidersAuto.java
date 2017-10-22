@@ -183,6 +183,12 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         while (bot.wallsTouch < wallsTarget && opModeIsActive()) {
 
             bot.currStateTouch = bot.digitalTouch.getState();
+            if (bot.digitalTouch.getState() == true) {
+                telemetry.addData("Digital Touch", "Is Not Pressed");
+            } else {
+                telemetry.addData("Digital Touch", "Is Pressed");
+            }
+
 
             //button was pressed
             //note: a false returned from getState() means that the button was pressed.
