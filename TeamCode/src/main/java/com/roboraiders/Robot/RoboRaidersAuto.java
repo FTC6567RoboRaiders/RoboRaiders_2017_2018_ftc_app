@@ -183,7 +183,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         bot.setDriveMotorPower(power, -power, -power, power);  //robot is moving at whatever power
                                                                //is specified
-        while (bot.wallsTouch < wallsTarget) {
+        while (bot.wallsTouch < wallsTarget && opModeIsActive()) {
 
             bot.currStateTouch = bot.digitalTouch.getState();
 
@@ -211,7 +211,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
-        while (bot.wallsDistance < wallsTarget) { //while the robot has not yet hit the specified number of walls
+        while (bot.wallsDistance < wallsTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of walls
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= 20) { //if the distance of the
                 // sensor is less than the

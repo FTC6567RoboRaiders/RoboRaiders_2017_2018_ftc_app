@@ -27,49 +27,49 @@ public class SensorTest extends RoboRaidersAuto {
 
         waitForStart();
 
-        /*robot.colorSensor.red();
-        robot.colorSensor.blue();
-        robot.distanceSensor.getDistance(DistanceUnit.CM);
-        robot.digitalTouch.getState();
-        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
+        //while (opModeIsActive()) {
 
-        if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+            /*robot.colorSensor.red();
+            robot.colorSensor.blue();
+            robot.distanceSensor.getDistance(DistanceUnit.CM);
+            robot.digitalTouch.getState();
+            robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
 
-            robot.pictograph = "LEFT";
-        }
-        else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+            if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
-            robot.pictograph = "CENTER";
-        }
-        else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+                robot.pictograph = "LEFT";
+            } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
 
-            robot.pictograph = "RIGHT";
-        }
-        else {
+                robot.pictograph = "CENTER";
+            } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
 
-            robot.pictograph = "UNKNOWN";
-        }
+                robot.pictograph = "RIGHT";
+            } else {
 
-        telemetry.addData("Red", robot.colorSensor.red());
-        telemetry.addData("Blue", robot.colorSensor.blue());
-        telemetry.addData("Distance", robot.distanceSensor.getDistance(DistanceUnit.CM));
-        telemetry.addData("Pictograph", robot.pictograph);
-        telemetry.addData("IMU Angle", robot.angles.firstAngle);
-        telemetry.addData("Touch", robot.digitalTouch.getState());
-        telemetry.update();
+                robot.pictograph = "UNKNOWN";
+            }
 
-        imuTurnLeft(robot, 90, 0.5);
-        Thread.sleep(1000);
-        imuTurnRight(robot, 90, 0.5);
-        Thread.sleep(1000);
+            telemetry.addData("Red", robot.colorSensor.red());
+            telemetry.addData("Blue", robot.colorSensor.blue());
+            telemetry.addData("Distance", robot.distanceSensor.getDistance(DistanceUnit.CM));
+            telemetry.addData("Pictograph", robot.pictograph);
+            telemetry.addData("IMU Angle", robot.angles.firstAngle);
+            telemetry.addData("Touch", robot.digitalTouch.getState());
+            telemetry.update();
 
-        encodersStrafeLeft(robot, 30, 0.5);
-        Thread.sleep(1000);
-        encodersStrafeRight(robot, 30, 0.5);
-        Thread.sleep(1000);
+            imuTurnLeft(robot, 90, 0.5);
+            Thread.sleep(1000);
+            imuTurnRight(robot, 90, 0.5);
+            Thread.sleep(1000);
 
-        touchSensorCount(robot, 2, 0.2);*/
-        distanceSensorCount(robot, 2, 0.2);
+            encodersStrafeLeft(robot, 30, 0.5);
+            Thread.sleep(1000);
+            encodersStrafeRight(robot, 30, 0.5);
+            Thread.sleep(1000);
+
+            touchSensorCount(robot, 2, 0.2);*/
+            distanceSensorCount(robot, 3, 0.3);
+        //}
     }
 }
