@@ -167,9 +167,7 @@ public class HubBot_Auto_Options extends LinearOpMode
             telemetry.update();
         }
 
-        // change the background color to match the color detected by the RGB sensor.
-        // pass a reference to the hue, saturation, and value array as an argument
-        // to the HSVToColor method.
+        // change the background color back to white
         relativeLayout.post(new Runnable() {
             public void run() {
                 relativeLayout.setBackgroundColor(Color.WHITE);
