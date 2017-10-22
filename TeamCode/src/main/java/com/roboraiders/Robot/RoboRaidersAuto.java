@@ -22,40 +22,36 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      */
     public void selectJewel(Robot bot, int allianceColor) throws InterruptedException {
 
-        telemetry.addData("Red", bot.colorSensor.red());
-        telemetry.addData("Blue", bot.colorSensor.blue());
-        telemetry.update();
-        // does the bot need to move forward at all? or no? discuss with program team. this programs assumes no.
-        //bot.servoJewel.setPosition(0.5);// lower arm with color sensor
-
+        //Does the robot need to move forward at all? Or no? Discuss with programming team. This program assumes no.
         //assuming color sensor is mounted facing right
+
+        //bot.servoJewel.setPosition(0.5); //lower arm with color sensor
 
         //assuming red alliance
 
-        // if (allianceColorRed == true){
-        if (bot.colorSensor.red() > 675 &&  bot.colorSensor.red() <= 775) { // ball on the right is red
-            //using motor power until we get math figured out for encoders
+        //if (allianceColorRed == true){ //red alliance
+        if (bot.colorSensor.red() > 675 && bot.colorSensor.red() <= 775) { //if the ball on the right is red
 
             encodersStrafeLeft(bot, 6, 0.5); //strafe left
-            Thread.sleep (500);
+            Thread.sleep(500);
 
             encodersStrafeRight(bot, 6, 0.5); //strafe right to original position
-            Thread.sleep (500);
+            Thread.sleep(500);
         }
-        else { //if the ball on the right is blue
+        else { //the ball on the right is blue
+
             encodersStrafeRight(bot, 6, 0.5); //strafe right
-            Thread.sleep (500);
+            Thread.sleep(500);
 
             encodersStrafeLeft(bot, 6, 0.5); //strafe left to original position
-            Thread.sleep (500);
-
+            Thread.sleep(500);
         }
         //}
 
         //assuming blue alliance
 
-        //if {allianceColorRed == false){               // therefore blue alliance
-        if (bot.colorSensor.blue() <= 675  && bot.colorSensor.blue() >= 575) {      // ball on the right is blue
+        //if (allianceColorRed == false){ //blue alliance
+        if (bot.colorSensor.blue() <= 675 && bot.colorSensor.blue() >= 575) { //if the ball on the right is blue
 
             encodersStrafeLeft(bot, 6, 0.5); //strafe left
             Thread.sleep(500);
@@ -63,34 +59,31 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
             encodersStrafeRight(bot, 6, 0.5); //strafe right to original position
             Thread.sleep(500);
         }
-        else {//ball on right is red
+        else { //the ball on the right is red
+
             encodersStrafeRight(bot, 6, 0.5); //strafe right
             Thread.sleep (500);
 
             encodersStrafeLeft(bot, 6, 0.5); //strafe left to original position
             Thread.sleep (500);
         }
-
     }
 
     public void imuTurnRight(Robot bot, float degrees, double power) {
 
+        bot.imu.initialize(bot.parameters);
+
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        float heading = bot.angles.thirdAngle;
+        float heading = Math.abs(bot.angles.firstAngle);
 
         bot.setDriveMotorPower(power, -power, power, -power);
 
-        while (heading < degrees) {
+        while (heading < degrees && opModeIsActive()) {
 
             bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            heading = bot.angles.thirdAngle;
+            heading = Math.abs(bot.angles.firstAngle);
 
-            if (heading < 0) {
-
-                heading = 360 + heading;
-            }
-
-            telemetry.addData("Heading", bot.angles.thirdAngle);
+            telemetry.addData("Heading", heading);
             telemetry.update();
         }
 
@@ -99,22 +92,19 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
     public void imuTurnLeft(Robot bot, float degrees, double power) {
 
+        bot.imu.initialize(bot.parameters);
+
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        float heading = bot.angles.thirdAngle;
+        float heading = Math.abs(bot.angles.firstAngle);
 
         bot.setDriveMotorPower(-power, power, -power, power);
 
-        while (heading < degrees) {
+        while (heading < degrees && opModeIsActive()) {
 
             bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            heading = bot.angles.thirdAngle;
+            heading = Math.abs(bot.angles.firstAngle);
 
-            if (heading < 0) {
-
-                heading = 360 + heading;
-            }
-
-            telemetry.addData("Heading", bot.angles.thirdAngle);
+            telemetry.addData("Heading", heading);
             telemetry.update();
         }
 
@@ -126,6 +116,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         if (opModeIsActive()) {
 
             bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             int DIAMETER = 4;
             int GEAR_RATIO = 1;
@@ -153,6 +146,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         if (opModeIsActive()) {
 
             bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             int DIAMETER = 4;
             int GEAR_RATIO = 1;
@@ -178,20 +174,23 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     public void touchSensorCount(Robot bot, int wallsTarget, double power) { //establishes parameters
                                                                              //for method
 
-        bot.setDriveMotorPower(power, -power, -power, power);  //robot is moving at whatever power
-                                                               //is specified
+        bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
+
         while (bot.wallsTouch < wallsTarget && opModeIsActive()) {
 
             bot.currStateTouch = bot.digitalTouch.getState();
-            if (bot.digitalTouch.getState() == true) {
+
+            if (bot.digitalTouch.getState()) { //a true is returned from getState() means that the
+                                               //button is not being pressed
+
                 telemetry.addData("Digital Touch", "Is Not Pressed");
-            } else {
-                telemetry.addData("Digital Touch", "Is Pressed");
+                telemetry.update();
             }
+            else { //a false returned from getState() means that the button is being pressed
 
-
-            //button was pressed
-            //note: a false returned from getState() means that the button was pressed.
+                telemetry.addData("Digital Touch", "Is Pressed");
+                telemetry.update();
+            }
 
             if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the wall
                 //(if the current state is true and the current
@@ -201,8 +200,6 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 bot.wallsTouch++; //add 1 to the current "wallsTouch" variable
                 bot.prevStateTouch = bot.currStateTouch; //now the previous state is the same as the current state
             }
-            //button was not pressed
-            //note: a true is returned from getState() which means that the button is not being pressed.
             else if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch
                 //sensor is just starting to not be pressed:
 
@@ -222,16 +219,20 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         while (bot.wallsDistance < wallsTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of walls
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= 20) { //if the distance of the
-                // sensor is less than the
+                //sensor is less than the
                 //pre-specified value, aka the robot is passing
                 //close to the wall
 
                 bot.currStateDistance = true; //the robot is currently passing a wall
+                telemetry.addData("Distance Sensor", "Is In Front of a Wall");
+                telemetry.update();
             }
             else { //if the distance of the sensor is greater than the
                 //pre-specified value, aka the robot is between walls
 
                 bot.currStateDistance = false; //the robot is not currently passing a wall
+                telemetry.addData("Digital Sensor", "Is Not In Front of a Wall");
+                telemetry.update();
             }
 
             if (bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the robot sees the

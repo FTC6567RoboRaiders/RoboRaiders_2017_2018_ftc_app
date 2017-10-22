@@ -95,10 +95,10 @@ public class Robot {
         motorBackRight = hwMap.get(DcMotor.class, "right_Back");
 
         // Defines the directions the motors will spin
-        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         motorFrontRight.setPower(0);
