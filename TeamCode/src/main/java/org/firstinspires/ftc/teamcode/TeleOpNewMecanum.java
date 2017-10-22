@@ -14,6 +14,7 @@ public class TeleOpNewMecanum extends OpMode {
 
     public Robot robot = new Robot();
 
+
     /* Define variables */
     float LeftBack;   // Power for left back motor
     float RightBack;  // Power for right back motor
@@ -37,10 +38,10 @@ public class TeleOpNewMecanum extends OpMode {
         /*
         are the right_stick powers right?
          */
-        LeftBack = gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
-        RightBack = gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
-        LeftFront = gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;
-        RightFront = gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x;
+        LeftBack = -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
+        RightBack = -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
+        LeftFront = -gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x;
+        RightFront = -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;
 
         maxpwr = findMaxPower(LeftBack, LeftFront, RightBack, RightFront);
 

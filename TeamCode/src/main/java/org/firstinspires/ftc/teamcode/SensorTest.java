@@ -24,6 +24,8 @@ public class SensorTest extends RoboRaidersAuto {
     public void runOpMode() throws InterruptedException {
 
         robot.initialize(hardwareMap);
+        telemetry.addData("Initialized", true);
+        telemetry.update();
 
         waitForStart();
 
@@ -58,18 +60,18 @@ public class SensorTest extends RoboRaidersAuto {
             telemetry.addData("Touch", robot.digitalTouch.getState());
             telemetry.update();
 
-            imuTurnLeft(robot, 90, 0.5);
+            imuTurnLeft(robot, 90, 0.25);
             Thread.sleep(1000);
-            imuTurnRight(robot, 90, 0.5);
+            imuTurnRight(robot, 90, 0.25);
+            Thread.sleep(1000);*/
+
+            encodersStrafeLeft(robot, 10, 0.3);
+            Thread.sleep(1000);
+            encodersStrafeRight(robot, 10, 0.3);
             Thread.sleep(1000);
 
-            encodersStrafeLeft(robot, 30, 0.5);
-            Thread.sleep(1000);
-            encodersStrafeRight(robot, 30, 0.5);
-            Thread.sleep(1000);
-
-            touchSensorCount(robot, 2, 0.2);*/
-            distanceSensorCount(robot, 3, 0.3);
+            /*touchSensorCount(robot, 2, 0.2);
+            distanceSensorCount(robot, 3, 0.3);*/
         //}
     }
 }

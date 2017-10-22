@@ -1,5 +1,6 @@
 package com.roboraiders.Robot;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -78,22 +79,19 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
     public void imuTurnRight(Robot bot, float degrees, double power) {
 
+        bot.imu.initialize(bot.parameters);
+
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        float heading = bot.angles.thirdAngle;
+        float heading = Math.abs(bot.angles.firstAngle);
 
         bot.setDriveMotorPower(power, -power, power, -power);
 
-        while (heading < degrees) {
+        while (heading < degrees && opModeIsActive()) {
 
             bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            heading = bot.angles.thirdAngle;
+            heading = Math.abs(bot.angles.firstAngle);
 
-            if (heading < 0) {
-
-                heading = 360 + heading;
-            }
-
-            telemetry.addData("Heading", bot.angles.thirdAngle);
+            telemetry.addData("Heading", heading);
             telemetry.update();
         }
 
@@ -102,22 +100,19 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
     public void imuTurnLeft(Robot bot, float degrees, double power) {
 
+        bot.imu.initialize(bot.parameters);
+
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        float heading = bot.angles.thirdAngle;
+        float heading = Math.abs(bot.angles.firstAngle);
 
         bot.setDriveMotorPower(-power, power, -power, power);
 
-        while (heading < degrees) {
+        while (heading < degrees && opModeIsActive()) {
 
             bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            heading = bot.angles.thirdAngle;
+            heading = Math.abs(bot.angles.firstAngle);
 
-            if (heading < 0) {
-
-                heading = 360 + heading;
-            }
-
-            telemetry.addData("Heading", bot.angles.thirdAngle);
+            telemetry.addData("Heading", heading);
             telemetry.update();
         }
 
@@ -129,6 +124,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         if (opModeIsActive()) {
 
             bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             int DIAMETER = 4;
             int GEAR_RATIO = 1;
@@ -156,6 +154,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         if (opModeIsActive()) {
 
             bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             int DIAMETER = 4;
             int GEAR_RATIO = 1;
