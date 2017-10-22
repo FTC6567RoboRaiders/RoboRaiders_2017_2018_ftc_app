@@ -187,7 +187,10 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             bot.currStateTouch = bot.digitalTouch.getState();
 
-            if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the wall
+            //button was pressed
+            //note: a false returned from getState() means that the button was pressed.
+
+            if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the wall
                 //(if the current state is true and the current
                 //state is not equal to the previous state)
                 //Anyway, if the touch sensor is just starting to be pressed:
@@ -195,7 +198,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 bot.wallsTouch++; //add 1 to the current "wallsTouch" variable
                 bot.prevStateTouch = bot.currStateTouch; //now the previous state is the same as the current state
             }
-            else if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch
+            //button was not pressed
+            //note: a true is returned from getState() which means that the button is not being pressed.
+            else if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch
                 //sensor is just starting to not be pressed:
 
                 bot.prevStateTouch = bot.currStateTouch; //now the previous state equals the current state,
