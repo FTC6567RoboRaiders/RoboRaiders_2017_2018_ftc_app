@@ -133,7 +133,10 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
-                telemetry.addData("COUNTS", COUNTS);
+                telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition());
+                telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
+                telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
+                telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
                 telemetry.update();
             }
 
@@ -163,7 +166,10 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             while (bot.motorFrontLeft.getCurrentPosition() > COUNTS && opModeIsActive()) {
 
-                telemetry.addData("COUNTS", COUNTS);
+                telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition());
+                telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
+                telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
+                telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
                 telemetry.update();
             }
 
