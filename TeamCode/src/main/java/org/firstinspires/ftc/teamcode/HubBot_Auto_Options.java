@@ -57,9 +57,7 @@ public class HubBot_Auto_Options extends LinearOpMode
     // The following is used to change the background color of the robot controller
     // get a reference to the RelativeLayout so we can change the background
     // color of the Robot Controller app to match the hue detected by the RGB sensor.
-    int relativeLayoutId =
-            hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
-    final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
+    View relativeLayout;
 
     // Set up strings for alliance selection
 
@@ -67,8 +65,11 @@ public class HubBot_Auto_Options extends LinearOpMode
     String[] allianceOptions = new String[] {"Red", "Blue"};          // The options for this selection
     String allianceSelection;                                         // The alliance selection
 
-    boolean b_button_pressed = false;                                 // "b" button not pressed
-    boolean x_button_pressed = false;                                 // "x" button not pressed
+    boolean cur_B_ButtonState;                                        // "b" button current state
+    boolean cur_X_ButtonState;                                        // "x" button current state
+
+    boolean prev_B_ButtonState;                                       // "b" button previous state
+    boolean prev_X_ButtonState;                                       // "x" button previous state
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -76,37 +77,80 @@ public class HubBot_Auto_Options extends LinearOpMode
 
     @Override public void runOpMode() {
 
+        // Get a reference to the RelativeLayout so we can later change the background
+        // color of the Robot Controller app to match the hue detected by the RGB sensor.
+        int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
+        relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
+
+
         // Alliance Selection - choose wisely
 
         telemetry.addLine(allianceTitle);
         telemetry.addLine("Press B for Red or X for Blue");
         telemetry.update();
 
+        gamepad1.reset();                                             // reset the gamepad to initial state
 
         // loop until either the "b" button or the "x" button is pressed
-        while (!b_button_pressed || !x_button_pressed) {
+        // the logic here says OR the previous button states and when they are both false continue
+        // here is a table of how this works
+        /*
+             +--------------------+------+--------------------+--------+-------------+
+             | prev_B_ButtonState | -OR- | prev_X_ButtonState | Result | Neg. Result |
+             +--------------------+------+--------------------+--------+-------------+
+             |      FALSE         |      |     FALSE          | FALSE  |   TRUE      |
+             +--------------------+------+--------------------+--------+-------------+
+             |      FALSE         |      |     TRUE           | TRUE   |   FALSE     |
+             +--------------------+------+--------------------+--------+-------------+
+             |      TRUE          |      |     FALSE          | TRUE   |   FALSE     |
+             +--------------------+------+--------------------+--------+-------------+
+             |      TRUE          |      |     TRUE           | TRUE   |   FALSE     |
+             +--------------------+------+--------------------+--------+-------------+
+
+         */
+        while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
+
+            cur_B_ButtonState = gamepad1.b;                           // get the current state of button b
+            cur_X_ButtonState = gamepad1.x;                           // get the current state of button x
+            prev_X_ButtonState = false;
+            prev_B_ButtonState = false;
 
             // when the "b" button on the gamepad is pressed set alliance to RED
-            if (gamepad1.b) {
-                allianceSelection = allianceOptions[0];
-                b_button_pressed = true;
+            if (cur_B_ButtonState) {
+                telemetry.addLine("b button pushed");
+                if (!prev_B_ButtonState) {
+                    telemetry.addLine("prev b button pushed was NOT pushed");
+                    allianceSelection = allianceOptions[0];
+                    prev_B_ButtonState = true;
+                }
+                else {
+                    telemetry.addLine("prev b button pushed WAS pushed");
+                }
             }
-            // when the "x" button on the gamepad is pressed set the alliance to BLUE
-            else if (gamepad1.x) {
-                allianceSelection = allianceOptions[1];
-                x_button_pressed = true;
+            else if (cur_X_ButtonState) {
+                telemetry.addLine("x button pushed");
+                if (!prev_X_ButtonState) {
+                    telemetry.addLine("prev x button pushed was NOT pushed");
+                    allianceSelection = allianceOptions[1];
+                    prev_X_ButtonState = true;
+                }
+                else {
+                    telemetry.addLine("prev x button pushed WAS pushed");
+                }
             }
+            telemetry.update();
         }
 
         telemetry.addLine().addData("Alliance Selection: ",allianceSelection);
         telemetry.update();
+
 
         // change the background color to match the color detected by the RGB sensor.
         // pass a reference to the hue, saturation, and value array as an argument
         // to the HSVToColor method.
         relativeLayout.post(new Runnable() {
             public void run() {
-                if (allianceSelection == allianceOptions[0]) {
+                if ( allianceSelection.equals(allianceOptions[0]) ) {
                     relativeLayout.setBackgroundColor(Color.RED);
                 }
                 else {
@@ -122,5 +166,14 @@ public class HubBot_Auto_Options extends LinearOpMode
         while (opModeIsActive()) {
             telemetry.update();
         }
+
+        // change the background color back to white
+        relativeLayout.post(new Runnable() {
+            public void run() {
+                relativeLayout.setBackgroundColor(Color.WHITE);
+
+            }
+        });
+
     }
 }
