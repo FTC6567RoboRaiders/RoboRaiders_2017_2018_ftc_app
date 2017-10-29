@@ -14,7 +14,6 @@ public class TeleOpNewMecanum extends OpMode {
 
     public Robot robot = new Robot();
 
-
     /* Define variables */
     float LeftBack;   // Power for left back motor
     float RightBack;  // Power for right back motor
