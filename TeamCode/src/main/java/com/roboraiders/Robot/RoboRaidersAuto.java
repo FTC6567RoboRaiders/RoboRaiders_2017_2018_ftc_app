@@ -69,28 +69,28 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
     }
 
-    public void imuTurnRight(Robot bot, float degrees, double power) {
+    public void imuTurnRight(Robot bot, float degrees, double power) { //gets hardware from Robot and defines degrees as a float and defines power as a double
 
-        bot.imu.initialize(bot.parameters);
+        bot.imu.initialize(bot.parameters); // resets IMU angle to zero
 
-        bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        float heading = Math.abs(bot.angles.firstAngle);
+        bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); // This sets up the how we want the IMU want report data
+        float heading = Math.abs(bot.angles.firstAngle); // heading is equal to the absolute value of the first angle
 
-        bot.setDriveMotorPower(power, -power, power, -power);
+        bot.setDriveMotorPower(power, -power, power, -power); // This defines what the power is gonna be
 
-        while (heading < degrees && opModeIsActive()) {
+        while (heading < degrees && opModeIsActive()) { //This states that while the value of heading is less then the degree value and while opMode is active continue the while loop
 
-            bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            heading = Math.abs(bot.angles.firstAngle);
+            bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Continuous " "
+            heading = Math.abs(bot.angles.firstAngle); //Continuous " "
 
-            telemetry.addData("Heading", heading);
-            telemetry.update();
+            telemetry.addData("Heading", heading);// Feedback of Heading value
+            telemetry.update();// continuous update
         }
 
-        bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
+        bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stops robot
     }
 
-    public void imuTurnLeft(Robot bot, float degrees, double power) {
+    public void imuTurnLeft(Robot bot, float degrees, double power) { // Same idea except going right
 
         bot.imu.initialize(bot.parameters);
 
@@ -111,60 +111,60 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
     }
 
-    public void encodersStrafeRight(Robot bot, int distance, double power) {
+    public void encodersStrafeRight(Robot bot, int distance, double power) { //Sets parameters for this method
 
-        if (opModeIsActive()) {
+        if (opModeIsActive()) { //while active
 
-            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
+            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for front right wheel
+            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for back left wheel
+            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
 
-            int DIAMETER = 4;
-            int GEAR_RATIO = 1;
-            int PULSES = 1120;
-            double CIRCUMFERENCE = Math.PI * DIAMETER;
-            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO;
-            double COUNTS = PULSES * ROTATIONS;
+            int DIAMETER = 4; //Diameter of wheel
+            int GEAR_RATIO = 1; //Gear ratio
+            int PULSES = 1120; //encoder counts in one revolution
+            double CIRCUMFERENCE = Math.PI * DIAMETER; // Gives you circumference
+            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO; // gives the rotations
+            double COUNTS = PULSES * ROTATIONS; // gives the counts
 
-            COUNTS = COUNTS + Math.abs(bot.motorFrontLeft.getCurrentPosition());
+            COUNTS = COUNTS + Math.abs(bot.motorFrontLeft.getCurrentPosition()); // add wanted counts to current count to strade left
 
             bot.setDriveMotorPower(power, -power, -power, power);
 
             while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
 
-                telemetry.addData("COUNTS", COUNTS);
-                telemetry.update();
+                telemetry.addData("COUNTS", COUNTS); // Shows counts on phone
+                telemetry.update(); //continuously upadtes the counts
             }
 
             bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
         }
     }
 
-    public void encodersStrafeLeft(Robot bot, int distance, double power) {
+    public void encodersStrafeLeft(Robot bot, int distance, double power) { // Sets parameters for this method
 
-        if (opModeIsActive()) {
+        if (opModeIsActive()) { // While active
 
-            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Uses encoders for front left wheel
+            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Uses encoders for front right wheel
+            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Uses encoders for back left wheel
+            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Uses encoders for back right wheel
 
-            int DIAMETER = 4;
-            int GEAR_RATIO = 1;
-            int PULSES = 1120;
-            double CIRCUMFERENCE = Math.PI * DIAMETER;
-            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO;
-            double COUNTS = PULSES * ROTATIONS;
+            int DIAMETER = 4; //Diameter of wheel
+            int GEAR_RATIO = 1; //Gear ratio
+            int PULSES = 1120; // how encoder counts in one revolution
+            double CIRCUMFERENCE = Math.PI * DIAMETER; //this gives you circumference
+            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO; //give the rotations
+            double COUNTS = PULSES * ROTATIONS; // give the counts
 
-            COUNTS = Math.abs(bot.motorFrontLeft.getCurrentPosition()) - COUNTS;
+            COUNTS = Math.abs(bot.motorFrontLeft.getCurrentPosition()) - COUNTS; // Subtracts wanted counts by the currents counts to strafe left
 
             bot.setDriveMotorPower(-power, power, power, -power);
 
             while (bot.motorFrontLeft.getCurrentPosition() > COUNTS && opModeIsActive()) {
 
-                telemetry.addData("COUNTS", COUNTS);
-                telemetry.update();
+                telemetry.addData("COUNTS", COUNTS); //Shows amount of counts on phone
+                telemetry.update(); //Continuously updates counts above
             }
 
             bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
