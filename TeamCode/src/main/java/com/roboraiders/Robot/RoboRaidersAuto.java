@@ -14,6 +14,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public abstract class RoboRaidersAuto extends LinearOpMode {
 
+    public int dividersTouch = 0; //counts the number of times that the robot hits the wall with the touch sensor
+    public double dividersDistance = 0; //counts the number of times that the robot hits the wall with the distance sensor
+    public boolean currStateTouch = false;
+    public boolean prevStateTouch = false;
+    public boolean currStateDistance = false;
+    public boolean prevStateDistance = false;
+
     /**
      * This method is going to push the jewel off the platform that is not the current alliance color
      *
@@ -138,10 +145,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         if (opModeIsActive()) { //while active
 
-            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
-            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for front right wheel
-            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for back left wheel
-            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
+            bot.runWithEncoders(); // Takes method in robot and says to use encoders here
 
             int DIAMETER = 4; //diameter of wheel
             int GEAR_RATIO = 1; //gear ratio
@@ -184,10 +188,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         if (opModeIsActive()) { //while active
 
-            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
-            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front right wheel
-            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back left wheel
-            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
+           bot.runWithEncoders(); //takes method from robot and uses encoders here
 
             int DIAMETER = 4; //diameter of wheel
             int GEAR_RATIO = 1; //gear ratio
@@ -231,10 +232,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
-        while (bot.dividersTouch < dividersTarget && opModeIsActive()) {
+        while (dividersTouch < dividersTarget && opModeIsActive()) {
 
-            bot.currStateTouch = bot.digitalTouch.getState();
-
+            bot.getTouchState();
             if (bot.digitalTouch.getState()) { //a true is returned from getState() means that the
                                                //button is not being pressed
 
@@ -247,18 +247,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.update();
             }
 
-            if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the divider
+            if (!currStateTouch && currStateTouch != prevStateTouch) { //if the robot is touching the divider
                 //(if the current state is true and the current
                 //state is not equal to the previous state)
                 //Anyway, if the touch sensor is just starting to be pressed:
 
-                bot.dividersTouch++; //add 1 to the current "dividersTouch" variable
-                bot.prevStateTouch = bot.currStateTouch; //now the previous state is the same as the current state
+               dividersTouch++; //add 1 to the current "dividersTouch" variable
+               prevStateTouch = currStateTouch; //now the previous state is the same as the current state
             }
-            else if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch
+            else if (currStateTouch && currStateTouch != prevStateTouch) { //if the touch
                 //sensor is just starting to not be pressed:
 
-                bot.prevStateTouch = bot.currStateTouch; //now the previous state equals the current state,
+                prevStateTouch = currStateTouch; //now the previous state equals the current state,
                 //don't change anything to the "dividersTouch" variable
             }
         }
@@ -280,7 +280,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
-        while (bot.dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
+        while (dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
                                                                         //and the opMode has not been stopped
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= desiredDistance) { //if the distance of the
@@ -288,29 +288,29 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 //pre-specified value, aka the robot is passing
                 //close to the divider
 
-                bot.currStateDistance = true; //the robot is currently passing a divider
+                currStateDistance = true; //the robot is currently passing a divider
                 telemetry.addData("Distance Sensor", "Is In Front of a Divider");
                 telemetry.update();
             }
             else { //if the distance of the sensor is greater than the
                    //pre-specified value, aka the robot is between dividers
 
-                bot.currStateDistance = false; //the robot is not currently passing a divider
+                currStateDistance = false; //the robot is not currently passing a divider
                 telemetry.addData("Digital Sensor", "Is Not In Front of a Divider");
                 telemetry.update();
             }
 
-            if (bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the robot sees the
+            if (currStateDistance && currStateDistance != prevStateDistance) { //if the robot sees the
                 //divider and it didn't see the divider before
                 //basically, if the robot sees the divider
 
-                bot.dividersDistance++; // add 1 to the current "dividersDistance" variable
-                bot.prevStateDistance = bot.currStateDistance; //now the previous state is the same as the current state
+                dividersDistance++; // add 1 to the current "dividersDistance" variable
+                prevStateDistance = currStateDistance; //now the previous state is the same as the current state
             }
-            else if (!bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the touch sensor
+            else if (!currStateDistance && currStateDistance != prevStateDistance) { //if the touch sensor
                 //is just starting to not be pressed:
 
-                bot.prevStateDistance = bot.currStateDistance; //now the previous state equals the current state,
+                prevStateDistance = currStateDistance; //now the previous state equals the current state,
                 //don't change anything to the "dividersDistance" variable
             }
         }

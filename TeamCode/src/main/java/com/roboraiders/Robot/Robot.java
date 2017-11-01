@@ -60,12 +60,7 @@ public class Robot {
     public String pictograph;
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
-    public int dividersTouch = 0; //counts the number of times that the robot hits the wall with the touch sensor
-    public double dividersDistance = 0; //counts the number of times that the robot hits the wall with the distance sensor
-    public boolean currStateTouch = false;
-    public boolean prevStateTouch = false;
-    public boolean currStateDistance = false;
-    public boolean prevStateDistance = false;
+
 
     /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
      *
@@ -83,6 +78,17 @@ public class Robot {
      *
      *
      */
+    public boolean currStateTouch = false;
+    public getTouchState () {
+        currStateTouch = digitalTouch.getState();
+
+    }
+    public void runWithEncoders ()    {
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for front right wheel
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for back left wheel
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
+    }
     public void initialize(HardwareMap ahwMap) {
 
         // Save reference to hardware map
