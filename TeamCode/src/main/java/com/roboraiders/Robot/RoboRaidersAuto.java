@@ -226,6 +226,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param power the desired power the wheel motors will run at
      */
     public void touchSensorCount(Robot bot, int wallsTarget, double power) { //establishes parameters for method
+                                                                            //and the opMode has not been stopped
 
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
@@ -272,28 +273,30 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param bot the bot currently being worked on
      * @param wallsTarget the desired number of walls to pass
      * @param power the desired power the wheel motors will run at
+     * @param desiredDistance the desired distance from the target
      */
-    public void distanceSensorCount(Robot bot, int wallsTarget, double power) { //establishes
+    public void distanceSensorCount(Robot bot, int wallsTarget, double power, int desiredDistance) { //establishes
                                                                               //parameters for method
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
         while (bot.wallsDistance < wallsTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of walls
+                                                                        //and the opMode has not been stopped
 
-            if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= 20) { //if the distance of the
+            if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= desiredDistance) { //if the distance of the
                 //sensor is less than the
                 //pre-specified value, aka the robot is passing
                 //close to the wall
 
-                bot.currStateDistance = true; //the robot is currently passing a wall
-                telemetry.addData("Distance Sensor", "Is In Front of a Wall");
+                bot.currStateDistance = true; //the robot is currently passing a divider
+                telemetry.addData("Distance Sensor", "Is In Front of a hecking rad Divider d00d");
                 telemetry.update();
             }
             else { //if the distance of the sensor is greater than the
-                //pre-specified value, aka the robot is between walls
+                   //pre-specified value, aka the robot is between walls
 
-                bot.currStateDistance = false; //the robot is not currently passing a wall
-                telemetry.addData("Digital Sensor", "Is Not In Front of a Wall");
+                bot.currStateDistance = false; //the robot is not currently passing a divider
+                telemetry.addData("Digital Sensor", "Is Not In Front of a Divider");
                 telemetry.update();
             }
 
