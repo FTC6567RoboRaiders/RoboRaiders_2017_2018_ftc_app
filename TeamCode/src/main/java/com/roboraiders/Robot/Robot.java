@@ -60,8 +60,8 @@ public class Robot {
     public String pictograph;
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
-    public int wallsTouch = 0; //counts the number of times that the robot hits the wall with the touch sensor
-    public double wallsDistance = 0; //counts the number of times that the robot hits the wall with the distance sensor
+    public int dividersTouch = 0; //counts the number of times that the robot hits the wall with the touch sensor
+    public double dividersDistance = 0; //counts the number of times that the robot hits the wall with the distance sensor
     public boolean currStateTouch = false;
     public boolean prevStateTouch = false;
     public boolean currStateDistance = false;

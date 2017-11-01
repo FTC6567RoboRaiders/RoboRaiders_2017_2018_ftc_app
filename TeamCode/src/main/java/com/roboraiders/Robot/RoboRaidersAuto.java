@@ -219,19 +219,19 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
     /**
      * This method will strafe the robot right until the touch sensor has detected the robot has
-     * passed a certain number of walls
+     * passed a certain number of dividers
      *
      * @param bot the bot currently being worked on
-     * @param wallsTarget the desired number of walls to pass
+     * @param dividersTarget the desired number of dividers to pass
      * @param power the desired power the wheel motors will run at
      */
-    public void touchSensorCount(Robot bot, int wallsTarget, double power) { //establishes parameters for method
+    public void touchSensorCount(Robot bot, int dividersTarget, double power) { //establishes parameters for method
                                                                             //and the opMode has not been stopped
 
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
-        while (bot.wallsTouch < wallsTarget && opModeIsActive()) {
+        while (bot.dividersTouch < dividersTarget && opModeIsActive()) {
 
             bot.currStateTouch = bot.digitalTouch.getState();
 
@@ -247,19 +247,19 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.update();
             }
 
-            if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the wall
+            if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the divider
                 //(if the current state is true and the current
                 //state is not equal to the previous state)
                 //Anyway, if the touch sensor is just starting to be pressed:
 
-                bot.wallsTouch++; //add 1 to the current "wallsTouch" variable
+                bot.dividersTouch++; //add 1 to the current "dividersTouch" variable
                 bot.prevStateTouch = bot.currStateTouch; //now the previous state is the same as the current state
             }
             else if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch
                 //sensor is just starting to not be pressed:
 
                 bot.prevStateTouch = bot.currStateTouch; //now the previous state equals the current state,
-                //don't change anything to the "wallsTouch" variable
+                //don't change anything to the "dividersTouch" variable
             }
         }
 
@@ -268,32 +268,32 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
     /**
      * This method will strafe the robot right until the distance sensor has detected the robot has
-     * passed a certain number of walls
+     * passed a certain number of dividers
      *
      * @param bot the bot currently being worked on
-     * @param wallsTarget the desired number of walls to pass
+     * @param dividersTarget the desired number of dividers to pass
      * @param power the desired power the wheel motors will run at
      * @param desiredDistance the desired distance from the target
      */
-    public void distanceSensorCount(Robot bot, int wallsTarget, double power, int desiredDistance) { //establishes
+    public void distanceSensorCount(Robot bot, int dividersTarget, double power, int desiredDistance) { //establishes
                                                                               //parameters for method
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
-        while (bot.wallsDistance < wallsTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of walls
+        while (bot.dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
                                                                         //and the opMode has not been stopped
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= desiredDistance) { //if the distance of the
                 //sensor is less than the
                 //pre-specified value, aka the robot is passing
-                //close to the wall
+                //close to the divider
 
                 bot.currStateDistance = true; //the robot is currently passing a divider
-                telemetry.addData("Distance Sensor", "Is In Front of a hecking rad Divider d00d");
+                telemetry.addData("Distance Sensor", "Is In Front of a Divider");
                 telemetry.update();
             }
             else { //if the distance of the sensor is greater than the
-                   //pre-specified value, aka the robot is between walls
+                   //pre-specified value, aka the robot is between dividers
 
                 bot.currStateDistance = false; //the robot is not currently passing a divider
                 telemetry.addData("Digital Sensor", "Is Not In Front of a Divider");
@@ -301,17 +301,17 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
             }
 
             if (bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the robot sees the
-                //wall and it didn't see the wall before
-                //basically, if the robot sees the wall
+                //divider and it didn't see the divider before
+                //basically, if the robot sees the divider
 
-                bot.wallsDistance++; // add 1 to the current "wallsDistance" variable
+                bot.dividersDistance++; // add 1 to the current "dividersDistance" variable
                 bot.prevStateDistance = bot.currStateDistance; //now the previous state is the same as the current state
             }
             else if (!bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the touch sensor
-                // is just starting to not be pressed:
+                //is just starting to not be pressed:
 
                 bot.prevStateDistance = bot.currStateDistance; //now the previous state equals the current state,
-                //don't change anything to the "wallsDistance" variable
+                //don't change anything to the "dividersDistance" variable
             }
         }
 
