@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public abstract class RoboRaidersAuto extends LinearOpMode {
 
     /**
-     * This method is going to push the jewel off the platform that is not the current alliance color.
+     * This method is going to push the jewel off the platform that is not the current alliance color
      *
      * @param bot the bot currently being worked on
      * @param allianceColor the color of your alliance
@@ -69,6 +69,13 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
     }
 
+    /**
+     * This method will turn the robot right a certain angle measure using the IMU
+     *
+     * @param bot the bot currently being worked on
+     * @param degrees the desired number of degrees to turn
+     * @param power the desired power the wheel motors will run at
+     */
     public void imuTurnRight(Robot bot, float degrees, double power) { //gets hardware from Robot and defines degrees as a
                                                                        //float and defines power as a double
 
@@ -92,6 +99,13 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stops robot
     }
 
+    /**
+     * This method will turn the robot left a certain angle measure using the IMU
+     *
+     * @param bot the bot currently being worked on
+     * @param degrees the desired number of degrees to turn
+     * @param power the desired power the wheel motors will run at
+     */
     public void imuTurnLeft(Robot bot, float degrees, double power) { //same idea except going right
 
         bot.imu.initialize(bot.parameters);
@@ -113,6 +127,13 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
     }
 
+    /**
+     * This method will strafe the robot right a certain distance in inches using encoders
+     *
+     * @param bot the bot currently being worked on
+     * @param distance the desired distance the robot will travel
+     * @param power the desired power the wheel motors will run at
+     */
     public void encodersStrafeRight(Robot bot, int distance, double power) { //sets parameters for this method
 
         if (opModeIsActive()) { //while active
@@ -152,6 +173,13 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
     }
 
+    /**
+     * This method will strafe the robot left a certain distance in inches using encoders
+     *
+     * @param bot the bot currently being worked on
+     * @param distance the desired distance the robot will travel
+     * @param power the desired power the wheel motors will run at
+     */
     public void encodersStrafeLeft(Robot bot, int distance, double power) { //sets parameters for this method
 
         if (opModeIsActive()) { //while active
@@ -189,6 +217,14 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
     }
 
+    /**
+     * This method will strafe the robot right until the touch sensor has detected the robot has
+     * passed a certain number of walls
+     *
+     * @param bot the bot currently being worked on
+     * @param wallsTarget the desired number of walls to pass
+     * @param power the desired power the wheel motors will run at
+     */
     public void touchSensorCount(Robot bot, int wallsTarget, double power) { //establishes parameters
                                                                              //for method
 
@@ -229,6 +265,14 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop the robot
     }
 
+    /**
+     * This method will strafe the robot right until the distance sensor has detected the robot has
+     * passed a certain number of walls
+     *
+     * @param bot the bot currently being worked on
+     * @param wallsTarget the desired number of walls to pass
+     * @param power the desired power the wheel motors will run at
+     */
     public void distanceSensorCount(Robot bot, int wallsTarget, double power) { //establishes
                                                                               //parameters for method
 
