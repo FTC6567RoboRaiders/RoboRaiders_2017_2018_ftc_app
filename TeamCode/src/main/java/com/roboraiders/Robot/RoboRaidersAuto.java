@@ -225,8 +225,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param wallsTarget the desired number of walls to pass
      * @param power the desired power the wheel motors will run at
      */
-    public void touchSensorCount(Robot bot, int wallsTarget, double power) { //establishes parameters
-                                                                             //for method
+    public void touchSensorCount(Robot bot, int wallsTarget, double power) { //establishes parameters for method
+
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
