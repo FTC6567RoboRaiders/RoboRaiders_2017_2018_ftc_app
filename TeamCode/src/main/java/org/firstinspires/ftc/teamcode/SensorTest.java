@@ -36,26 +36,12 @@ public class SensorTest extends RoboRaidersAuto {
             robot.distanceSensor.getDistance(DistanceUnit.CM);
             robot.digitalTouch.getState();
             robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.relicTemplate);
-
-            if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
-
-                robot.pictograph = "LEFT";
-            } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
-
-                robot.pictograph = "CENTER";
-            } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
-
-                robot.pictograph = "RIGHT";
-            } else {
-
-                robot.pictograph = "UNKNOWN";
-            }
+            getRelicRecoveryVuMark()
 
             telemetry.addData("Red", robot.colorSensor.red());
             telemetry.addData("Blue", robot.colorSensor.blue());
             telemetry.addData("Distance", robot.distanceSensor.getDistance(DistanceUnit.CM));
-            telemetry.addData("Pictograph", robot.pictograph);
+            telemetry.addData("Pictograph", pictograph);
             telemetry.addData("IMU Angle", robot.angles.firstAngle);
             telemetry.addData("Touch", robot.digitalTouch.getState());
             telemetry.update();

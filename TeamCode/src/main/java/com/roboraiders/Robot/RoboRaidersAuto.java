@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -340,6 +341,29 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate");
         relicTrackables.activate();
+
+
+    }
+
+    public String getRelicRecoveryVuMark(){
+
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+        if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+
+            pictograph = "LEFT";
+        } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+
+            pictograph = "CENTER";
+        } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+
+            pictograph = "RIGHT";
+        } else {
+
+            pictograph = "UNKNOWN";
+        }
+
+        return pictograph;
 
 
     }
