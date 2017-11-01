@@ -81,13 +81,14 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     }
 
     /**
-     * This method will turn the robot right a certain angle measure using the IMU
+     * This method will turn the robot right or left a certain angle measure using the IMU
      *
      * @param bot the bot currently being worked on
      * @param degrees the desired number of degrees to turn
      * @param power the desired power the wheel motors will run at
+     * @param direction the direction the robot is turning; either right or left. 1 = right, 2 = left
      */
-    public void imuTurnRight(Robot bot, float degrees, double power) { //gets hardware from Robot and defines degrees as a
+    public void imuTurnRight(Robot bot, float degrees, double power, int direction) { //gets hardware from Robot and defines degrees as a
                                                                        //float and defines power as a double
 
         bot.imu.initialize(bot.parameters); //resets IMU angle to zero
@@ -95,7 +96,20 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //this sets up the how we want the IMU to report data
         float heading = Math.abs(bot.angles.firstAngle); //heading is equal to the absolute value of the first angle
 
-        bot.setDriveMotorPower(power, -power, power, -power); //this defines what the power will be
+        if (direction == 1) { //1 is right, 2 is left
+
+            bot.setDriveMotorPower(power, -power, power, -power); //the robot will turn right
+
+        }
+
+        else {
+
+            bot.setDriveMotorPower(-power, power, -power, power); //the robot will turn left
+
+        }
+
+
+
 
         while (heading < degrees && opModeIsActive()) { //this states that while the value of heading is less then the degree value
                                                         // and while opMode is active continue the while loop
