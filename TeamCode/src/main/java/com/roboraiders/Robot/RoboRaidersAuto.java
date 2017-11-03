@@ -2,11 +2,18 @@ package com.roboraiders.Robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
 
 /**
  * Created by Alex Snyder on 10/8/17.
@@ -14,13 +21,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public abstract class RoboRaidersAuto extends LinearOpMode {
 
-    public int dividersTouch = 0; //counts the number of times that the robot hits the wall with the touch sensor
-    public double dividersDistance = 0; //counts the number of times that the robot hits the wall with the distance sensor
-    public boolean currStateTouch = false;
-    public boolean prevStateTouch = false;
-    public boolean currStateDistance = false;
-    public boolean prevStateDistance = false;
 
+    public VuforiaLocalizer vuforia;
+    public VuforiaTrackable relicTemplate;
+    public String pictograph;
     /**
      * This method is going to push the jewel off the platform that is not the current alliance color
      *
@@ -145,7 +149,10 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         if (opModeIsActive()) { //while active
 
-            bot.runWithEncoders(); // Takes method in robot and says to use encoders here
+            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
+            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for front right wheel
+            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for back left wheel
+            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
 
             int DIAMETER = 4; //diameter of wheel
             int GEAR_RATIO = 1; //gear ratio
@@ -188,7 +195,10 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         if (opModeIsActive()) { //while active
 
-           bot.runWithEncoders(); //takes method from robot and uses encoders here
+            bot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
+            bot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front right wheel
+            bot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back left wheel
+            bot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
 
             int DIAMETER = 4; //diameter of wheel
             int GEAR_RATIO = 1; //gear ratio
@@ -232,9 +242,10 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
-        while (dividersTouch < dividersTarget && opModeIsActive()) {
+        while (bot.dividersTouch < dividersTarget && opModeIsActive()) {
 
-            bot.getTouchState();
+            bot.currStateTouch = bot.digitalTouch.getState();
+
             if (bot.digitalTouch.getState()) { //a true is returned from getState() means that the
                                                //button is not being pressed
 
@@ -247,18 +258,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.update();
             }
 
-            if (!currStateTouch && currStateTouch != prevStateTouch) { //if the robot is touching the divider
+            if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the divider
                 //(if the current state is true and the current
                 //state is not equal to the previous state)
                 //Anyway, if the touch sensor is just starting to be pressed:
 
-               dividersTouch++; //add 1 to the current "dividersTouch" variable
-               prevStateTouch = currStateTouch; //now the previous state is the same as the current state
+                bot.dividersTouch++; //add 1 to the current "dividersTouch" variable
+                bot.prevStateTouch = bot.currStateTouch; //now the previous state is the same as the current state
             }
-            else if (currStateTouch && currStateTouch != prevStateTouch) { //if the touch
+            else if (bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the touch
                 //sensor is just starting to not be pressed:
 
-                prevStateTouch = currStateTouch; //now the previous state equals the current state,
+                bot.prevStateTouch = bot.currStateTouch; //now the previous state equals the current state,
                 //don't change anything to the "dividersTouch" variable
             }
         }
@@ -280,7 +291,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
-        while (dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
+        while (bot.dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
                                                                         //and the opMode has not been stopped
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= desiredDistance) { //if the distance of the
@@ -288,33 +299,73 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 //pre-specified value, aka the robot is passing
                 //close to the divider
 
-                currStateDistance = true; //the robot is currently passing a divider
+                bot.currStateDistance = true; //the robot is currently passing a divider
                 telemetry.addData("Distance Sensor", "Is In Front of a Divider");
                 telemetry.update();
             }
             else { //if the distance of the sensor is greater than the
                    //pre-specified value, aka the robot is between dividers
 
-                currStateDistance = false; //the robot is not currently passing a divider
+                bot.currStateDistance = false; //the robot is not currently passing a divider
                 telemetry.addData("Digital Sensor", "Is Not In Front of a Divider");
                 telemetry.update();
             }
 
-            if (currStateDistance && currStateDistance != prevStateDistance) { //if the robot sees the
+            if (bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the robot sees the
                 //divider and it didn't see the divider before
                 //basically, if the robot sees the divider
 
-                dividersDistance++; // add 1 to the current "dividersDistance" variable
-                prevStateDistance = currStateDistance; //now the previous state is the same as the current state
+                bot.dividersDistance++; // add 1 to the current "dividersDistance" variable
+                bot.prevStateDistance = bot.currStateDistance; //now the previous state is the same as the current state
             }
-            else if (!currStateDistance && currStateDistance != prevStateDistance) { //if the touch sensor
+            else if (!bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the touch sensor
                 //is just starting to not be pressed:
 
-                prevStateDistance = currStateDistance; //now the previous state equals the current state,
+                bot.prevStateDistance = bot.currStateDistance; //now the previous state equals the current state,
                 //don't change anything to the "dividersDistance" variable
             }
         }
 
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop the robot
     }
+
+    public void vuforiaInitialization(Robot bot, HardwareMap hwMap){
+
+        // Vuforia initialization
+        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameters.vuforiaLicenseKey = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate");
+        relicTrackables.activate();
+
+
+    }
+
+    public String getRelicRecoveryVuMark(){
+
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+        if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+
+            pictograph = "LEFT";
+        } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+
+            pictograph = "CENTER";
+        } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+
+            pictograph = "RIGHT";
+        } else {
+
+            pictograph = "UNKNOWN";
+        }
+
+        return pictograph;
+
+
+    }
+
 }

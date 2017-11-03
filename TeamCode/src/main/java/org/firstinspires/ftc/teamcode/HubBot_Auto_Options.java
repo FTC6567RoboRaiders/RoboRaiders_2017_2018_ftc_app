@@ -56,7 +56,7 @@ public class HubBot_Auto_Options extends LinearOpMode
 
     // The following is used to change the background color of the robot controller
     // get a reference to the RelativeLayout so we can change the background
-    // color of the Robot Controller app to match the hue detected by the RGB sensor.
+    // color of the Robot Controller app to match the alliance selection.
     View relativeLayout;
 
     // Set up strings for alliance selection
@@ -78,7 +78,7 @@ public class HubBot_Auto_Options extends LinearOpMode
     @Override public void runOpMode() {
 
         // Get a reference to the RelativeLayout so we can later change the background
-        // color of the Robot Controller app to match the hue detected by the RGB sensor.
+        // color of the Robot Controller app to match the alliance selection
         int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
         relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
 
@@ -91,6 +91,14 @@ public class HubBot_Auto_Options extends LinearOpMode
 
         gamepad1.reset();                                             // reset the gamepad to initial state
 
+        /*
+        Default the previous button states for the "B" and "X" button to indicate that the
+        buttons were not pushed.
+         */
+        prev_X_ButtonState = false;
+        prev_B_ButtonState = false;
+
+
         // loop until either the "b" button or the "x" button is pressed
         // the logic here says OR the previous button states and when they are both false continue
         // here is a table of how this works
@@ -98,13 +106,13 @@ public class HubBot_Auto_Options extends LinearOpMode
              +--------------------+------+--------------------+--------+-------------+
              | prev_B_ButtonState | -OR- | prev_X_ButtonState | Result | Neg. Result |
              +--------------------+------+--------------------+--------+-------------+
-             |      FALSE         |      |     FALSE          | FALSE  |   TRUE      |
+             |      FALSE         | -OR- |     FALSE          | FALSE  |   TRUE      |
              +--------------------+------+--------------------+--------+-------------+
-             |      FALSE         |      |     TRUE           | TRUE   |   FALSE     |
+             |      FALSE         | -OR- |     TRUE           | TRUE   |   FALSE     |
              +--------------------+------+--------------------+--------+-------------+
-             |      TRUE          |      |     FALSE          | TRUE   |   FALSE     |
+             |      TRUE          | -OR- |     FALSE          | TRUE   |   FALSE     |
              +--------------------+------+--------------------+--------+-------------+
-             |      TRUE          |      |     TRUE           | TRUE   |   FALSE     |
+             |      TRUE          | -OR- |     TRUE           | TRUE   |   FALSE     |
              +--------------------+------+--------------------+--------+-------------+
 
          */
@@ -112,48 +120,37 @@ public class HubBot_Auto_Options extends LinearOpMode
 
             cur_B_ButtonState = gamepad1.b;                           // get the current state of button b
             cur_X_ButtonState = gamepad1.x;                           // get the current state of button x
-            prev_X_ButtonState = false;
-            prev_B_ButtonState = false;
 
-            // when the "b" button on the gamepad is pressed set alliance to RED
-            if (cur_B_ButtonState) {
-                telemetry.addLine("b button pushed");
-                if (!prev_B_ButtonState) {
-                    telemetry.addLine("prev b button pushed was NOT pushed");
-                    allianceSelection = allianceOptions[0];
-                    prev_B_ButtonState = true;
-                }
-                else {
-                    telemetry.addLine("prev b button pushed WAS pushed");
+            if (cur_B_ButtonState) {                                  // when the "b" button on the gamepad is pressed set alliance to RED
+                if (!prev_B_ButtonState) {                            // when the previous "b" button was NOT pushed
+                    allianceSelection = allianceOptions[0];           // set alliance selection to RED
+                    prev_B_ButtonState = true;                        // indicate that the previous B button state is PUSHED
                 }
             }
-            else if (cur_X_ButtonState) {
-                telemetry.addLine("x button pushed");
-                if (!prev_X_ButtonState) {
-                    telemetry.addLine("prev x button pushed was NOT pushed");
-                    allianceSelection = allianceOptions[1];
-                    prev_X_ButtonState = true;
-                }
-                else {
-                    telemetry.addLine("prev x button pushed WAS pushed");
+
+            else if (cur_X_ButtonState) {                             // when the "X" button on the gamepad is pressed set the alliance to BLUE
+                if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
+                    allianceSelection = allianceOptions[1];           // set alliance selection to BLUE
+                    prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
-            telemetry.update();
+
+            telemetry.update();                                       // so when this line is removed we get a problem with
+                                                                      // the state of the prev variables...not sure what java/android
+                                                                      // thinks is going on here...more investigation is needed
         }
 
         telemetry.addLine().addData("Alliance Selection: ",allianceSelection);
         telemetry.update();
 
 
-        // change the background color to match the color detected by the RGB sensor.
-        // pass a reference to the hue, saturation, and value array as an argument
-        // to the HSVToColor method.
+        // change the background color to match the alliance selection
         relativeLayout.post(new Runnable() {
             public void run() {
-                if ( allianceSelection.equals(allianceOptions[0]) ) {
+                if ( allianceSelection.equals(allianceOptions[0]) ) { // alliance selection is RED
                     relativeLayout.setBackgroundColor(Color.RED);
                 }
-                else {
+                else {                                                // alliance selection is BLUE
                     relativeLayout.setBackgroundColor(Color.BLUE);
                 }
             }
