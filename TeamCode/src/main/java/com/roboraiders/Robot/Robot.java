@@ -8,11 +8,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * This is NOT an Op Mode.
@@ -121,7 +117,6 @@ public class Robot {
         imu.initialize(parameters);
         digitalTouch = hwMap.get(DigitalChannel.class, "sensor_touch");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
-
     }
 
     /** setDriveMotorPower sets the power for the drive motors
@@ -139,5 +134,34 @@ public class Robot {
         motorFrontRight.setPower(rightFront);
         motorBackLeft.setPower(leftBack);
         motorBackRight.setPower(rightBack);
+    }
+
+    /**
+     * This method will reset the IMU
+     */
+    public void resetIMU() {
+
+        imu.initialize(parameters); //resets IMU angle to zero
+    }
+
+    /**
+     * This method will return the color sensor reading of the selected color
+     *
+     * @param color our alliance color
+     * @return colorIntensity - the color sensor reading of the selected color
+     */
+    public int getColorIntensity(String color) {
+
+        int colorIntensity = 0; //the color sensor reading of the selected color
+
+        if (color.equals("red")) { //if the selected color is red
+
+            colorIntensity = colorSensor.red(); //colorIntensity will be the red reading
+        }
+        else if (color.equals("blue")) { //if the selected color is blue
+
+            colorIntensity = colorSensor.blue(); //colorIntensity will be the blue reading
+        }
+        return colorIntensity; //the value will be returned so that it can be used
     }
 }
