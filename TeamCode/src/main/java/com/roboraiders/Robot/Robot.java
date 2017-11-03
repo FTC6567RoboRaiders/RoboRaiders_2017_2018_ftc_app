@@ -72,7 +72,8 @@ public class Robot {
      *
      */
 
-    public  getTouchState () {
+    public boolean currStateTouch = false;
+    public void getTouchState () {
         currStateTouch = digitalTouch.getState();
 
     }
