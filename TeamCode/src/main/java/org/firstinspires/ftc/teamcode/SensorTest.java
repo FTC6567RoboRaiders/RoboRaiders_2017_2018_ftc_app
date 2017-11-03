@@ -4,12 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-
 /**
  * Created by Nick on 10/8/17.
  */
