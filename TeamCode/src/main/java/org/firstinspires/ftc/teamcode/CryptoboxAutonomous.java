@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  */
 
 @Autonomous
-//@Disabled
+@Disabled
 
 public class CryptoboxAutonomous extends RoboRaidersAuto {
 
@@ -37,6 +37,6 @@ public class CryptoboxAutonomous extends RoboRaidersAuto {
         Thread.sleep(500);
 
         touchSensorCount(robot, 2, 0.2);
-        distanceSensorCount(robot, 2, 0.2);
+        //distanceSensorCount(robot, 2, 0.2);
     }
 }

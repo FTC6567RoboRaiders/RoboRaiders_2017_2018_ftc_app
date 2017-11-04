@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboraiders.Robot.Robot;
+
 
 /**
  * Created by Jason Sember on 9/23/2017.
@@ -22,10 +25,34 @@ public class TeleOpNewMecanum extends OpMode {
 
     float maxpwr;     // Maximum power if the four motors
 
+
+    // The following variables are used to control how often telemetry data is written to the log
+    //
+    //  - currentTimeStamp - is the current time stamp, this is updated every time the loop() method is
+    //                     called
+    //
+    //  - pastTimeStamp    - is the time stamp that the log was last updated, initially it is set to 0,
+    //                     and is only updated when the log is updated
+    //
+    //  - LOG_INTERVAL     - the amount of time per each log updated, initially set to 1/4 of a
+    //                     second, this value is in milliseconds (1/4 of sec = 250 milliseconds)
+
+
+    private long currentTimeStamp;
+    private long pastTimeStamp;
+    private static final long LOG_INTERVAL = 250;
+
+
+
     @Override
     public void init() {
 
         robot.initialize(hardwareMap);
+        pastTimeStamp = 0;
+
+        // Write message to log indicating that teleop program is initialized
+        Log.d("Initialized","Teleop Initialization Complete");
+
 
         telemetry.addData("Initialized", true);
         telemetry.update();
@@ -33,6 +60,10 @@ public class TeleOpNewMecanum extends OpMode {
 
     @Override
     public void loop() {
+
+        boolean logIt;
+
+        currentTimeStamp = System.currentTimeMillis();   //* get the current time stamp
 
         /*
         are the right_stick powers right?
@@ -44,15 +75,52 @@ public class TeleOpNewMecanum extends OpMode {
 
         maxpwr = findMaxPower(LeftBack, LeftFront, RightBack, RightFront);
 
+        // The method shouldLog() will handle this will determine if the recording interval has
+        // been passed from the last time.
+        logIt = shouldLog();
+
+        // Log the "raw" stick values and max power calculation
+        if( logIt ) {
+
+            Log.d("RSV","Start of RAW Stick Values");
+            Log.d("RSV",String.format("left stick y: %s", gamepad1.left_stick_y));
+            Log.d("RSV",String.format("left stick x: %s", gamepad1.left_stick_x));
+            Log.d("RSV",String.format("right stick x: %s", gamepad1.right_stick_x));
+            Log.d("RSV","End of RAW Stick Values");
+            Log.d("MAX",String.format("maxpower: %s",maxpwr));
+        }
+
+
         LeftBack = LeftBack / maxpwr;
         RightBack = RightBack / maxpwr;
         LeftFront = LeftFront / maxpwr;
         RightFront = RightFront / maxpwr;
 
+        // Log normalized powers
+        if ( logIt ) {
+            Log.d("NML","Start of Normalized Powers");
+            Log.d("NML",String.format("LeftBack: %s", LeftBack));
+            Log.d("NML",String.format("RightBack: %s", RightBack));
+            Log.d("NML",String.format("LeftFront: %s", LeftFront));
+            Log.d("NML",String.format("RightFront: %s", RightFront));
+            Log.d("NML","End of Normalized Powers");
+        }
+
         LeftBack = (float) scaleInput(LeftBack);
         RightBack = (float) scaleInput(RightBack);
         LeftFront = (float) scaleInput(LeftFront);
         RightFront = (float) scaleInput(RightFront);
+
+        // Log scaled powers
+        if ( logIt ) {
+            Log.d("SCL","Start of Scaled Powers");
+            Log.d("SCL",String.format("LeftBack: %s", LeftBack));
+            Log.d("SCL",String.format("RightBack: %s", RightBack));
+            Log.d("SCL",String.format("LeftFront: %s", LeftFront));
+            Log.d("SCL",String.format("RightFront: %s", RightFront));
+            Log.d("SCL","End of Scaled Powers");
+        }
+
 
         robot.setDriveMotorPower(LeftFront/2, RightFront/2, LeftBack/2, RightBack/2);
     }
@@ -170,4 +238,32 @@ public class TeleOpNewMecanum extends OpMode {
         float maxpwrB = Math.max (Math.abs(pwr3), Math.abs(pwr4));
         return Math.max(Math.abs(maxpwrA), Math.abs(maxpwrB));
     }
+
+    /**
+     * Will determine when the log should be updated with new data.  The previous time is subtracted
+     * from the current time with a result of a time change or delta.  The time delta is then compared
+     * to the log interval (LOG_INTERVAL) which represents the number of seconds (or fractions of a
+     * second) that should expire before updating the log.  If the delta time is greater than the
+     * log interval, this method will return a true.  If the delta time is less than the log interval,
+     * this method will return a false.
+     *
+     * Under the covers, this method will set the variable pastTimeStamp, when the log interval time
+     * has expired.
+     *
+     * @return boolean - TRUE, interval has expired and caller should write to log
+     *                 - FALSE, interval has not expired and caller should not write to log
+     */
+
+    private boolean shouldLog() {
+
+        if ( (currentTimeStamp-pastTimeStamp) > LOG_INTERVAL ) {
+            pastTimeStamp = currentTimeStamp;
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
 }
