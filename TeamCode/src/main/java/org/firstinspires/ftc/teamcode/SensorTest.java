@@ -45,9 +45,9 @@ public class SensorTest extends RoboRaidersAuto {
             imuTurnRight(robot, 90, 0.5);
             Thread.sleep(1000);*/
 
-            encodersStrafeLeft(robot, 30, 0.25);
+            encodersStrafe(robot, 30, 0.25, "left");
             Thread.sleep(1000);
-            encodersStrafeRight(robot, 30, 0.25);
+            encodersStrafe(robot, 30, 0.25, "right");
             Thread.sleep(1000);
 
             //touchSensorCount(robot, 2, 0.2);
