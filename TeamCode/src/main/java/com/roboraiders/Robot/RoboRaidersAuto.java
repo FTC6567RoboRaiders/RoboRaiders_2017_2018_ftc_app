@@ -72,7 +72,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //assuming blue alliance
 
         //if (allianceColorRed == false){ //blue alliance
-        if (bot.getColorIntensity("blue").blue() <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
+        if (bot.getColorIntensity("blue") <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
 
             encodersStrafeLeft(bot, 6, 0.5); //strafe left
             Thread.sleep(500);
@@ -96,7 +96,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param bot the bot currently being worked on
      * @param degrees the desired number of degrees to turn
      * @param power the desired power the wheel motors will run at
-     * @param direction the direction the robot is turning; either right or left. 1 = right, 2 = left
+     * @param direction the direction the robot is turning; either right or left.
      */
     public void imuTurn(Robot bot, float degrees, double power, String direction) { //gets hardware from Robot and defines degrees as a
                                                                        //float and defines power as a double, and direction as a string
@@ -107,7 +107,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         float heading = Math.abs(bot.angles.firstAngle); //heading is equal to the absolute value of the first angle
 
 
-        if (direction.equals("right")) { //1 is right, 2 is left
+        if (direction.equals("right")) {
             bot.setDriveMotorPower(power, -power, power, -power); // the robot will turn right
         }
         else if(direction.equals("left")){
@@ -241,7 +241,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.update();
             }
 
-            if (!bot.currStateTouch && bot.currStateTouch != bot.prevStateTouch) { //if the robot is touching the divider
+            if (!bot.currStateTouch && bot.currStateTouch != prevStateTouch) { //if the robot is touching the divider
                 //(if the current state is true and the current
                 //state is not equal to the previous state)
                 //Anyway, if the touch sensor is just starting to be pressed:
@@ -294,14 +294,14 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.update();
             }
 
-            if (bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the robot sees the
+            if (currStateDistance && currStateDistance != prevStateDistance) { //if the robot sees the
                 //divider and it didn't see the divider before
                 //basically, if the robot sees the divider
 
                 dividersDistance++; // add 1 to the current "dividersDistance" variable
                 prevStateDistance = currStateDistance; //now the previous state is the same as the current state
             }
-            else if (!bot.currStateDistance && bot.currStateDistance != bot.prevStateDistance) { //if the touch sensor
+            else if (!currStateDistance && currStateDistance != prevStateDistance) { //if the touch sensor
                 //is just starting to not be pressed:
 
                 prevStateDistance = currStateDistance; //now the previous state equals the current state,
