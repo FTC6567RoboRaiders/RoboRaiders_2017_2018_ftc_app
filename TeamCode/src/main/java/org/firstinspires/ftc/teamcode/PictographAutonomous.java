@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
- * Created by Katelin Zichittella on 9/20/2017.
+ * Created by Katelin Zichittella on 9/20/2017. Comment update so alex can pick up changes
  */
 
 @Autonomous
