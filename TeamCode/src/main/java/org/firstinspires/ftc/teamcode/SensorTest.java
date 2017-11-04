@@ -43,12 +43,12 @@ public class SensorTest extends RoboRaidersAuto {
             imuTurnLeft(robot, 90, 0.5);
             Thread.sleep(1000);
             imuTurnRight(robot, 90, 0.5);
-            Thread.sleep(1000);*/
+            Thread.sleep(1000);
 
             encodersStrafe(robot, 30, 0.25, "left");
             Thread.sleep(1000);
             encodersStrafe(robot, 30, 0.25, "right");
-            Thread.sleep(1000);
+            Thread.sleep(1000);*/
 
             //touchSensorCount(robot, 2, 0.2);
             //distanceSensorCount(robot, 3, 0.3);
