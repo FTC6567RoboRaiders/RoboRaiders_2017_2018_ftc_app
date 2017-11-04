@@ -75,19 +75,25 @@ public class TeleOpNewMecanum extends OpMode {
 
         maxpwr = findMaxPower(LeftBack, LeftFront, RightBack, RightFront);
 
-        // The method shouldLog() will handle this will determine if the recording interval has
-        // been passed from the last time.
+        // The method shouldLog() will determine if the recording interval has expired from the
+        // last time
         logIt = shouldLog();
 
         // Log the "raw" stick values and max power calculation
         if( logIt ) {
-
-            Log.d("RSV","Start of RAW Stick Values");
-            Log.d("RSV",String.format("left stick y: %s", gamepad1.left_stick_y));
-            Log.d("RSV",String.format("left stick x: %s", gamepad1.left_stick_x));
-            Log.d("RSV",String.format("right stick x: %s", gamepad1.right_stick_x));
-            Log.d("RSV","End of RAW Stick Values");
+            Log.d("RWS","Start of RAW Stick Values");
+            Log.d("RWS",String.format("left stick y: %s", gamepad1.left_stick_y));
+            Log.d("RWS",String.format("left stick x: %s", gamepad1.left_stick_x));
+            Log.d("RWS",String.format("right stick x: %s", gamepad1.right_stick_x));
+            Log.d("RWS","End of RAW Stick Values");
             Log.d("MAX",String.format("maxpower: %s",maxpwr));
+            Log.d("RWP","Start of RAW Powers");
+            Log.d("RWP",String.format("LeftBack: %s", LeftBack));
+            Log.d("RWP",String.format("RightBack: %s", RightBack));
+            Log.d("RWP",String.format("LeftFront: %s", LeftFront));
+            Log.d("RWP",String.format("RightFront: %s", RightFront));
+            Log.d("RWP","End of RAW Powers");
+
         }
 
 
