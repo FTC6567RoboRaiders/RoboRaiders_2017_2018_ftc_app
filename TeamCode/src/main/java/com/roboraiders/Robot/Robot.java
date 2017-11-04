@@ -39,7 +39,7 @@ public class Robot {
     public DcMotor motorFrontRight = null;
     public DcMotor motorBackLeft = null;
     public DcMotor motorBackRight = null;
-    
+
     //public Servo servoJewel = null;
 
     private ColorSensor colorSensor;
@@ -53,7 +53,6 @@ public class Robot {
     /* Public Variables */
     public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     public Orientation angles;
-
 
     /** Constructor for Robot class, current does nothing but is needed since every class needs a constructor
      *
@@ -71,18 +70,6 @@ public class Robot {
      *
      *
      */
-
-    public boolean currStateTouch = false;
-    public void getTouchState () {
-        currStateTouch = digitalTouch.getState();
-
-    }
-    public void runWithEncoders ()    {
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for front right wheel
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for back left wheel
-        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
-    }
     public void initialize(HardwareMap ahwMap) {
 
         // Save reference to hardware map
@@ -149,6 +136,19 @@ public class Robot {
     public void resetIMU() {
 
         imu.initialize(parameters); //resets IMU angle to zero
+    }
+
+    public void runWithEncoders() {
+
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for front right wheel
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for back left wheel
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
+    }
+
+    public boolean getTouchState() {
+
+        return digitalTouch.getState();
     }
 
     /**

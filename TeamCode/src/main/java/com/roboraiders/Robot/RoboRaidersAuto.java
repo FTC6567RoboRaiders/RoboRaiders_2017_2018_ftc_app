@@ -1,7 +1,6 @@
 package com.roboraiders.Robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -14,26 +13,32 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-
 /**
  * Created by Alex Snyder on 10/8/17.
  */
 
 public abstract class RoboRaidersAuto extends LinearOpMode {
 
-
-    public int dividersTouch = 0; //counts the number of times that the robot hits the wall with the touch sensor
-    public double dividersDistance = 0; //counts the number of times that the robot hits the wall with the distance sensor
+    public VuforiaLocalizer vuforia;
+    public VuforiaTrackable relicTemplate;
     public boolean currStateTouch = false;
     public boolean prevStateTouch = false;
     public boolean currStateDistance = false;
     public boolean prevStateDistance = false;
 
+    public void vuforiaInitialization(HardwareMap hwMap) {
 
-
-    public VuforiaLocalizer vuforia;
-    public VuforiaTrackable relicTemplate;
-    public String pictograph;
+        // Vuforia initialization
+        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameters.vuforiaLicenseKey = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate");
+        relicTrackables.activate();
+    }
 
     /**
      * This method is going to push the jewel off the platform that is not the current alliance color
@@ -51,7 +56,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //assuming red alliance
 
         //if (allianceColorRed == true){ //red alliance
-        if (colorSensor.red() > 675 && colorSensor.red() <= 775) { //if the ball on the right is red
+        if (bot.getColorIntensity("red") > 675 && bot.getColorIntensity("red") <= 775) { //if the ball on the right is red
 
             encodersStrafeLeft(bot, 6, 0.5); //strafe left
             Thread.sleep(500);
@@ -72,7 +77,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //assuming blue alliance
 
         //if (allianceColorRed == false){ //blue alliance
-        if (colorSensor.blue() <= 675 && colorSensor.blue() >= 575) { //if the ball on the right is blue
+        if (bot.getColorIntensity("blue") <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
 
             encodersStrafeLeft(bot, 6, 0.5); //strafe left
             Thread.sleep(500);
@@ -91,24 +96,32 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     }
 
     /**
-     * This method will turn the robot right a certain angle measure using the IMU
+     * This method will turn the robot right or left a certain angle measure using the IMU
      *
      * @param bot the bot currently being worked on
      * @param degrees the desired number of degrees to turn
      * @param power the desired power the wheel motors will run at
+     * @param direction the direction the robot is turning; either right or left. 1 = right, 2 = left
      */
-    public void imuTurnRight(Robot bot, float degrees, double power) { //gets hardware from Robot and defines degrees as a
-                                                                       //float and defines power as a double
+    public void imuTurn(Robot bot, float degrees, double power, String direction) { //gets hardware from Robot and defines degrees as a
+        //float, power as a double, and direction as a string
 
-        bot.imu.initialize(bot.parameters); //resets IMU angle to zero
+        bot.resetIMU(); //resets IMU angle to zero
 
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //this sets up the how we want the IMU to report data
         float heading = Math.abs(bot.angles.firstAngle); //heading is equal to the absolute value of the first angle
 
-        bot.setDriveMotorPower(power, -power, power, -power); //this defines what the power will be
+        if (direction.equals("right")) { //1 is right, 2 is left
+
+            bot.setDriveMotorPower(power, -power, power, -power); //the robot will turn right
+        }
+        else if (direction.equals("left")) {
+
+            bot.setDriveMotorPower(-power, power, -power, power); //the robot will turn left
+        }
 
         while (heading < degrees && opModeIsActive()) { //this states that while the value of heading is less then the degree value
-                                                        // and while opMode is active continue the while loop
+            // and while opMode is active continue the while loop
 
             bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //continuous " "
             heading = Math.abs(bot.angles.firstAngle); //continuous " "
@@ -118,34 +131,6 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
 
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stops robot
-    }
-
-    /**
-     * This method will turn the robot left a certain angle measure using the IMU
-     *
-     * @param bot the bot currently being worked on
-     * @param degrees the desired number of degrees to turn
-     * @param power the desired power the wheel motors will run at
-     */
-    public void imuTurnLeft(Robot bot, float degrees, double power) { //same idea except going right
-
-        bot.imu.initialize(bot.parameters);
-
-        bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        float heading = Math.abs(bot.angles.firstAngle);
-
-        bot.setDriveMotorPower(-power, power, -power, power);
-
-        while (heading < degrees && opModeIsActive()) {
-
-            bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            heading = Math.abs(bot.angles.firstAngle);
-
-            telemetry.addData("Heading", heading);
-            telemetry.update();
-        }
-
-        bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
     }
 
     /**
@@ -159,7 +144,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         if (opModeIsActive()) { //while active
 
-            bot.runWithEncoders(); // Takes method in robot and says to use encoders here
+            bot.runWithEncoders(); //set the mode of the drive train motors to run with encoder
 
             int DIAMETER = 4; //diameter of wheel
             int GEAR_RATIO = 1; //gear ratio
@@ -169,7 +154,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
             double COUNTS = PULSES * ROTATIONS; //gives the counts
 
             COUNTS = COUNTS + Math.abs(bot.motorFrontLeft.getCurrentPosition()); //add desired counts to
-                                                                                 //current counts to strafe left
+            //current counts to strafe left
 
             bot.setDriveMotorPower(power, -power, -power, power);
 
@@ -202,7 +187,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         if (opModeIsActive()) { //while active
 
-           bot.runWithEncoders(); //takes method from robot and uses encoders here
+            bot.runWithEncoders(); //set the mode of the drive train motors to run with encoder
 
             int DIAMETER = 4; //diameter of wheel
             int GEAR_RATIO = 1; //gear ratio
@@ -241,16 +226,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param power the desired power the wheel motors will run at
      */
     public void touchSensorCount(Robot bot, int dividersTarget, double power) { //establishes parameters for method
-                                                                            //and the opMode has not been stopped
+        //and the opMode has not been stopped
 
+        int dividersTouch = 0; //counts the number of times that the robot hits the divider with the touch sensor
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
         while (dividersTouch < dividersTarget && opModeIsActive()) {
 
-            bot.getTouchState();
-            if (bot.digitalTouch.getState()) { //a true is returned from getState() means that the
-                                               //button is not being pressed
+            currStateTouch = bot.getTouchState();
+
+            if (bot.getTouchState()) { //a true is returned from getState() means that the
+                //button is not being pressed
 
                 telemetry.addData("Digital Touch", "Is Not Pressed");
                 telemetry.update();
@@ -266,8 +253,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 //state is not equal to the previous state)
                 //Anyway, if the touch sensor is just starting to be pressed:
 
-               dividersTouch++; //add 1 to the current "dividersTouch" variable
-               prevStateTouch = currStateTouch; //now the previous state is the same as the current state
+                dividersTouch++; //add 1 to the current "dividersTouch" variable
+                prevStateTouch = currStateTouch; //now the previous state is the same as the current state
             }
             else if (currStateTouch && currStateTouch != prevStateTouch) { //if the touch
                 //sensor is just starting to not be pressed:
@@ -290,12 +277,14 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param desiredDistance the desired distance from the target
      */
     public void distanceSensorCount(Robot bot, int dividersTarget, double power, int desiredDistance) { //establishes
-                                                                              //parameters for method
+        //parameters for method
+
+        double dividersDistance = 0; //counts the number of times that the robot hits the divider with the distance sensor
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
 
         while (dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
-                                                                        //and the opMode has not been stopped
+            //and the opMode has not been stopped
 
             if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= desiredDistance) { //if the distance of the
                 //sensor is less than the
@@ -307,7 +296,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.update();
             }
             else { //if the distance of the sensor is greater than the
-                   //pre-specified value, aka the robot is between dividers
+                //pre-specified value, aka the robot is between dividers
 
                 currStateDistance = false; //the robot is not currently passing a divider
                 telemetry.addData("Digital Sensor", "Is Not In Front of a Divider");
@@ -318,7 +307,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 //divider and it didn't see the divider before
                 //basically, if the robot sees the divider
 
-                dividersDistance++; // add 1 to the current "dividersDistance" variable
+                dividersDistance++; //add 1 to the current "dividersDistance" variable
                 prevStateDistance = currStateDistance; //now the previous state is the same as the current state
             }
             else if (!currStateDistance && currStateDistance != prevStateDistance) { //if the touch sensor
@@ -332,43 +321,28 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop the robot
     }
 
-    public void vuforiaInitialization(Robot bot, HardwareMap hwMap){
+    public String getRelicRecoveryVuMark() {
 
-        // Vuforia initialization
-        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        parameters.vuforiaLicenseKey = "AedUDNP/////AAAAGXH2ZpUID0KanSX9ZSR37LKFSFokxIqmy/g0BNepdA9EepixxnO00qygLnMJq3Fg9gZxnkUJaKgk14/UjhxPWVQIs90ZXJLc21NvQvOeZ3dOogagVP8yFnFQs2xCijGmC/CE30ojlAnbhAhqz1y4tZPW2QkK5Qt0xCakTTSAw3KPQX2mZxX+qMxI2ljrN0eaxaKVnKnAUl8x3naF1mez7f9c8Xdi1O5auL0ePdG6bJhWjEO1YwpSd8WkSzNDEkmw20zpQ7zaOOPw5MeUQUr9vAS0fef0GnLjlS1gb67ajUDlEcbbbIeSrLW/oyRGTil8ueQC2SWafdspSWL3SJNaQKWydies23BxJxM/FoLuYYjx";
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate");
-        relicTrackables.activate();
-
-
-    }
-
-    public String getRelicRecoveryVuMark(){
-
+        String pictograph;
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
             pictograph = "LEFT";
-        } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+        }
+        else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
 
             pictograph = "CENTER";
-        } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+        }
+        else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
 
             pictograph = "RIGHT";
-        } else {
+        }
+        else {
 
             pictograph = "UNKNOWN";
         }
 
         return pictograph;
-
-
     }
-
 }
