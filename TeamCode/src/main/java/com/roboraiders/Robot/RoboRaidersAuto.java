@@ -49,9 +49,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * This method will to push the jewel off the platform that is not the current alliance color
      *
      * @param bot           the bot currently being worked on
-     * @param allianceColor the color of your alliance
+     * @param allianceColorRed the color of your alliance. will be input as "true" (red alliance) or "false" (blue alliance)
      */
-    public void selectJewel(Robot bot, int allianceColor) throws InterruptedException {
+    public void selectJewel(Robot bot, boolean allianceColorRed) throws InterruptedException {
 
         //Does the robot need to move forward at all? Or no? Discuss with programming team. This program assumes no.
         //assuming color sensor is mounted facing right
@@ -60,43 +60,45 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         //assuming red alliance
 
-        //if (allianceColorRed == true){ //red alliance
-        if (bot.getColorIntensity("red") > 675 && bot.getColorIntensity("red") <= 775) { //if the ball on the right is red
+        if (allianceColorRed){ //red alliance
 
-            encodersMove(bot, 6, 0.5, "left"); //strafe left
-            Thread.sleep(500);
+            if (bot.getColorIntensity("red") > 675 && bot.getColorIntensity("red") <= 775) { //if the ball on the right is red
 
-            encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
-            Thread.sleep(500);
+                encodersMove(bot, 6, 0.5, "left"); //strafe left
+                Thread.sleep(500);
+
+                encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
+                Thread.sleep(500);
+            }
+            else { //the ball on the right is blue
+
+                encodersMove(bot, 6, 0.5, "right"); //strafe right
+                Thread.sleep(500);
+
+                encodersMove(bot, 6, 0.5, "left"); //strafe left to original position
+                Thread.sleep(500);
+            }
         }
-        else { //the ball on the right is blue
-
-            encodersMove(bot, 6, 0.5, "right"); //strafe right
-            Thread.sleep(500);
-
-            encodersMove(bot, 6, 0.5, "left"); //strafe left to original position
-            Thread.sleep(500);
-        }
-        //}
 
         //assuming blue alliance
 
-        //if (allianceColorRed == false){ //blue alliance
-        if (bot.getColorIntensity("blue") <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
+        if (!allianceColorRed) { //not red alliance (blue alliance)
 
-            encodersMove(bot, 6, 0.5, "left"); //strafe left
-            Thread.sleep(500);
+            if (bot.getColorIntensity("blue") <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
 
-            encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
-            Thread.sleep(500);
-        }
-        else { //the ball on the right is red
+                encodersMove(bot, 6, 0.5, "left"); //strafe left
+                Thread.sleep(500);
 
-            encodersMove(bot, 6, 0.5, "right"); //strafe right
-            Thread.sleep(500);
+                encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
+                Thread.sleep(500);
+            } else { //the ball on the right is red
 
-            encodersMove(bot, 6, 0.5, "left"); //strafe left to original position
-            Thread.sleep(500);
+                encodersMove(bot, 6, 0.5, "right"); //strafe right
+                Thread.sleep(500);
+
+                encodersMove(bot, 6, 0.5, "left"); //strafe left to original position
+                Thread.sleep(500);
+            }
         }
     }
 
