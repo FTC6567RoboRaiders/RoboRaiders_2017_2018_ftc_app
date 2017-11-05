@@ -41,7 +41,7 @@ public class Robot {
     public DcMotor motorBackLeft = null;
     public DcMotor motorBackRight = null;
 
-    //public Servo servoJewel = null;
+    public Servo servoJewel = null;
 
     private ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
