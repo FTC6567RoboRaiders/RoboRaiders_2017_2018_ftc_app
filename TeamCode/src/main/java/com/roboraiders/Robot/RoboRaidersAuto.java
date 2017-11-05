@@ -155,7 +155,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         if (direction.equals("forward")) { //if the desired direction is forward
 
             COUNTS = COUNTS + Math.abs(bot.getEncoderCount()); //add desired counts to
-            //current counts to drive forward
+                                                               //current counts to drive forward
 
             bot.setDriveMotorPower(power, power, power, power); //start driving forward
 
