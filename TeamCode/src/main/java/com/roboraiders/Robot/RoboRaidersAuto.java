@@ -45,9 +45,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * This method will to push the jewel off the platform that is not the current alliance color
      *
      * @param bot           the bot currently being worked on
-     * @param allianceColorRed the color of your alliance. will be input as "true" (red alliance) or "false" (blue alliance)
+     * @param allianceColor the color of your alliance
      */
-    public void selectJewel(Robot bot, boolean allianceColorRed) throws InterruptedException {
+    public void selectJewel(Robot bot, String allianceColor) throws InterruptedException {
 
         //Does the robot need to move forward at all? Or no? Discuss with programming team. This program assumes no.
         //assuming color sensor is mounted facing right
@@ -56,7 +56,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         //assuming red alliance
 
-        if (allianceColorRed){ //red alliance
+        if (allianceColor.equals("red")){ //red alliance
 
             if (bot.getColorIntensity("red") > 675 && bot.getColorIntensity("red") <= 775) { //if the ball on the right is red
 
@@ -78,7 +78,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         //assuming blue alliance
 
-        if (!allianceColorRed) { //not red alliance (blue alliance)
+        else if (allianceColor.equals("blue")) { //not red alliance (blue alliance)
 
             if (bot.getColorIntensity("blue") <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
 
@@ -87,7 +87,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
                 encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
                 Thread.sleep(500);
-            } else { //the ball on the right is red
+            }
+            else { //the ball on the right is red
 
                 encodersMove(bot, 6, 0.5, "right"); //strafe right
                 Thread.sleep(500);

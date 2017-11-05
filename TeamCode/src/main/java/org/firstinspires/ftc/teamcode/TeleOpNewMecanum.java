@@ -130,15 +130,15 @@ public class TeleOpNewMecanum extends OpMode {
 
             if (!nudging) { // ...if nudging is false (the robot is still being nudged)...
 
-                if (gamepad1.dpad_up) robot.setDriveMotorPower(1, 1, 1 ,1); // ...if 'up' was pressed, the robot moves forward...
+                if (gamepad1.dpad_up) robot.setDriveMotorPower(0.5, 0.5, 0.5 ,0.5); // ...if 'up' was pressed, the robot moves forward...
 
-                else if (gamepad1.dpad_down) robot.setDriveMotorPower(-1, -1, -1, -1); // ...else if 'down' was pressed, the robot
+                else if (gamepad1.dpad_down) robot.setDriveMotorPower(-0.5, -0.5, -0.5, -0.5); // ...else if 'down' was pressed, the robot
                     // moves backward...
 
-                else if (gamepad1.dpad_left) robot.setDriveMotorPower(-1, 1, 1, -1); // ...else if 'left' was pressed, the robot
+                else if (gamepad1.dpad_left) robot.setDriveMotorPower(-0.6, 0.6, 0.6, -0.6); // ...else if 'left' was pressed, the robot
                     // strafes left...
 
-                else if (gamepad1.dpad_right) robot.setDriveMotorPower(1, -1, -1, 1); // ...else if 'right' was pressed, the robot
+                else if (gamepad1.dpad_right) robot.setDriveMotorPower(0.6, -0.6, -0.6, 0.6); // ...else if 'right' was pressed, the robot
                     // strafes right...
             }
 

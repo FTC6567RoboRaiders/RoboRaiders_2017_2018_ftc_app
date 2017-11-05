@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
-
 /**
  * Created by (mostly) Nick Urbin and (a little bit) Kevin McCrudden on 10/1/17.
  */
@@ -14,9 +13,6 @@ import com.roboraiders.Robot.Robot;
 
 public class JewelAutonomous extends RoboRaidersAuto {
 
-    int red = 1;
-    int blue = 2;
-
     public Robot robot = new Robot();
 
     @Override
@@ -24,12 +20,12 @@ public class JewelAutonomous extends RoboRaidersAuto {
 
         robot.initialize(hardwareMap);
         vuforiaInitialization(hardwareMap);
+
         robot.servoJewel.setPosition(0.0);
 
         waitForStart();
 
-        selectJewel(robot, true);
-
+        //selectJewel(robot, "red");
     }
 }
 

@@ -106,11 +106,11 @@ public class Robot {
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize servos
-        //servoJewel = hwMap.get(Servo.class, "servo_Jewel");
+        servoJewel = hwMap.get(Servo.class, "servo_Jewel");
 
         // Define and initialize sensors
-        colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
-        distanceSensor = hwMap.get(DistanceSensor.class, "sensor_color_distance");
+        colorSensor = hwMap.get(ColorSensor.class, "sensor_color");
+        distanceSensor = hwMap.get(DistanceSensor.class, "sensor_distance");
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
