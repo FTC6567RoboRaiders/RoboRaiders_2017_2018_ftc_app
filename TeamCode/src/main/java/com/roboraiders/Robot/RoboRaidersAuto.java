@@ -172,6 +172,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
                 }
 
+            }
+
             else if (direction.equals("left")) {
 
                     while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
