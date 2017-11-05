@@ -22,6 +22,8 @@ public class TeleOpNewMecanum extends OpMode {
     float RightBack;  // Power for right back motor
     float LeftFront;  // Power for left front motor
     float RightFront; // Power for right front motor
+    boolean nudging = false;
+    int nudgeCount = 0;
 
     float maxpwr;     // Maximum power if the four motors
     float maxpwrC;
@@ -62,6 +64,39 @@ public class TeleOpNewMecanum extends OpMode {
     @Override
     public void loop() {
 
+        if (gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right) { // "If any
+            // of the dpad buttons are pressed on the
+            // first controller...
+
+            if (!nudging) { // ...if nudging is false (the robot is still being nudged)...
+
+                if (gamepad1.dpad_up) robot.setDriveMotorPower (1, 1, 1 ,1); // ...if 'up' was pressed, the robot moves forward...
+
+                else if (gamepad1.dpad_down) robot.setDriveMotorPower(-1, -1, -1, -1); // ...else if 'down' was pressed, the robot
+                    // moves backward...
+
+                else if (gamepad1.dpad_left) robot.setDriveMotorPower(1, -1, 1, -1); // ...else if 'left' was pressed, the robot
+                    // turns left...
+
+                else if (gamepad1.dpad_right) robot.setDriveMotorPower(-1, 1, -1, 1); // ...else if 'right' was pressed, the robot
+                // turns right...
+            }
+
+            nudgeCount++; // ...after this one loop cycle, the number of the nudgeCount goes up by one...
+
+            if (nudgeCount > 5) { // ...if the number of the nudgeCount goes above 5...
+
+                nudging = true; // ...nudging is true, so the robot cannot nudge anymore. This allows for 5 loop cycles
+                // of movement...
+            }
+        }
+        else { // ...else if nudging is true (the robot is no longer being nudged)...
+
+            nudging = false; // ...nudging is returned to false, which allows nudging again if any of the dpad buttons
+            // are pressed on the first controller...
+
+            nudgeCount = 0; // ...and nudgeCount is reset to 0."
+        }
         boolean logIt;
 
         currentTimeStamp = System.currentTimeMillis();   //* get the current time stamp
@@ -243,14 +278,20 @@ public class TeleOpNewMecanum extends OpMode {
 
         float maxpwrA = Math.max(Math.abs(pwr1), Math.abs(pwr2));
         float maxpwrB = Math.max (Math.abs(pwr3), Math.abs(pwr4));
-       float maxpwrC = Math.max(Math.abs(maxpwrA), Math.abs(maxpwrB));
-         if (maxpwrC > 1.0) {
-             return maxpwrC;
+       float maxpwr = Math.max(Math.abs(maxpwrA), Math.abs(maxpwrB));
+         if (maxpwr > 1.0) {
+             return maxpwr;
              }
              else {
-             return 1.0;
+             return 1;
          }
+
     }
+
+
+
+
+
 
     /**
      * Will determine when the log should be updated with new data.  The previous time is subtracted
