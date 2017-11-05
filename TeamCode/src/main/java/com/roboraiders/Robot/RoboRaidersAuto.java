@@ -56,22 +56,30 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         //assuming red alliance
 
-        if (allianceColor.equals("red")){ //red alliance
+        if (allianceColor.equals("red")) { //red alliance
 
-            if (bot.getColorIntensity("red") > 675 && bot.getColorIntensity("red") <= 775) { //if the ball on the right is red
+            if (bot.getColorIntensity("red") > 22)  { //if the ball on the right is red
 
-                imuTurn(bot, 8, 0.25, "left"); //pivot left
+                telemetry.addData("Red", bot.getColorIntensity("red"));
+                telemetry.addData("Blue", bot.getColorIntensity("blue"));
+                telemetry.update();
+
+                imuTurn(bot, 5, 0.25, "left"); //pivot left
                 Thread.sleep(500);
 
-                imuTurn(bot, 8, 0.25, "right"); //pivot right to original position
+                imuTurn(bot, 5, 0.25, "right"); //pivot right to original position
                 Thread.sleep(500);
             }
             else { //the ball on the right is blue
 
-                imuTurn(bot, 8, 0.25, "right"); //pivot right
+                telemetry.addData("Red", bot.getColorIntensity("red"));
+                telemetry.addData("Blue", bot.getColorIntensity("blue"));
+                telemetry.update();
+
+                imuTurn(bot, 5, 0.25, "right"); //pivot right
                 Thread.sleep(500);
 
-                imuTurn(bot, 8, 0.25, "left"); //pivot left to original position
+                imuTurn(bot, 5, 0.25, "left"); //pivot left to original position
                 Thread.sleep(500);
             }
         }
@@ -80,20 +88,28 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         else if (allianceColor.equals("blue")) { //not red alliance (blue alliance)
 
-            if (bot.getColorIntensity("blue") <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
+            if (bot.getColorIntensity("blue") > 22) { //if the ball on the right is blue
 
-                imuTurn(bot, 8, 0.25, "left"); //pivot left
+                telemetry.addData("Red", bot.getColorIntensity("red"));
+                telemetry.addData("Blue", bot.getColorIntensity("blue"));
+                telemetry.update();
+
+                imuTurn(bot, 5, 0.25, "left"); //pivot left
                 Thread.sleep(500);
 
-                imuTurn(bot, 8, 0.25, "right"); //pivot right to original position
+                imuTurn(bot, 5, 0.25, "right"); //pivot right to original position
                 Thread.sleep(500);
             }
             else { //the ball on the right is blue
 
-                imuTurn(bot, 8, 0.25, "right"); //pivot right
+                telemetry.addData("Red", bot.getColorIntensity("red"));
+                telemetry.addData("Blue", bot.getColorIntensity("blue"));
+                telemetry.update();
+
+                imuTurn(bot, 5, 0.25, "right"); //pivot right
                 Thread.sleep(500);
 
-                imuTurn(bot, 8, 0.25, "left"); //pivot left to original position
+                imuTurn(bot, 5, 0.25, "left"); //pivot left to original position
                 Thread.sleep(500);
             }
         }

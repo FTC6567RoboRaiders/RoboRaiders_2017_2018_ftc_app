@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  */
 
 @Autonomous
-@Disabled
+//@Disabled
 
 public class CryptoboxAutonomous extends RoboRaidersAuto {
 
@@ -27,7 +27,7 @@ public class CryptoboxAutonomous extends RoboRaidersAuto {
 
         waitForStart();
 
-        robot.setDriveMotorPower(1, 1, 1, 1); //move forward for two seconds
+        /*robot.setDriveMotorPower(1, 1, 1, 1); //move forward for two seconds
         Thread.sleep(2000);
         robot.setDriveMotorPower(0, 0, 0, 0);
         Thread.sleep(500);
@@ -35,9 +35,9 @@ public class CryptoboxAutonomous extends RoboRaidersAuto {
         robot.setDriveMotorPower(1, -1, -1, 1); //robot strafes right
         Thread.sleep(1000);
         robot.setDriveMotorPower(0, 0, 0, 0);
-        Thread.sleep(500);
+        Thread.sleep(500);*/
 
-        touchSensorCount(robot, 2, 0.2);
-        //distanceSensorCount(robot, 2, 0.2);
+        //touchSensorCount(robot, 2, 0.2);
+        distanceSensorCount(robot, 2, 0.35, 25);
     }
 }

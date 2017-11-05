@@ -47,7 +47,7 @@ public class Robot {
 
     public Servo servoJewel = null;
 
-    private ColorSensor colorSensor;
+    public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
     public BNO055IMU imu;
     public DigitalChannel digitalTouch;
