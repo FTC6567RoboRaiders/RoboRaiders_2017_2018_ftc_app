@@ -11,7 +11,6 @@ import com.roboraiders.Robot.Robot;
  */
 
 @Autonomous
-@Disabled
 
 public class JewelAutonomous extends RoboRaidersAuto {
 
@@ -25,12 +24,9 @@ public class JewelAutonomous extends RoboRaidersAuto {
 
         robot.initialize(hardwareMap);
         vuforiaInitialization(hardwareMap);
-        //robot.servoJewel.setPosition(0.0);
+        robot.servoJewel.setPosition(0.0);
 
         waitForStart();
-
-        //robot.colorSensor.red();
-        //robot.colorSensor.blue();
 
         selectJewel(robot, red);
     }

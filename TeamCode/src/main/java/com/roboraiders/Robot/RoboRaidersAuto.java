@@ -56,7 +56,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //Does the robot need to move forward at all? Or no? Discuss with programming team. This program assumes no.
         //assuming color sensor is mounted facing right
 
-        //bot.servoJewel.setPosition(0.5); //lower arm with color sensor
+        bot.servoJewel.setPosition(0.5); //lower arm with color sensor
 
         //assuming red alliance
 
