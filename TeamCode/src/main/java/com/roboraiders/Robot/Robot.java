@@ -147,6 +147,12 @@ public class Robot {
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
     }
 
+    public int getEncoderCount() {
+
+        return motorFrontLeft.getCurrentPosition();
+
+    }
+
     public boolean getTouchState() {
 
         return digitalTouch.getState();

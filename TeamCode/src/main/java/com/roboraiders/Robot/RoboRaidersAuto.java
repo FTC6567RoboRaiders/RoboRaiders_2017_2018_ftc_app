@@ -152,7 +152,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             if (direction.equals("forward")){
 
-                while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
+                while (bot.getEncoderCount() < COUNTS && opModeIsActive()) {
 
                     bot.setDriveMotorPower(power, power, power, power);
 
@@ -171,7 +171,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             else if (direction.equals("backward")){
 
-                while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
+                while (bot.getEncoderCount() < COUNTS && opModeIsActive()) {
 
                     bot.setDriveMotorPower(-power, -power, -power, -power);
 
@@ -216,7 +216,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             if (direction.equals("right")) {
 
-                while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
+                while (bot.getEncoderCount() < COUNTS && opModeIsActive()) {
 
                     telemetry.addData("COUNTS", COUNTS); //shows counts on phone
                     telemetry.update(); //continuously updates the counts
@@ -238,7 +238,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             else if (direction.equals("left")) {
 
-                    while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
+                    while (bot.getEncoderCount() < COUNTS && opModeIsActive()) {
 
                         telemetry.addData("COUNTS", COUNTS); //shows counts on phone
                         telemetry.update(); //continuously updates the counts
