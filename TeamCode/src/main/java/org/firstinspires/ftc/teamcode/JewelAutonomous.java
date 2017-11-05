@@ -21,7 +21,7 @@ public class JewelAutonomous extends RoboRaidersAuto {
         robot.initialize(hardwareMap);
         vuforiaInitialization(hardwareMap);
 
-        robot.servoJewel.setPosition(0.0);
+        robot.servoJewel.setPosition(0.4);
 
         waitForStart();
 

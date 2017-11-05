@@ -52,7 +52,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //Does the robot need to move forward at all? Or no? Discuss with programming team. This program assumes no.
         //assuming color sensor is mounted facing right
 
-        bot.servoJewel.setPosition(0.5); //lower arm with color sensor
+        bot.servoJewel.setPosition(1.0); //lower arm with color sensor
 
         //assuming red alliance
 
@@ -60,18 +60,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             if (bot.getColorIntensity("red") > 675 && bot.getColorIntensity("red") <= 775) { //if the ball on the right is red
 
-                encodersMove(bot, 6, 0.5, "left"); //strafe left
+                imuTurn(bot, 8, 0.25, "left"); //pivot left
                 Thread.sleep(500);
 
-                encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
+                imuTurn(bot, 8, 0.25, "right"); //pivot right to original position
                 Thread.sleep(500);
             }
             else { //the ball on the right is blue
 
-                encodersMove(bot, 6, 0.5, "right"); //strafe right
+                imuTurn(bot, 8, 0.25, "right"); //pivot right
                 Thread.sleep(500);
 
-                encodersMove(bot, 6, 0.5, "left"); //strafe left to original position
+                imuTurn(bot, 8, 0.25, "left"); //pivot left to original position
                 Thread.sleep(500);
             }
         }
@@ -82,18 +82,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             if (bot.getColorIntensity("blue") <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
 
-                encodersMove(bot, 6, 0.5, "left"); //strafe left
+                imuTurn(bot, 8, 0.25, "left"); //pivot left
                 Thread.sleep(500);
 
-                encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
+                imuTurn(bot, 8, 0.25, "right"); //pivot right to original position
                 Thread.sleep(500);
             }
-            else { //the ball on the right is red
+            else { //the ball on the right is blue
 
-                encodersMove(bot, 6, 0.5, "right"); //strafe right
+                imuTurn(bot, 8, 0.25, "right"); //pivot right
                 Thread.sleep(500);
 
-                encodersMove(bot, 6, 0.5, "left"); //strafe left to original position
+                imuTurn(bot, 8, 0.25, "left"); //pivot left to original position
                 Thread.sleep(500);
             }
         }
