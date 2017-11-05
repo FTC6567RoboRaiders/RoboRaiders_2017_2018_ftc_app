@@ -18,6 +18,7 @@ public class SensorTest extends RoboRaidersAuto {
     public void runOpMode() throws InterruptedException {
 
         robot.initialize(hardwareMap);
+        vuforiaInitialization(hardwareMap);
         telemetry.addData("Initialized", true);
         telemetry.update();
 

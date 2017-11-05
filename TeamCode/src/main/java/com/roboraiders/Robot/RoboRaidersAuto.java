@@ -26,6 +26,11 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     public boolean currStateDistance = false;
     public boolean prevStateDistance = false;
 
+    /**
+     * This method will initialize Vuforia in autonomous op modes
+     *
+     * @param hwMap the hardware map we will be using
+     */
     public void vuforiaInitialization(HardwareMap hwMap) {
 
         // Vuforia initialization
@@ -41,7 +46,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     }
 
     /**
-     * This method is going to push the jewel off the platform that is not the current alliance color
+     * This method will to push the jewel off the platform that is not the current alliance color
      *
      * @param bot           the bot currently being worked on
      * @param allianceColor the color of your alliance
@@ -58,17 +63,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //if (allianceColorRed == true){ //red alliance
         if (bot.getColorIntensity("red") > 675 && bot.getColorIntensity("red") <= 775) { //if the ball on the right is red
 
-            encodersStrafe(bot, 6, 0.5, "left"); //strafe left
+            encodersMove(bot, 6, 0.5, "left"); //strafe left
             Thread.sleep(500);
 
-            encodersStrafe(bot, 6, 0.5, "right"); //strafe right to original position
+            encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
             Thread.sleep(500);
-        } else { //the ball on the right is blue
+        }
+        else { //the ball on the right is blue
 
-            encodersStrafe(bot, 6, 0.5, "right"); //strafe right
+            encodersMove(bot, 6, 0.5, "right"); //strafe right
             Thread.sleep(500);
 
-            encodersStrafe(bot, 6, 0.5, "left"); //strafe left to original position
+            encodersMove(bot, 6, 0.5, "left"); //strafe left to original position
             Thread.sleep(500);
         }
         //}
@@ -78,17 +84,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //if (allianceColorRed == false){ //blue alliance
         if (bot.getColorIntensity("blue") <= 675 && bot.getColorIntensity("blue") >= 575) { //if the ball on the right is blue
 
-            encodersStrafe(bot, 6, 0.5, "left"); //strafe left
+            encodersMove(bot, 6, 0.5, "left"); //strafe left
             Thread.sleep(500);
 
-            encodersStrafe(bot, 6, 0.5, "right"); //strafe right to original position
+            encodersMove(bot, 6, 0.5, "right"); //strafe right to original position
             Thread.sleep(500);
-        } else { //the ball on the right is red
+        }
+        else { //the ball on the right is red
 
-            encodersStrafe(bot, 6, 0.5, "right"); //strafe right
+            encodersMove(bot, 6, 0.5, "right"); //strafe right
             Thread.sleep(500);
 
-            encodersStrafe(bot, 6, 0.5, "left"); //strafe left to original position
+            encodersMove(bot, 6, 0.5, "left"); //strafe left to original position
             Thread.sleep(500);
         }
     }
@@ -99,7 +106,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param bot       the bot currently being worked on
      * @param degrees   the desired number of degrees to turn
      * @param power     the desired power the wheel motors will run at
-     * @param direction the direction the robot is turning; either right or left. 1 = right, 2 = left
+     * @param direction the direction the robot is turning; either right or left
      */
     public void imuTurn(Robot bot, float degrees, double power, String direction) { //gets hardware from Robot and defines degrees as a
         //float, power as a double, and direction as a string
@@ -109,21 +116,22 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //this sets up the how we want the IMU to report data
         float heading = Math.abs(bot.angles.firstAngle); //heading is equal to the absolute value of the first angle
 
-        if (direction.equals("right")) { //1 is right, 2 is left
+        if (direction.equals("right")) { //if the desired direction is right
 
             bot.setDriveMotorPower(power, -power, power, -power); //the robot will turn right
-        } else if (direction.equals("left")) {
+        }
+        else if (direction.equals("left")) { //if the desired direction is left
 
             bot.setDriveMotorPower(-power, power, -power, power); //the robot will turn left
         }
 
-        while (heading < degrees && opModeIsActive()) { //this states that while the value of heading is less then the degree value
-            // and while opMode is active continue the while loop
+        while (heading < degrees && opModeIsActive()) { //while the value of heading is less then the degree value
+            //and while opMode is active continue the while loop
 
             bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //continuous " "
             heading = Math.abs(bot.angles.firstAngle); //continuous " "
 
-            telemetry.addData("Heading", heading); //feedback of Heading value
+            telemetry.addData("Heading", heading); //feedback of heading value
             telemetry.update(); //continuous update
         }
 
@@ -131,150 +139,117 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     }
 
     /**
-     * This program will make the robot move forwards or backwards with encoders.
+     * This program will make the robot move forwards, backwards, right, or left with encoders
      *
-     * @param bot the robot currently being worked on
-     * @param distance the distance the robot should travel (in cm??)
-     * @param power the speed the robot will travel at
-     * @param direction the direction the robot will travel: either forward or backward
+     * @param bot       the robot currently being worked on
+     * @param distance  the distance the robot should travel in inches
+     * @param power     the speed the robot will travel at
+     * @param direction the direction the robot will travel: either forward, backward, right, or left
      */
+    public void encodersMove(Robot bot, int distance, double power, String direction) { //sets the parameters
 
-    public void encodersDrive(Robot bot, int distance, double power, String direction) {
+        bot.runWithEncoders(); //set the mode of the drive train motors to run with encoder
 
-        if (opModeIsActive()) {
+        double COUNTS = bot.calculateCOUNTS(distance); //COUNTS is now equal to the value calculated
 
-            int DIAMETER = 4;
-            int GEAR_RATIO = 1;
-            int PULSES = 1120;
-            double CIRCUMFERENCE = Math.PI * DIAMETER;
-            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO;
-            double COUNTS = PULSES * ROTATIONS;
+        if (direction.equals("forward")) { //if the desired direction is forward
 
-            if (direction.equals("forward")){
+            COUNTS = COUNTS + Math.abs(bot.getEncoderCount()); //add desired counts to
+            //current counts to drive forward
 
-                while (bot.getEncoderCount() < COUNTS && opModeIsActive()) {
+            bot.setDriveMotorPower(power, power, power, power); //start driving forward
 
-                    bot.setDriveMotorPower(power, power, power, power);
+            while (bot.getEncoderCount() < COUNTS && opModeIsActive()) { //while the current count is
+                //still less than the desired count and the opMode has not been stopped
 
-                    telemetry.addData("COUNTS", COUNTS); //shows counts on phone
-                    telemetry.update(); //continuously updates the counts
+                telemetry.addData("COUNTS", COUNTS); //shows counts on phone
+                telemetry.update(); //continuously updates the counts
 
-                    telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition()); //returns encoder counts for each motor
-                    telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
-                    telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
-                    telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
-                    telemetry.update();
-
-                }
-
+                telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition());
+                telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
+                telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
+                telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
+                telemetry.update();
             }
 
-            else if (direction.equals("backward")){
+            bot.setDriveMotorPower(0, 0, 0, 0); //stop the robot
+        }
+        else if (direction.equals("backward")) { //if the desired direction is backward
 
-                while (bot.getEncoderCount() < COUNTS && opModeIsActive()) {
+            COUNTS = Math.abs(bot.getEncoderCount()) - COUNTS; //subtract desired counts from
+            //current counts to drive backward
 
-                    bot.setDriveMotorPower(-power, -power, -power, -power);
+            bot.setDriveMotorPower(-power, -power, -power, -power); //start driving backward
 
-                    telemetry.addData("COUNTS", COUNTS); //shows counts on phone
-                    telemetry.update(); //continuously updates the counts
+            while (bot.getEncoderCount() > COUNTS && opModeIsActive()) { //while the current count is
+                //still greater than the desired count and the opMode has not been stopped
 
-                    telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition()); //returns encoder counts for each motor
-                    telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
-                    telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
-                    telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
-                    telemetry.update();
+                telemetry.addData("COUNTS", COUNTS); //shows counts on phone
+                telemetry.update(); //continuously updates the counts
 
-                }
-
+                telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition());
+                telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
+                telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
+                telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
+                telemetry.update();
             }
 
-            bot.setDriveMotorPower(0, 0, 0, 0);
+            bot.setDriveMotorPower(0, 0, 0, 0); //stop the robot
+        }
+        else if (direction.equals("right")) { //if the desired direction is right
+
+            COUNTS = COUNTS + Math.abs(bot.getEncoderCount()); //add desired counts to
+            //current counts to strafe right
+
+            bot.setDriveMotorPower(power, -power, -power, power); //start strafing right
+
+            while (bot.getEncoderCount() < COUNTS && opModeIsActive()) { //while the current count is
+                //still less than the desired count and the opMode has not been stopped
+
+                telemetry.addData("COUNTS", COUNTS); //shows counts on phone
+                telemetry.update(); //continuously updates the counts
+
+                telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition());
+                telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
+                telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
+                telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
+                telemetry.update();
+            }
+
+            bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop the robot
+        }
+        else if (direction.equals("left")) { //if the desired direction is left
+
+            COUNTS = Math.abs(bot.getEncoderCount()) - COUNTS; //subtract desired counts from
+            //current counts to strafe left
+
+            bot.setDriveMotorPower(-power, power, power, -power); //start strafing left
+
+            while (bot.getEncoderCount() > COUNTS && opModeIsActive()) { //while the current count is
+                //still greater than the desired count and the opMode has not been stopped
+
+                telemetry.addData("COUNTS", COUNTS); //shows counts on phone
+                telemetry.update(); //continuously updates the counts
+
+                telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition());
+                telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
+                telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
+                telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
+                telemetry.update();
+            }
+
+            bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop the robot
         }
     }
 
     /**
-     * This method will strafe the robot either right or left a certain distance in inches using encoders
+     * This method will strafe the robot right until the touch sensor has detected the robot has
+     * passed a certain number of dividers
      *
-     * @param bot       the bot currently being worked on
-     * @param distance  the desired distance the robot will travel
-     * @param power     the desired power the wheel motors will run at
-     * @param direction the direction the robot will strafe: either left or right
+     * @param bot the bot currently being worked on
+     * @param dividersTarget the desired number of dividers to pass
+     * @param power the desired power the wheel motors will run at
      */
-    public void encodersStrafe(Robot bot, int distance, double power, String direction) { //sets parameters for this method
-
-        if (opModeIsActive()) { //while active
-
-            bot.runWithEncoders(); // Takes method in robot and says to use encoders here
-
-            int DIAMETER = 4; //diameter of wheel
-            int GEAR_RATIO = 1; //gear ratio
-            int PULSES = 1120; //encoder counts in one revolution
-            double CIRCUMFERENCE = Math.PI * DIAMETER; //gives you circumference
-            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO; //gives the rotations
-            double COUNTS = PULSES * ROTATIONS; //gives the counts
-
-
-            if (direction.equals("right")) {
-
-                while (bot.getEncoderCount() < COUNTS && opModeIsActive()) {
-
-                    telemetry.addData("COUNTS", COUNTS); //shows counts on phone
-                    telemetry.update(); //continuously updates the counts
-
-                    telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition());
-                    telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
-                    telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
-                    telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
-                    telemetry.update();
-
-                    COUNTS = Math.abs(bot.motorFrontLeft.getCurrentPosition()) + COUNTS; //add desired counts to
-                    //current counts to strafe right
-
-                    bot.setDriveMotorPower(power, -power, -power, power); //makes the robot go right
-
-                }
-
-            }
-
-            else if (direction.equals("left")) {
-
-                    while (bot.getEncoderCount() < COUNTS && opModeIsActive()) {
-
-                        telemetry.addData("COUNTS", COUNTS); //shows counts on phone
-                        telemetry.update(); //continuously updates the counts
-
-                        telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition());
-                        telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
-                        telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
-                        telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
-                        telemetry.update();
-
-                        COUNTS = Math.abs(bot.motorFrontLeft.getCurrentPosition()) - COUNTS; // subtracts desired counts by the current count to strafe left
-
-                        bot.setDriveMotorPower(-power, power, power, -power); //makes the robot go left
-
-
-                    }
-
-                    bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0);
-
-                }
-
-            }
-
-        }
-
-
-
-        /**
-         * This method will strafe the robot right until the touch sensor has detected the robot has
-         * passed a certain number of dividers
-         *
-         * @param bot the bot currently being worked on
-         * @param dividersTarget the desired number of dividers to pass
-         * @param power the desired power the wheel motors will run at
-         */
-
     public void touchSensorCount(Robot bot, int dividersTarget, double power) { //establishes parameters for method
         //and the opMode has not been stopped
 
@@ -282,16 +257,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         bot.setDriveMotorPower(power, -power, -power, power); //robot is moving right at whatever power is specified
 
-        while (dividersTouch < dividersTarget && opModeIsActive()) {
+        while (dividersTouch < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
+            //and the opMode has not been stopped
 
-            currStateTouch = bot.getTouchState();
+            currStateTouch = bot.getTouchState(); //currStateTouch is set equal to the returned value in getTouchState
 
             if (bot.getTouchState()) { //a true is returned from getState() means that the
                 //button is not being pressed
 
                 telemetry.addData("Digital Touch", "Is Not Pressed");
                 telemetry.update();
-            } else { //a false returned from getState() means that the button is being pressed
+            }
+            else { //a false returned from getState() means that the button is being pressed
 
                 telemetry.addData("Digital Touch", "Is Pressed");
                 telemetry.update();
@@ -304,7 +281,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
                 dividersTouch++; //add 1 to the current "dividersTouch" variable
                 prevStateTouch = currStateTouch; //now the previous state is the same as the current state
-            } else if (currStateTouch && currStateTouch != prevStateTouch) { //if the touch
+            }
+            else if (currStateTouch && currStateTouch != prevStateTouch) { //if the touch
                 //sensor is just starting to not be pressed:
 
                 prevStateTouch = currStateTouch; //now the previous state equals the current state,
@@ -342,7 +320,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 currStateDistance = true; //the robot is currently passing a divider
                 telemetry.addData("Distance Sensor", "Is In Front of a Divider");
                 telemetry.update();
-            } else { //if the distance of the sensor is greater than the
+            }
+            else { //if the distance of the sensor is greater than the
                 //pre-specified value, aka the robot is between dividers
 
                 currStateDistance = false; //the robot is not currently passing a divider
@@ -356,7 +335,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
                 dividersDistance++; //add 1 to the current "dividersDistance" variable
                 prevStateDistance = currStateDistance; //now the previous state is the same as the current state
-            } else if (!currStateDistance && currStateDistance != prevStateDistance) { //if the touch sensor
+            }
+            else if (!currStateDistance && currStateDistance != prevStateDistance) { //if the touch sensor
                 //is just starting to not be pressed:
 
                 prevStateDistance = currStateDistance; //now the previous state equals the current state,
@@ -367,6 +347,11 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop the robot
     }
 
+    /**
+     * This method will return the name of the pictograph the robot sees
+     *
+     * @return pictograph - the name of the pictograph the robot sees
+     */
     public String getRelicRecoveryVuMark() {
 
         String pictograph;
@@ -375,18 +360,20 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
 
             pictograph = "LEFT";
-        } else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+        }
+        else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
 
             pictograph = "CENTER";
-        } else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+        }
+        else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
 
             pictograph = "RIGHT";
-        } else {
+        }
+        else {
 
             pictograph = "UNKNOWN";
         }
 
         return pictograph;
     }
-
 }

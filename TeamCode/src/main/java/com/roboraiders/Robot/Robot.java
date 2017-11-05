@@ -136,23 +136,56 @@ public class Robot {
      */
     public void resetIMU() {
 
-        imu.initialize(parameters); //resets IMU angle to zero
+        imu.initialize(parameters);
     }
 
+    /**
+     * This method will set the mode of all of the drive train motors to run using encoder
+     */
     public void runWithEncoders() {
 
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for front left wheel
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for front right wheel
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoder for back left wheel
-        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //uses encoders for back right wheel
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    /**
+     * This method will return the current position (encoder count) of the front left motor
+     *
+     * @return motorFrontLeft.getCurrentPosition() - the current position of the front left motor
+     */
     public int getEncoderCount() {
 
         return motorFrontLeft.getCurrentPosition();
-
     }
 
+    /**
+     * This method will return COUNTS after it is calculated from distance
+     *
+     * @param distance the desired distance in inches the robot will travel
+     * @return COUNTS - the number of encoder counts the robot will travel that is equal
+     * to the number of inches
+     */
+    public double calculateCOUNTS(int distance) {
+
+        double COUNTS;
+
+        int DIAMETER = 4; //diameter of wheel
+        int GEAR_RATIO = 1; //gear ratio
+        int PULSES = 1120; //encoder counts in one revolution
+        double CIRCUMFERENCE = Math.PI * DIAMETER; //gives you circumference
+        double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO; //gives the rotations
+        COUNTS = PULSES * ROTATIONS; //gives the counts
+
+        return COUNTS;
+    }
+
+    /**
+     * This method will return the current state of the touch sensor
+     *
+     * @return digitalTouch.getState() - the current state of the touch sensor
+     */
     public boolean getTouchState() {
 
         return digitalTouch.getState();
