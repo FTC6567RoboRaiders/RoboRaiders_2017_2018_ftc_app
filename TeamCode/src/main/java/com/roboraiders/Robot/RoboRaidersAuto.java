@@ -131,6 +131,68 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     }
 
     /**
+     * This program will make the robot move forwards or backwards with encoders.
+     *
+     * @param bot the robot currently being worked on
+     * @param distance the distance the robot should travel (in cm??)
+     * @param power the speed the robot will travel at
+     * @param direction the direction the robot will travel: either forward or backward
+     */
+
+    public void encodersDrive(Robot bot, int distance, double power, String direction) {
+
+        if (opModeIsActive()) {
+
+            int DIAMETER = 4;
+            int GEAR_RATIO = 1;
+            int PULSES = 1120;
+            double CIRCUMFERENCE = Math.PI * DIAMETER;
+            double ROTATIONS = (distance / CIRCUMFERENCE) * GEAR_RATIO;
+            double COUNTS = PULSES * ROTATIONS;
+
+            if (direction.equals("forward")){
+
+                while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
+
+                    bot.setDriveMotorPower(power, power, power, power);
+
+                    telemetry.addData("COUNTS", COUNTS); //shows counts on phone
+                    telemetry.update(); //continuously updates the counts
+
+                    telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition()); //returns encoder counts for each motor
+                    telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
+                    telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
+                    telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
+                    telemetry.update();
+
+                }
+
+            }
+
+            else if (direction.equals("backward")){
+
+                while (bot.motorFrontLeft.getCurrentPosition() < COUNTS && opModeIsActive()) {
+
+                    bot.setDriveMotorPower(-power, -power, -power, -power);
+
+                    telemetry.addData("COUNTS", COUNTS); //shows counts on phone
+                    telemetry.update(); //continuously updates the counts
+
+                    telemetry.addData("Front Left", bot.motorFrontLeft.getCurrentPosition()); //returns encoder counts for each motor
+                    telemetry.addData("Front Right", bot.motorFrontRight.getCurrentPosition());
+                    telemetry.addData("Back Left", bot.motorBackLeft.getCurrentPosition());
+                    telemetry.addData("Back Right", bot.motorBackRight.getCurrentPosition());
+                    telemetry.update();
+
+                }
+
+            }
+
+            bot.setDriveMotorPower(0, 0, 0, 0);
+        }
+    }
+
+    /**
      * This method will strafe the robot either right or left a certain distance in inches using encoders
      *
      * @param bot       the bot currently being worked on
@@ -202,7 +264,6 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         }
 
-    }
 
 
         /**
