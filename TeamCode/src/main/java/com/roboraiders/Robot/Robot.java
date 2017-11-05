@@ -8,6 +8,10 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
@@ -140,6 +144,21 @@ public class Robot {
     }
 
     /**
+     * This method will return the current heading of the IMU
+     *
+     * @return getHeading() - the current heading of the IMU
+     */
+    public float getHeading() {
+
+        float heading;
+
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //this sets up the how we want the IMU to report data
+        heading = Math.abs(angles.firstAngle); //heading is equal to the absolute value of the first angle
+
+        return heading;
+    }
+
+    /**
      * This method will set the mode of all of the drive train motors to run using encoder
      */
     public void runWithEncoders() {
@@ -189,6 +208,18 @@ public class Robot {
     public boolean getTouchState() {
 
         return digitalTouch.getState();
+    }
+
+    /**
+     * This method will return the current distance of the distance sensor from an object
+     * in centimeters
+     *
+     * @return distanceSensor.getDistance(DistanceUnit.CM) - the current distance of the
+     * distance sensor from an object in centimeters
+     */
+    public double getDistance() {
+
+        return distanceSensor.getDistance(DistanceUnit.CM);
     }
 
     /**

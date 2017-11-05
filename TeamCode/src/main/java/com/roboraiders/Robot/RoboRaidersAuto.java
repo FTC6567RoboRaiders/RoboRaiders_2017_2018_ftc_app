@@ -4,10 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -115,8 +111,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         bot.resetIMU(); //resets IMU angle to zero
 
-        bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //this sets up the how we want the IMU to report data
-        float heading = Math.abs(bot.angles.firstAngle); //heading is equal to the absolute value of the first angle
+        bot.getHeading(); //returns the current heading of the IMU
 
         if (direction.equals("right")) { //if the desired direction is right
 
@@ -127,13 +122,10 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
             bot.setDriveMotorPower(-power, power, -power, power); //the robot will turn left
         }
 
-        while (heading < degrees && opModeIsActive()) { //while the value of heading is less then the degree value
+        while (bot.getHeading() < degrees && opModeIsActive()) { //while the value of getHeading is less then the degree value
             //and while opMode is active continue the while loop
 
-            bot.angles = bot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //continuous " "
-            heading = Math.abs(bot.angles.firstAngle); //continuous " "
-
-            telemetry.addData("Heading", heading); //feedback of heading value
+            telemetry.addData("Heading", bot.getHeading()); //feedback of getHeading value
             telemetry.update(); //continuous update
         }
 
@@ -257,20 +249,20 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         int dividersTouch = 0; //counts the number of times that the robot hits the divider with the touch sensor
 
-        bot.setDriveMotorPower(power, -power, -power, power); //robot is moving right at whatever power is specified
+        bot.setDriveMotorPower(-power, power, power, -power); //robot is moving left at whatever power is specified
 
         while (dividersTouch < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
             //and the opMode has not been stopped
 
             currStateTouch = bot.getTouchState(); //currStateTouch is set equal to the returned value in getTouchState
 
-            if (bot.getTouchState()) { //a true is returned from getState() means that the
+            if (bot.getTouchState()) { //a true is returned from getTouchState() means that the
                 //button is not being pressed
 
                 telemetry.addData("Digital Touch", "Is Not Pressed");
                 telemetry.update();
             }
-            else { //a false returned from getState() means that the button is being pressed
+            else { //a false returned from getTouchState() means that the button is being pressed
 
                 telemetry.addData("Digital Touch", "Is Pressed");
                 telemetry.update();
@@ -309,12 +301,12 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         double dividersDistance = 0; //counts the number of times that the robot hits the divider with the distance sensor
 
-        bot.setDriveMotorPower(power, -power, -power, power); //robot is moving at whatever power is specified
+        bot.setDriveMotorPower(-power, power, power, -power); //robot is moving left at whatever power is specified
 
         while (dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
             //and the opMode has not been stopped
 
-            if (bot.distanceSensor.getDistance(DistanceUnit.CM) <= desiredDistance) { //if the distance of the
+            if (bot.getDistance() <= desiredDistance) { //if the distance of the
                 //sensor is less than the
                 //pre-specified value, aka the robot is passing
                 //close to the divider
