@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboraiders.Robot.Robot;
 
+
 /**
  * Created by Jason Sember on 9/23/2017.
  */
@@ -23,6 +24,8 @@ public class TeleOpNewMecanum extends OpMode {
     float RightFront; // Power for right front motor
 
     float maxpwr;     // Maximum power if the four motors
+    float maxpwrC;
+
 
     // The following variables are used to control how often telemetry data is written to the log
     //
@@ -35,9 +38,12 @@ public class TeleOpNewMecanum extends OpMode {
     //  - LOG_INTERVAL     - the amount of time per each log updated, initially set to 1/4 of a
     //                     second, this value is in milliseconds (1/4 of sec = 250 milliseconds)
 
+
     private long currentTimeStamp;
     private long pastTimeStamp;
     private static final long LOG_INTERVAL = 250;
+
+
 
     @Override
     public void init() {
@@ -58,7 +64,7 @@ public class TeleOpNewMecanum extends OpMode {
 
         boolean logIt;
 
-        currentTimeStamp = System.currentTimeMillis();   //get the current time stamp
+        currentTimeStamp = System.currentTimeMillis();   //* get the current time stamp
 
         /*
         are the right_stick powers right?
@@ -75,8 +81,7 @@ public class TeleOpNewMecanum extends OpMode {
         logIt = shouldLog();
 
         // Log the "raw" stick values and max power calculation
-        if(logIt) {
-
+        if( logIt ) {
             Log.d("RWS","Start of RAW Stick Values");
             Log.d("RWS",String.format("left stick y: %s", gamepad1.left_stick_y));
             Log.d("RWS",String.format("left stick x: %s", gamepad1.left_stick_x));
@@ -92,14 +97,14 @@ public class TeleOpNewMecanum extends OpMode {
 
         }
 
+
         LeftBack = LeftBack / maxpwr;
         RightBack = RightBack / maxpwr;
         LeftFront = LeftFront / maxpwr;
         RightFront = RightFront / maxpwr;
 
         // Log normalized powers
-        if (logIt) {
-
+        if ( logIt ) {
             Log.d("NML","Start of Normalized Powers");
             Log.d("NML",String.format("LeftBack: %s", LeftBack));
             Log.d("NML",String.format("RightBack: %s", RightBack));
@@ -114,8 +119,7 @@ public class TeleOpNewMecanum extends OpMode {
         RightFront = (float) scaleInput(RightFront);
 
         // Log scaled powers
-        if (logIt) {
-
+        if ( logIt ) {
             Log.d("SCL","Start of Scaled Powers");
             Log.d("SCL",String.format("LeftBack: %s", LeftBack));
             Log.d("SCL",String.format("RightBack: %s", RightBack));
@@ -123,6 +127,7 @@ public class TeleOpNewMecanum extends OpMode {
             Log.d("SCL",String.format("RightFront: %s", RightFront));
             Log.d("SCL","End of Scaled Powers");
         }
+
 
         robot.setDriveMotorPower(LeftFront/2, RightFront/2, LeftBack/2, RightBack/2);
     }
@@ -238,16 +243,13 @@ public class TeleOpNewMecanum extends OpMode {
 
         float maxpwrA = Math.max(Math.abs(pwr1), Math.abs(pwr2));
         float maxpwrB = Math.max (Math.abs(pwr3), Math.abs(pwr4));
-        maxpwr = Math.max(Math.abs(maxpwrA), Math.abs(maxpwrB));
-
-        if (maxpwr > 1) {
-
-             return 1;
-        }
-        else {
-
-             return maxpwr;
-        }
+       float maxpwrC = Math.max(Math.abs(maxpwrA), Math.abs(maxpwrB));
+         if (maxpwrC > 1.0) {
+             return maxpwrC;
+             }
+             else {
+             return 1.0;
+         }
     }
 
     /**
@@ -264,15 +266,17 @@ public class TeleOpNewMecanum extends OpMode {
      * @return boolean - TRUE, interval has expired and caller should write to log
      *                 - FALSE, interval has not expired and caller should not write to log
      */
+
     private boolean shouldLog() {
 
-        if ((currentTimeStamp - pastTimeStamp) > LOG_INTERVAL) {
-
+        if ( (currentTimeStamp-pastTimeStamp) > LOG_INTERVAL ) {
             pastTimeStamp = currentTimeStamp;
             return true;
         }
         else {
             return false;
         }
+
     }
+
 }
