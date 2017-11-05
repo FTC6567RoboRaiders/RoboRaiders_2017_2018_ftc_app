@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.roboraiders.Robot.Robot;
 
-
 /**
  * Created by Jason Sember on 9/23/2017.
  */
@@ -26,8 +25,6 @@ public class TeleOpNewMecanum extends OpMode {
     int nudgeCount = 0;
 
     float maxpwr;     // Maximum power if the four motors
-    float maxpwrC;
-
 
     // The following variables are used to control how often telemetry data is written to the log
     //
@@ -40,12 +37,9 @@ public class TeleOpNewMecanum extends OpMode {
     //  - LOG_INTERVAL     - the amount of time per each log updated, initially set to 1/4 of a
     //                     second, this value is in milliseconds (1/4 of sec = 250 milliseconds)
 
-
     private long currentTimeStamp;
     private long pastTimeStamp;
     private static final long LOG_INTERVAL = 250;
-
-
 
     @Override
     public void init() {
@@ -56,7 +50,6 @@ public class TeleOpNewMecanum extends OpMode {
         // Write message to log indicating that teleop program is initialized
         Log.d("Initialized","Teleop Initialization Complete");
 
-
         telemetry.addData("Initialized", true);
         telemetry.update();
     }
@@ -64,39 +57,6 @@ public class TeleOpNewMecanum extends OpMode {
     @Override
     public void loop() {
 
-        if (gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right) { // "If any
-            // of the dpad buttons are pressed on the
-            // first controller...
-
-            if (!nudging) { // ...if nudging is false (the robot is still being nudged)...
-
-                if (gamepad1.dpad_up) robot.setDriveMotorPower (1, 1, 1 ,1); // ...if 'up' was pressed, the robot moves forward...
-
-                else if (gamepad1.dpad_down) robot.setDriveMotorPower(-1, -1, -1, -1); // ...else if 'down' was pressed, the robot
-                    // moves backward...
-
-                else if (gamepad1.dpad_left) robot.setDriveMotorPower(1, -1, 1, -1); // ...else if 'left' was pressed, the robot
-                    // turns left...
-
-                else if (gamepad1.dpad_right) robot.setDriveMotorPower(-1, 1, -1, 1); // ...else if 'right' was pressed, the robot
-                // turns right...
-            }
-
-            nudgeCount++; // ...after this one loop cycle, the number of the nudgeCount goes up by one...
-
-            if (nudgeCount > 5) { // ...if the number of the nudgeCount goes above 5...
-
-                nudging = true; // ...nudging is true, so the robot cannot nudge anymore. This allows for 5 loop cycles
-                // of movement...
-            }
-        }
-        else { // ...else if nudging is true (the robot is no longer being nudged)...
-
-            nudging = false; // ...nudging is returned to false, which allows nudging again if any of the dpad buttons
-            // are pressed on the first controller...
-
-            nudgeCount = 0; // ...and nudgeCount is reset to 0."
-        }
         boolean logIt;
 
         currentTimeStamp = System.currentTimeMillis();   //* get the current time stamp
@@ -132,7 +92,6 @@ public class TeleOpNewMecanum extends OpMode {
 
         }
 
-
         LeftBack = LeftBack / maxpwr;
         RightBack = RightBack / maxpwr;
         LeftFront = LeftFront / maxpwr;
@@ -163,8 +122,41 @@ public class TeleOpNewMecanum extends OpMode {
             Log.d("SCL","End of Scaled Powers");
         }
 
-
         robot.setDriveMotorPower(LeftFront/2, RightFront/2, LeftBack/2, RightBack/2);
+
+        if (gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right) { // "If any
+            // of the dpad buttons are pressed on the
+            // first controller...
+
+            if (!nudging) { // ...if nudging is false (the robot is still being nudged)...
+
+                if (gamepad1.dpad_up) robot.setDriveMotorPower(1, 1, 1 ,1); // ...if 'up' was pressed, the robot moves forward...
+
+                else if (gamepad1.dpad_down) robot.setDriveMotorPower(-1, -1, -1, -1); // ...else if 'down' was pressed, the robot
+                    // moves backward...
+
+                else if (gamepad1.dpad_left) robot.setDriveMotorPower(-1, 1, 1, -1); // ...else if 'left' was pressed, the robot
+                    // strafes left...
+
+                else if (gamepad1.dpad_right) robot.setDriveMotorPower(1, -1, -1, 1); // ...else if 'right' was pressed, the robot
+                    // strafes right...
+            }
+
+            nudgeCount++; // ...after this one loop cycle, the number of the nudgeCount goes up by one...
+
+            if (nudgeCount > 5) { // ...if the number of the nudgeCount goes above 5...
+
+                nudging = true; // ...nudging is true, so the robot cannot nudge anymore. This allows for 5 loop cycles
+                // of movement...
+            }
+        }
+        else { // ...else if nudging is true (the robot is no longer being nudged)...
+
+            nudging = false; // ...nudging is returned to false, which allows nudging again if any of the dpad buttons
+            // are pressed on the first controller...
+
+            nudgeCount = 0; // ...and nudgeCount is reset to 0."
+        }
     }
 
     @Override
@@ -278,20 +270,17 @@ public class TeleOpNewMecanum extends OpMode {
 
         float maxpwrA = Math.max(Math.abs(pwr1), Math.abs(pwr2));
         float maxpwrB = Math.max (Math.abs(pwr3), Math.abs(pwr4));
-       float maxpwr = Math.max(Math.abs(maxpwrA), Math.abs(maxpwrB));
+        float maxpwr = Math.max(Math.abs(maxpwrA), Math.abs(maxpwrB));
+
          if (maxpwr > 1.0) {
+
              return maxpwr;
-             }
-             else {
+         }
+         else {
+
              return 1;
          }
-
     }
-
-
-
-
-
 
     /**
      * Will determine when the log should be updated with new data.  The previous time is subtracted
