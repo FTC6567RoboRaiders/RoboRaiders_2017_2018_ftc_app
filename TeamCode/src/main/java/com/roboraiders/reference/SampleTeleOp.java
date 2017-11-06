@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp // This line establishes this op mode as a teleop op mode and allows for it to be displayed
 // in the drop down list on the Driver Station phone to be chosen to run.
-@Disabled // This line temporarily takes this op mode off of the drop down list until it is
+//@Disabled // This line temporarily takes this op mode off of the drop down list until it is
 // commented out.
 
 public class SampleTeleOp extends OpMode { // This line establishes the name of the op mode and
@@ -31,7 +31,7 @@ public class SampleTeleOp extends OpMode { // This line establishes the name of 
                                                             // the names of the motors we set on
                                                             // the phone.
 
-        motorRight.setDirection(DcMotor.Direction.REVERSE); // This line reverses the right motor
+        motorLeft.setDirection(DcMotor.Direction.REVERSE); // This line reverses the left motor
                                                             // in order to negate the fact that the
                                                             // motors are placed on the robot to
                                                             // mirror each other.

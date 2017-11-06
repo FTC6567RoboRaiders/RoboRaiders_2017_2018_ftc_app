@@ -52,32 +52,39 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //Does the robot need to move forward at all? Or no? Discuss with programming team. This program assumes no.
         //assuming color sensor is mounted facing right
 
-        bot.servoJewel.setPosition(1.0); //lower arm with color sensor
+        bot.servoJewel.setPosition(0.99); //lower arm with color sensor
+        Thread.sleep(1000);
 
         //assuming red alliance
 
         if (allianceColor.equals("red")) { //red alliance
 
-            if (bot.getColorIntensity("red") > 22)  { //if the ball on the right is red
+            if (bot.getColorIntensity("red") > 35)  { //if the ball on the right is red
 
-                telemetry.addData("Red", bot.getColorIntensity("red"));
-                telemetry.addData("Blue", bot.getColorIntensity("blue"));
+                telemetry.addLine().addData("Red", bot.getColorIntensity("red"));
+                telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
                 telemetry.update();
 
                 imuTurn(bot, 5, 0.25, "left"); //pivot left
                 Thread.sleep(500);
+
+                bot.servoJewel.setPosition(0.4); //raise arm to vertical
+                Thread.sleep(1000);
 
                 imuTurn(bot, 5, 0.25, "right"); //pivot right to original position
                 Thread.sleep(500);
             }
             else { //the ball on the right is blue
 
-                telemetry.addData("Red", bot.getColorIntensity("red"));
-                telemetry.addData("Blue", bot.getColorIntensity("blue"));
+                telemetry.addLine().addData("Red", bot.getColorIntensity("red"));
+                telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
                 telemetry.update();
 
                 imuTurn(bot, 5, 0.25, "right"); //pivot right
                 Thread.sleep(500);
+
+                bot.servoJewel.setPosition(0.4); //raise arm to vertical
+                Thread.sleep(1000);
 
                 imuTurn(bot, 5, 0.25, "left"); //pivot left to original position
                 Thread.sleep(500);
@@ -88,26 +95,32 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         else if (allianceColor.equals("blue")) { //not red alliance (blue alliance)
 
-            if (bot.getColorIntensity("blue") > 22) { //if the ball on the right is blue
+            if (bot.getColorIntensity("blue") > 35) { //if the ball on the right is blue
 
-                telemetry.addData("Red", bot.getColorIntensity("red"));
-                telemetry.addData("Blue", bot.getColorIntensity("blue"));
+                telemetry.addLine().addData("Red", bot.getColorIntensity("red"));
+                telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
                 telemetry.update();
 
                 imuTurn(bot, 5, 0.25, "left"); //pivot left
                 Thread.sleep(500);
+
+                bot.servoJewel.setPosition(0.4); //raise arm to vertical
+                Thread.sleep(1000);
 
                 imuTurn(bot, 5, 0.25, "right"); //pivot right to original position
                 Thread.sleep(500);
             }
             else { //the ball on the right is blue
 
-                telemetry.addData("Red", bot.getColorIntensity("red"));
-                telemetry.addData("Blue", bot.getColorIntensity("blue"));
+                telemetry.addLine().addData("Red", bot.getColorIntensity("red"));
+                telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
                 telemetry.update();
 
                 imuTurn(bot, 5, 0.25, "right"); //pivot right
                 Thread.sleep(500);
+
+                bot.servoJewel.setPosition(0.4); //raise arm to vertical
+                Thread.sleep(1000);
 
                 imuTurn(bot, 5, 0.25, "left"); //pivot left to original position
                 Thread.sleep(500);
@@ -123,7 +136,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param power     the desired power the wheel motors will run at
      * @param direction the direction the robot is turning; either right or left
      */
-    public void imuTurn(Robot bot, float degrees, double power, String direction) { //gets hardware from Robot and defines degrees as a
+    public void imuTurn(Robot bot, float degrees, double power, String direction) { //gets hardware from
+        //Robot and defines degrees as a
         //float, power as a double, and direction as a string
 
         bot.resetIMU(); //resets IMU angle to zero
@@ -139,7 +153,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
             bot.setDriveMotorPower(-power, power, -power, power); //the robot will turn left
         }
 
-        while (bot.getHeading() < degrees && opModeIsActive()) { //while the value of getHeading is less then the degree value
+        while (bot.getHeading() < degrees && opModeIsActive()) { //while the value of getHeading is
+            //less then the degree value
             //and while opMode is active continue the while loop
 
             telemetry.addData("Heading", bot.getHeading()); //feedback of getHeading value
@@ -261,7 +276,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
      * @param dividersTarget the desired number of dividers to pass
      * @param power the desired power the wheel motors will run at
      */
-    public void touchSensorCount(Robot bot, int dividersTarget, double power) { //establishes parameters for method
+    /*public void touchSensorCount(Robot bot, int dividersTarget, double power) { //establishes parameters for method
         //and the opMode has not been stopped
 
         int dividersTouch = 0; //counts the number of times that the robot hits the divider with the touch sensor
@@ -302,7 +317,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
 
         bot.setDriveMotorPower(0.0, 0.0, 0.0, 0.0); //stop the robot
-    }
+    }*/
 
     /**
      * This method will strafe the robot right until the distance sensor has detected the robot has

@@ -50,7 +50,7 @@ public class Robot {
     public ColorSensor colorSensor;
     public DistanceSensor distanceSensor;
     public BNO055IMU imu;
-    public DigitalChannel digitalTouch;
+    //public DigitalChannel digitalTouch;
 
     /* Local OpMode Members */
     public HardwareMap hwMap =  null;
@@ -114,8 +114,8 @@ public class Robot {
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
-        digitalTouch = hwMap.get(DigitalChannel.class, "sensor_touch");
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        //digitalTouch = hwMap.get(DigitalChannel.class, "sensor_touch");
+        //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
     }
 
     /** setDriveMotorPower sets the power for the drive motors
@@ -205,10 +205,10 @@ public class Robot {
      *
      * @return digitalTouch.getState() - the current state of the touch sensor
      */
-    public boolean getTouchState() {
+    /*public boolean getTouchState() {
 
         return digitalTouch.getState();
-    }
+    }*/
 
     /**
      * This method will return the current distance of the distance sensor from an object
