@@ -52,15 +52,16 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         //Does the robot need to move forward at all? Or no? Discuss with programming team. This program assumes no.
         //assuming color sensor is mounted facing right
 
-        double servoPosition = 0;
+        double servoPosition = 0; //makes the variable that represents the servo's position 0
 
-        bot.servoJewel.getPosition();
+        servoPosition = bot.servoJewel.getPosition(); //sets getPosition() to servoPosition
 
-        while (opModeIsActive() && servoPosition < 0.99) {
+        while (opModeIsActive() && servoPosition < 0.99) { //while the opmode is active and while the servo position variable is less
+                                                           //than 0.99
 
-            servoPosition = servoPosition + 0.05 ;
+            servoPosition = servoPosition + 0.05 ;          //add 0.05 to the current servoPosition variable
             bot.servoJewel.setPosition(servoPosition);
-            Thread.sleep(20);
+            Thread.sleep(20);                               //wait 0.02 seconds (20 milliseconds)
 
         }
 
