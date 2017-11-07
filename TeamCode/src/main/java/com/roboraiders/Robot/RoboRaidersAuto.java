@@ -17,8 +17,8 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
     public VuforiaLocalizer vuforia;
     public VuforiaTrackable relicTemplate;
-    public boolean currStateTouch = false;
-    public boolean prevStateTouch = false;
+    //public boolean currStateTouch = false;
+    //public boolean prevStateTouch = false;
     public boolean currStateDistance = false;
     public boolean prevStateDistance = false;
 
@@ -51,19 +51,6 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         //Does the robot need to move forward at all? Or no? Discuss with programming team. This program assumes no.
         //assuming color sensor is mounted facing right
-
-        double servoPosition = 0; //makes the variable that represents the servo's position 0
-
-        servoPosition = bot.servoJewel.getPosition(); //sets getPosition() to servoPosition
-
-        while (opModeIsActive() && servoPosition < 0.99) { //while the opmode is active and while the servo position variable is less
-                                                           //than 0.99
-
-            servoPosition = servoPosition + 0.05 ;          //add 0.05 to the current servoPosition variable
-            bot.servoJewel.setPosition(servoPosition);
-            Thread.sleep(20);                               //wait 0.02 seconds (20 milliseconds)
-
-        }
 
         //assuming red alliance
 
@@ -411,5 +398,18 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         }
 
         return pictograph;
+    }
+
+    public void lowerArm(Robot bot) throws InterruptedException {
+
+        double servoPosition = bot.servoJewel.getPosition(); //sets getPosition() to servoPosition
+
+        while (servoPosition < 0.99 && opModeIsActive()) { //while the op mode is active and while the servo position variable is less
+            //than 0.99
+
+            servoPosition = servoPosition + 0.05;          //add 0.05 to the current servoPosition variable
+            bot.servoJewel.setPosition(servoPosition);
+            Thread.sleep(20);                              //wait 0.02 seconds (20 milliseconds)
+        }
     }
 }
