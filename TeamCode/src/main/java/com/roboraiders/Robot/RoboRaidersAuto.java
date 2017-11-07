@@ -58,7 +58,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         while (opModeIsActive() && servoPosition < 0.99) {
 
-            servoPosition++ ;
+            servoPosition = servoPosition + 0.05 ;
             bot.servoJewel.setPosition(servoPosition);
             Thread.sleep(20);
 
