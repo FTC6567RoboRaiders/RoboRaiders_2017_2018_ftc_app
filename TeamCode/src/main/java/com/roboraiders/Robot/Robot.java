@@ -236,10 +236,36 @@ public class Robot {
 
             colorIntensity = colorSensor.red(); //colorIntensity will be the red reading
         }
+
         else if (color.equals("blue")) { //if the selected color is blue
 
             colorIntensity = colorSensor.blue(); //colorIntensity will be the blue reading
         }
+
         return colorIntensity; //the value will be returned so that it can be used
+    }
+
+    /**
+     * this sets the servo position.
+     *
+     * @param servoPosition this is the current position of the servo.
+     */
+
+    public void setServoPosition(double servoPosition) {
+
+        servoJewel.setPosition(servoPosition);
+
+    }
+
+    /**
+     * This program gets and returns the servo position.
+     *
+     * @return gets and returns the current position of the servo.
+     */
+
+    public double getServoPosition() {
+
+        return servoJewel.getPosition();
+
     }
 }

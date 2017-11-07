@@ -400,15 +400,23 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         return pictograph;
     }
 
-    public void lowerArm(Robot bot) throws InterruptedException {
+    /**
+     * this program lowers the servoJewel arm.
+     *
+     * @param bot the robot currently being worked on
+     * @param finalServoPosition the final position that the servo arm will stop at
+     * @throws InterruptedException
+     */
 
-        double servoPosition = bot.servoJewel.getPosition(); //sets getPosition() to servoPosition
+    public void lowerArm(Robot bot, double finalServoPosition) throws InterruptedException {
 
-        while (servoPosition < 0.99 && opModeIsActive()) { //while the op mode is active and while the servo position variable is less
+        double servoPosition = bot.getServoPosition(); //sets getPosition() to servoPosition
+
+        while (servoPosition < finalServoPosition && opModeIsActive()) { //while the op mode is active and while the servo position variable is less
             //than 0.99
 
             servoPosition = servoPosition + 0.05;          //add 0.05 to the current servoPosition variable
-            bot.servoJewel.setPosition(servoPosition);
+            bot.setServoPosition(servoPosition);
             Thread.sleep(20);                              //wait 0.02 seconds (20 milliseconds)
         }
     }
