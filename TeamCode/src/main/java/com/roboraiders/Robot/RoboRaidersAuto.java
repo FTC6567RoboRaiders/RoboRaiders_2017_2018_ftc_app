@@ -401,7 +401,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     }
 
     /**
-     * this program lowers the servoJewel arm.
+     * This program lowers the servoJewel arm
      *
      * @param bot the robot currently being worked on
      * @param finalServoPosition the final position that the servo arm will stop at

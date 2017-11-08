@@ -25,7 +25,7 @@ public class JewelAutonomous extends RoboRaidersAuto {
 
         waitForStart();
 
-        lowerArm(robot);
+        lowerArm(robot, 0.99);
         selectJewel(robot, "blue");
     }
 }
