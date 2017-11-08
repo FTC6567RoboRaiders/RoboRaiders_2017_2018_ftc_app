@@ -335,6 +335,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         while (dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
             //and the opMode has not been stopped
 
+            telemetry.addData("Distance", bot.getDistance());
+            telemetry.update();
+
             if (bot.getDistance() <= desiredDistance) { //if the distance of the
                 //sensor is less than the
                 //pre-specified value, aka the robot is passing
