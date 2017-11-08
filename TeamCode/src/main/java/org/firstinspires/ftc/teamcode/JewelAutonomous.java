@@ -21,11 +21,11 @@ public class JewelAutonomous extends RoboRaidersAuto {
         robot.initialize(hardwareMap);
         vuforiaInitialization(hardwareMap);
 
-        robot.servoJewel.setPosition(0.4);
+        robot.setServoPosition(0.4);
 
         waitForStart();
 
-        lowerArm(robot);
+        lowerArm(robot, 0.99);
         selectJewel(robot, "blue");
     }
 }

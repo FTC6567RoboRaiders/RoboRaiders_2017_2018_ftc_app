@@ -65,7 +65,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 imuTurn(bot, 5, 0.25, "left"); //pivot left
                 Thread.sleep(500);
 
-                bot.servoJewel.setPosition(0.4); //raise arm to vertical
+                bot.setServoPosition(0.4); //raise arm to vertical
                 Thread.sleep(1000);
 
                 imuTurn(bot, 5, 0.25, "right"); //pivot right to original position
@@ -80,7 +80,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 imuTurn(bot, 5, 0.25, "right"); //pivot right
                 Thread.sleep(500);
 
-                bot.servoJewel.setPosition(0.4); //raise arm to vertical
+                bot.setServoPosition(0.4); //raise arm to vertical
                 Thread.sleep(1000);
 
                 imuTurn(bot, 5, 0.25, "left"); //pivot left to original position
@@ -101,7 +101,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 imuTurn(bot, 5, 0.25, "left"); //pivot left
                 Thread.sleep(500);
 
-                bot.servoJewel.setPosition(0.4); //raise arm to vertical
+                bot.setServoPosition(0.4); //raise arm to vertical
                 Thread.sleep(1000);
 
                 imuTurn(bot, 5, 0.25, "right"); //pivot right to original position
@@ -116,7 +116,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 imuTurn(bot, 5, 0.25, "right"); //pivot right
                 Thread.sleep(500);
 
-                bot.servoJewel.setPosition(0.4); //raise arm to vertical
+                bot.setServoPosition(0.4); //raise arm to vertical
                 Thread.sleep(1000);
 
                 imuTurn(bot, 5, 0.25, "left"); //pivot left to original position
