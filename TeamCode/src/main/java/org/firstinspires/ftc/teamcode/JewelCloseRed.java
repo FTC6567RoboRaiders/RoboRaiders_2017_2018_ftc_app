@@ -6,12 +6,12 @@ import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
 /**
- * Created by (mostly) Nick Urbin and (a little bit) Kevin McCrudden on 10/1/17.
+ * Created by Alex (and a little bit J-Dawg) on 11/8/17.
  */
 
 @Autonomous
 
-public class JewelAutonomous extends RoboRaidersAuto {
+public class JewelCloseRed extends RoboRaidersAuto {
 
     public Robot robot = new Robot();
 
@@ -26,10 +26,7 @@ public class JewelAutonomous extends RoboRaidersAuto {
         waitForStart();
 
         lowerArm(robot, 0.99);
-        selectJewel(robot, "blue");
-
+        selectJewel(robot, "red");
 
     }
 }
-
-
