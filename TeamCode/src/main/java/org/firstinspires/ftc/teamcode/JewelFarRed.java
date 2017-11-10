@@ -36,6 +36,5 @@ public class JewelFarRed extends RoboRaidersAuto {
 
         imuTurn(robot, 180, 0.5, "right");
         Thread.sleep(500);
-
     }
 }

@@ -36,6 +36,5 @@ public class JewelCloseBlue extends RoboRaidersAuto {
 
         encodersMove(robot, 3, 0.5, "forward");
         Thread.sleep(500);
-
     }
 }
