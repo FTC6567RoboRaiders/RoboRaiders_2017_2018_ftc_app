@@ -186,7 +186,7 @@ public class HubBot_Auto_Options extends LinearOpMode
                 }
             }
 
-            else if (cur_X_ButtonState) {                             // when the "X" button on the gamepad is pressed set the alliance to BLUE
+            else  if (cur_X_ButtonState) {                             // when the "X" button on the gamepad is pressed set the alliance to BLUE
                 if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
                     allianceSelection = allianceOptions[1];           // set alliance selection to BLUE
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
