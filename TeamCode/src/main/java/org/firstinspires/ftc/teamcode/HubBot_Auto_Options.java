@@ -181,18 +181,18 @@ public class HubBot_Auto_Options extends LinearOpMode
 
             if (cur_B_ButtonState) {                                  // when the "b" button on the gamepad is pressed set alliance to RED
                 if (!prev_B_ButtonState) {                            // when the previous "b" button was NOT pushed
-                    allianceSelection = allianceOptions[0];           // set alliance selection to RED
+                    bsSelection = bsOptions[0];                       // set balance stone selection to Near
                     prev_B_ButtonState = true;                        // indicate that the previous B button state is PUSHED
                 }
             }
 
-            else  if (cur_X_ButtonState) {                             // when the "X" button on the gamepad is pressed set the alliance to BLUE
+            else  if (cur_X_ButtonState) {                            // when the "X" button on the gamepad is pressed set the alliance to BLUE
                 if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
-                    allianceSelection = allianceOptions[1];           // set alliance selection to BLUE
+                    bsSelection = bsOptions[1];                       // set balance stone selection to Away
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
-
+            telemetry.addLine().addData("Balancing Stone Selection: ",bsSelection);
             telemetry.update();                                       // so when this line is removed we get a problem with
             // the state of the prev variables...not sure what java/android
             // thinks is going on here...more investigation is needed
