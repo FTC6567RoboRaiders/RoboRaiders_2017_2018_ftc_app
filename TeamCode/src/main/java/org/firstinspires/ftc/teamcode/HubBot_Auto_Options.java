@@ -53,7 +53,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class HubBot_Auto_Options extends LinearOpMode
 {
-
+    String[] yesNoOptions = new String[] {"Yes", "No"};
     // The following is used to change the background color of the robot controller
     // get a reference to the RelativeLayout so we can change the background
     // color of the Robot Controller app to match the alliance selection.
@@ -64,6 +64,18 @@ public class HubBot_Auto_Options extends LinearOpMode
     String allianceTitle = "Alliance Selection";                      // The title of this selection
     String[] allianceOptions = new String[] {"Red", "Blue"};          // The options for this selection
     String allianceSelection;                                         // The alliance selection
+
+    // Set up strings for balance stone selection
+    String bSTitle = "Balancing Stone Selection";
+    String[] bsOptions = new String[] {"Near", "Away"};
+    String bsSelection;
+
+    String jeweltitle = "Jewel Selection";
+    String jewelSelection;
+
+    String parkTitle = "Park Selection";
+    String parkSelection;
+
 
     boolean cur_B_ButtonState;                                        // "b" button current state
     boolean cur_X_ButtonState;                                        // "x" button current state
@@ -155,6 +167,36 @@ public class HubBot_Auto_Options extends LinearOpMode
                 }
             }
         });
+        telemetry.addLine(bSTitle);
+        telemetry.addLine("Press B for Near or X for Away");
+        telemetry.update();
+        prev_B_ButtonState = false;
+        prev_X_ButtonState = false;
+
+
+        while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
+
+            cur_B_ButtonState = gamepad1.b;                           // get the current state of button b
+            cur_X_ButtonState = gamepad1.x;                           // get the current state of button x
+
+            if (cur_B_ButtonState) {                                  // when the "b" button on the gamepad is pressed set alliance to RED
+                if (!prev_B_ButtonState) {                            // when the previous "b" button was NOT pushed
+                    allianceSelection = allianceOptions[0];           // set alliance selection to RED
+                    prev_B_ButtonState = true;                        // indicate that the previous B button state is PUSHED
+                }
+            }
+
+            else if (cur_X_ButtonState) {                             // when the "X" button on the gamepad is pressed set the alliance to BLUE
+                if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
+                    allianceSelection = allianceOptions[1];           // set alliance selection to BLUE
+                    prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
+                }
+            }
+
+            telemetry.update();                                       // so when this line is removed we get a problem with
+            // the state of the prev variables...not sure what java/android
+            // thinks is going on here...more investigation is needed
+        }
 
         // Wait until we're told to go
         waitForStart();
