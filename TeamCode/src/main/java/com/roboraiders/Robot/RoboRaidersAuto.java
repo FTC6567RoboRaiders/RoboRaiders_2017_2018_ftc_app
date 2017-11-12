@@ -56,7 +56,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         if (allianceColor.equals("red")) { //red alliance
 
-            if (bot.getColorIntensity("red") > 35)  { //if the ball on the right is red
+            if (bot.getColorIntensity("red") > bot.getColorIntensity("blue"))  { //if the ball on the right is red
 
                 telemetry.addLine().addData("Red", bot.getColorIntensity("red"));
                 telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
@@ -92,7 +92,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         else if (allianceColor.equals("blue")) { //not red alliance (blue alliance)
 
-            if (bot.getColorIntensity("blue") > 35) { //if the ball on the right is blue
+            if (bot.getColorIntensity("blue") > bot.getColorIntensity("red")) { //if the ball on the right is blue
 
                 telemetry.addLine().addData("Red", bot.getColorIntensity("red"));
                 telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
@@ -335,6 +335,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
         while (dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
             //and the opMode has not been stopped
 
+            telemetry.addData("Distance", bot.getDistance());
+            telemetry.update();
+
             if (bot.getDistance() <= desiredDistance) { //if the distance of the
                 //sensor is less than the
                 //pre-specified value, aka the robot is passing
@@ -401,13 +404,12 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
     }
 
     /**
-     * this program lowers the servoJewel arm.
+     * This program lowers the servoJewel arm
      *
      * @param bot the robot currently being worked on
      * @param finalServoPosition the final position that the servo arm will stop at
      * @throws InterruptedException
      */
-
     public void lowerArm(Robot bot, double finalServoPosition) throws InterruptedException {
 
         double servoPosition = bot.getServoPosition(); //sets getPosition() to servoPosition
@@ -417,7 +419,9 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
             servoPosition = servoPosition + 0.05;          //add 0.05 to the current servoPosition variable
             bot.setServoPosition(servoPosition);
-            Thread.sleep(20);                              //wait 0.02 seconds (20 milliseconds)
+            Thread.sleep(75);                              //wait 0.02 seconds (20 milliseconds)
         }
+
+        Thread.sleep(250);
     }
 }

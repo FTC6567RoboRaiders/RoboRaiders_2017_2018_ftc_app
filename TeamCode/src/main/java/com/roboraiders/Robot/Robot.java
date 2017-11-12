@@ -115,6 +115,7 @@ public class Robot {
         distanceSensor = hwMap.get(DistanceSensor.class, "sensor_distance");
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.mode = BNO055IMU.SensorMode.IMU;
         imu.initialize(parameters);
         //digitalTouch = hwMap.get(DigitalChannel.class, "sensor_touch");
         //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
@@ -296,26 +297,22 @@ public class Robot {
     }
 
     /**
-     * this sets the servo position.
+     * This method sets the servo position
      *
-     * @param servoPosition this is the current position of the servo.
+     * @param servoPosition the current position of the servo
      */
-
     public void setServoPosition(double servoPosition) {
 
         servoJewel.setPosition(servoPosition);
-
     }
 
     /**
-     * This program gets and returns the servo position.
+     * This method gets and returns the servo position
      *
-     * @return gets and returns the current position of the servo.
+     * @return the current position of the servo
      */
-
     public double getServoPosition() {
 
         return servoJewel.getPosition();
-
     }
 }
