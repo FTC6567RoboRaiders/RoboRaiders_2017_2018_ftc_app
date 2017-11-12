@@ -170,8 +170,15 @@ public class HubBot_Auto_Options extends LinearOpMode
         telemetry.addLine(bSTitle);
         telemetry.addLine("Press B for Near or X for Away");
         telemetry.update();
+
+        gamepad1.reset();
+
         prev_B_ButtonState = false;
         prev_X_ButtonState = false;
+        cur_B_ButtonState = false;
+        cur_X_ButtonState = false;
+                                                 // reset the gamepad to initial state
+
 
 
         while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
@@ -192,11 +199,12 @@ public class HubBot_Auto_Options extends LinearOpMode
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
-            telemetry.addLine().addData("Balancing Stone Selection: ",bsSelection);
-            telemetry.update();                                       // so when this line is removed we get a problem with
-            // the state of the prev variables...not sure what java/android
-            // thinks is going on here...more investigation is needed
+
         }
+        telemetry.addLine().addData("Balancing Stone Selection: ",bsSelection);
+        telemetry.update();                                       // so when this line is removed we get a problem with
+        // the state of the prev variables...not sure what java/android
+        // thinks is going on here...more investigation is needed
 
         // Wait until we're told to go
         waitForStart();
