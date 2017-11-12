@@ -113,6 +113,7 @@ public class Robot {
         distanceSensor = hwMap.get(DistanceSensor.class, "sensor_distance");
         imu = hwMap.get(BNO055IMU.class, "imu");
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.mode = BNO055IMU.SensorMode.IMU;
         imu.initialize(parameters);
         //digitalTouch = hwMap.get(DigitalChannel.class, "sensor_touch");
         //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
