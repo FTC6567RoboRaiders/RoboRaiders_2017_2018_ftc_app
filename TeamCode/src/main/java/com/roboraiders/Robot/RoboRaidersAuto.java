@@ -62,13 +62,13 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
                 telemetry.update();
 
-                imuTurn(bot, 5, 0.25, "left"); //pivot left
+                imuTurn(bot, 25, 0.25, "left"); //pivot left
                 Thread.sleep(500);
 
                 bot.setServoPosition(0.4); //raise arm to vertical
                 Thread.sleep(1000);
 
-                imuTurn(bot, 5, 0.25, "right"); //pivot right to original position
+                imuTurn(bot, 25, 0.25, "right"); //pivot right to original position
                 Thread.sleep(500);
             }
             else { //the ball on the right is blue
@@ -77,13 +77,13 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
                 telemetry.update();
 
-                imuTurn(bot, 5, 0.25, "right"); //pivot right
+                imuTurn(bot, 25, 0.25, "right"); //pivot right
                 Thread.sleep(500);
 
                 bot.setServoPosition(0.4); //raise arm to vertical
                 Thread.sleep(1000);
 
-                imuTurn(bot, 5, 0.25, "left"); //pivot left to original position
+                imuTurn(bot, 25, 0.25, "left"); //pivot left to original position
                 Thread.sleep(500);
             }
         }
@@ -98,13 +98,13 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
                 telemetry.update();
 
-                imuTurn(bot, 5, 0.25, "left"); //pivot left
+                imuTurn(bot, 25, 0.25, "left"); //pivot left
                 Thread.sleep(500);
 
                 bot.setServoPosition(0.4); //raise arm to vertical
                 Thread.sleep(1000);
 
-                imuTurn(bot, 5, 0.25, "right"); //pivot right to original position
+                imuTurn(bot, 25, 0.25, "right"); //pivot right to original position
                 Thread.sleep(500);
             }
             else { //the ball on the right is blue
@@ -113,13 +113,13 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
                 telemetry.addLine().addData("Blue", bot.getColorIntensity("blue"));
                 telemetry.update();
 
-                imuTurn(bot, 5, 0.25, "right"); //pivot right
+                imuTurn(bot, 25, 0.25, "right"); //pivot right
                 Thread.sleep(500);
 
                 bot.setServoPosition(0.4); //raise arm to vertical
                 Thread.sleep(1000);
 
-                imuTurn(bot, 5, 0.25, "left"); //pivot left to original position
+                imuTurn(bot, 25, 0.25, "left"); //pivot left to original position
                 Thread.sleep(500);
             }
         }
@@ -150,7 +150,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
             bot.setDriveMotorPower(-power, power, -power, power); //the robot will turn left
         }
 
-        while (bot.getHeading() < degrees && opModeIsActive()) { //while the value of getHeading is
+        while (bot.getHeading() < (degrees - 20) && opModeIsActive()) { //while the value of getHeading is
             //less then the degree value
             //and while opMode is active continue the while loop
 
@@ -330,7 +330,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         double dividersDistance = 0; //counts the number of times that the robot hits the divider with the distance sensor
 
-        bot.setDriveMotorPower(-power, power, power, -power); //robot is moving left at whatever power is specified
+        bot.setDriveMotorPower(-power + 0.04, power, power, -power + 0.04); //robot is moving right at whatever power is specified
 
         while (dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
             //and the opMode has not been stopped

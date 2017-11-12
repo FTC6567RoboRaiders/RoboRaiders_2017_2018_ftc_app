@@ -31,7 +31,7 @@ public class JewelCloseBlue extends RoboRaidersAuto {
         encodersMove(robot, 20, 0.5, "forward");
         Thread.sleep(500);
 
-        imuTurn(robot, 65, 0.5, "left");
+        imuTurn(robot, 90, 0.5, "left");
         Thread.sleep(500);
 
         encodersMove(robot, 3, 0.5, "forward");
