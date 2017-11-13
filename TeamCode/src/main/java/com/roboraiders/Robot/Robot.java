@@ -162,6 +162,18 @@ public class Robot {
     }
 
     /**
+     * This method will reset the encoder count of each motor to 0. It should be used before runWithEncoders
+     * and getEncoderCount when strafing.
+     */
+    public void resetEncoders() {
+
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    /**
      * This method will set the mode of all of the drive train motors to run using encoder
      */
     public void runWithEncoders() {
@@ -173,30 +185,13 @@ public class Robot {
     }
 
     /**
-     * resetEncoders resets the encoder counts of each motor to 0. Should be used before using
-     * getEncoderCount when strafing.
-     */
-
-    public void resetEncoders(){
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-
-    /**
-     * This works well for forwards and backwards only. Still need to figure out how to strafe.
-     * May need to set encoder count to zero before strafing to make this work. (see below)
-     *
      * When strafing and using this method, the caller must call resetEncoders to reset the
-     * encoder count to 0. In addition, after strafing has been completed,
-     * the encoder count should be reset to 0 again (by calling resetEncoders).
+     * encoder count to 0 (see above).
      *
-     * @return Returns average encoder count (throws out high and low values and calculates
-     * using middle two.)
-     *
+     * @return averageCount - average encoder count (throws out high and low values and calculates
+     * using middle two)
      */
-    public int getEncoderCount (){
+    public int getEncoderCount() {
 
         int[] encoderArray = new int[4];
 
@@ -205,28 +200,28 @@ public class Robot {
         encoderArray[2] = Math.abs(motorBackLeft.getCurrentPosition());
         encoderArray[3] = Math.abs(motorBackRight.getCurrentPosition());
 
-      int I;
-      int J;
-      int Temp;
+        int I;
+        int J;
+        int Temp;
 
         for (I = 0; I < 3; I++) {
-            for (J= I + 1;J < 4; J++){
-                if (encoderArray[I] < encoderArray[J]){
+
+            for (J = I + 1; J < 4; J++) {
+
+                if (encoderArray[I] < encoderArray[J]) {
+
                 }
                 else {
+
                     Temp = encoderArray[I];
                     encoderArray[I] = encoderArray[J];
                     encoderArray[J] = Temp;
                 }
-            }// for J=I+1 to 3
-        }// for I=0 to 2
-
-
-        int averageCount = (encoderArray[1] + encoderArray[2])/2;
-
+            }
+        }
+        int averageCount = (encoderArray[1] + encoderArray[2]) / 2;
 
         return averageCount;
-
     }
 
 
