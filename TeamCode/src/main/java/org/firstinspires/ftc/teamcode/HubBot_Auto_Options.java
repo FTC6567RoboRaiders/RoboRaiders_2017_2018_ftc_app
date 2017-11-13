@@ -67,6 +67,8 @@ public class HubBot_Auto_Options extends LinearOpMode {
          */
         prev_X_ButtonState = false;
         prev_B_ButtonState = false;
+        cur_B_ButtonState = false;
+        cur_X_ButtonState = false;
 
         // loop until either the "b" button or the "x" button is pressed
         // the logic here says OR the previous button states and when they are both false continue
@@ -137,6 +139,8 @@ public class HubBot_Auto_Options extends LinearOpMode {
 
         prev_B_ButtonState = false;
         prev_X_ButtonState = false;
+        cur_B_ButtonState = false;
+        cur_X_ButtonState = false;
 
         while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
 
@@ -174,6 +178,8 @@ public class HubBot_Auto_Options extends LinearOpMode {
 
         prev_B_ButtonState = false;
         prev_X_ButtonState = false;
+        cur_B_ButtonState = false;
+        cur_X_ButtonState = false;
 
         while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
 
