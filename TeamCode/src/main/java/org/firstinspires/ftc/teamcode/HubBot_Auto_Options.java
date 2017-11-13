@@ -53,7 +53,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class HubBot_Auto_Options extends LinearOpMode
 {
-    String[] yesNoOptions = new String[] {"Yes", "No"};
+    String[] yesNoOptions = new String[] {"No", "Yes"};
     // The following is used to change the background color of the robot controller
     // get a reference to the RelativeLayout so we can change the background
     // color of the Robot Controller app to match the alliance selection.
@@ -201,8 +201,76 @@ public class HubBot_Auto_Options extends LinearOpMode
             }
 
         }
-        telemetry.addLine().addData("Balancing Stone Selection: ",bsSelection);
-        telemetry.update();                                       // so when this line is removed we get a problem with
+        telemetry.addLine().addData("Balancing stone Selection: ",bsSelection);
+        telemetry.update();
+
+        telemetry.addLine(jeweltitle);
+        telemetry.addLine("Press B for No or X for Yes");
+        telemetry.update();
+
+        gamepad1.reset();
+
+        prev_B_ButtonState = false;
+        prev_X_ButtonState = false;
+        cur_B_ButtonState = false;
+        cur_X_ButtonState = false;
+        while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
+
+            cur_B_ButtonState = gamepad1.b;                           // get the current state of button b
+            cur_X_ButtonState = gamepad1.x;                           // get the current state of button x
+
+            if (cur_B_ButtonState) {                                  // when the "b" button on the gamepad is pressed set alliance to RED
+                if (!prev_B_ButtonState) {                            // when the previous "b" button was NOT pushed
+                    jewelSelection = yesNoOptions[0];                       // set balance stone selection to Near
+                    prev_B_ButtonState = true;                        // indicate that the previous B button state is PUSHED
+                }
+            }
+
+            else  if (cur_X_ButtonState) {                            // when the "X" button on the gamepad is pressed set the alliance to BLUE
+                if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
+                    jewelSelection = yesNoOptions[1];                       // set balance stone selection to Away
+                    prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
+                }
+            }
+
+        }
+        telemetry.addLine().addData("Hit Jewel Selection: ",bsSelection);
+        telemetry.update();
+
+        telemetry.addLine(parkTitle);
+        telemetry.addLine("Press B for No or X for Yes");
+        telemetry.update();
+
+        gamepad1.reset();
+
+        prev_B_ButtonState = false;
+        prev_X_ButtonState = false;
+        cur_B_ButtonState = false;
+        cur_X_ButtonState = false;
+
+        while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
+
+            cur_B_ButtonState = gamepad1.b;                           // get the current state of button b
+            cur_X_ButtonState = gamepad1.x;                           // get the current state of button x
+
+            if (cur_B_ButtonState) {                                  // when the "b" button on the gamepad is pressed set alliance to RED
+                if (!prev_B_ButtonState) {                            // when the previous "b" button was NOT pushed
+                    parkSelection = yesNoOptions[0];                       // set balance stone selection to Near
+                    prev_B_ButtonState = true;                        // indicate that the previous B button state is PUSHED
+                }
+            }
+
+            else  if (cur_X_ButtonState) {                            // when the "X" button on the gamepad is pressed set the alliance to BLUE
+                if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
+                    parkSelection = yesNoOptions[1];                       // set balance stone selection to Away
+                    prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
+                }
+            }
+
+        }
+        telemetry.addLine().addData("Park Selection: ",bsSelection);
+        telemetry.update();
+        // so when this line is removed we get a problem with
         // the state of the prev variables...not sure what java/android
         // thinks is going on here...more investigation is needed
 
