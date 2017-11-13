@@ -1,35 +1,3 @@
-/*
-Copyright (c) 2016 Robert Atkinson
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted (subject to the limitations in the disclaimer below) provided that
-the following conditions are met:
-
-Redistributions of source code must retain the above copyright notice, this list
-of conditions and the following disclaimer.
-
-Redistributions in binary form must reproduce the above copyright notice, this
-list of conditions and the following disclaimer in the documentation and/or
-other materials provided with the distribution.
-
-Neither the name of Robert Atkinson nor the names of his contributors may be used to
-endorse or promote products derived from this software without specific prior
-written permission.
-
-NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
-LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESSFOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
-TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 package org.firstinspires.ftc.teamcode;
 
 import android.app.Activity;
@@ -38,7 +6,6 @@ import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 
 /**
  * {@link HubBot_Auto_Options} prototype for autonomous selection of options, things
@@ -51,31 +18,24 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "HubBot: Autonomous Options", group = "Auto")
 
-public class HubBot_Auto_Options extends LinearOpMode
-{
-    String[] yesNoOptions = new String[] {"No", "Yes"};
-    // The following is used to change the background color of the robot controller
-    // get a reference to the RelativeLayout so we can change the background
-    // color of the Robot Controller app to match the alliance selection.
+public class HubBot_Auto_Options extends LinearOpMode {
+
     View relativeLayout;
 
     // Set up strings for alliance selection
-
     String allianceTitle = "Alliance Selection";                      // The title of this selection
     String[] allianceOptions = new String[] {"Red", "Blue"};          // The options for this selection
     String allianceSelection;                                         // The alliance selection
 
     // Set up strings for balance stone selection
-    String bSTitle = "Balancing Stone Selection";
-    String[] bsOptions = new String[] {"Near", "Away"};
+    String bsTitle = "Balancing Stone Selection";
+    String[] bsOptions = new String[] {"Close", "Far"};
     String bsSelection;
 
-    String jeweltitle = "Jewel Selection";
-    String jewelSelection;
-
-    String parkTitle = "Park Selection";
-    String parkSelection;
-
+    // Set up strings for autonomous options selection
+    String autonomousOptionsTitle = "Autonomous Options Selection";
+    String[] autonomousOptions = new String[] {"Jewel and Park", "Jewel, Cryptobox, and Park"};
+    String autonomousOptionsSelection;
 
     boolean cur_B_ButtonState;                                        // "b" button current state
     boolean cur_X_ButtonState;                                        // "x" button current state
@@ -94,9 +54,7 @@ public class HubBot_Auto_Options extends LinearOpMode
         int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
         relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
 
-
-        // Alliance Selection - choose wisely
-
+        // Alliance Selection
         telemetry.addLine(allianceTitle);
         telemetry.addLine("Press B for Red or X for Blue");
         telemetry.update();
@@ -109,7 +67,6 @@ public class HubBot_Auto_Options extends LinearOpMode
          */
         prev_X_ButtonState = false;
         prev_B_ButtonState = false;
-
 
         // loop until either the "b" button or the "x" button is pressed
         // the logic here says OR the previous button states and when they are both false continue
@@ -152,34 +109,34 @@ public class HubBot_Auto_Options extends LinearOpMode
                                                                       // thinks is going on here...more investigation is needed
         }
 
-        telemetry.addLine().addData("Alliance Selection: ",allianceSelection);
+        telemetry.addLine().addData("Alliance Selection: ", allianceSelection);
         telemetry.update();
 
-
-        // change the background color to match the alliance selection
+        // Change the background color to match the alliance selection
         relativeLayout.post(new Runnable() {
+
             public void run() {
+
                 if ( allianceSelection.equals(allianceOptions[0]) ) { // alliance selection is RED
+
                     relativeLayout.setBackgroundColor(Color.RED);
                 }
                 else {                                                // alliance selection is BLUE
+
                     relativeLayout.setBackgroundColor(Color.BLUE);
                 }
             }
         });
-        telemetry.addLine(bSTitle);
+
+        // Balancing Stone Selection
+        telemetry.addLine(bsTitle);
         telemetry.addLine("Press B for Near or X for Away");
         telemetry.update();
 
-        gamepad1.reset();
+        gamepad1.reset();                                             // reset the gamepad to initial state
 
         prev_B_ButtonState = false;
         prev_X_ButtonState = false;
-        cur_B_ButtonState = false;
-        cur_X_ButtonState = false;
-                                                 // reset the gamepad to initial state
-
-
 
         while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
 
@@ -193,60 +150,30 @@ public class HubBot_Auto_Options extends LinearOpMode
                 }
             }
 
-            else  if (cur_X_ButtonState) {                            // when the "X" button on the gamepad is pressed set the alliance to BLUE
+            else if (cur_X_ButtonState) {                             // when the "X" button on the gamepad is pressed set the alliance to BLUE
                 if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
                     bsSelection = bsOptions[1];                       // set balance stone selection to Away
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
 
+            telemetry.update();                                       // so when this line is removed we get a problem with
+                                                                      // the state of the prev variables...not sure what java/android
+                                                                      // thinks is going on here...more investigation is needed
         }
-        telemetry.addLine().addData("Balancing stone Selection: ",bsSelection);
+
+        telemetry.addLine().addData("Balancing Stone Selection: ", bsSelection);
         telemetry.update();
 
-        telemetry.addLine(jeweltitle);
-        telemetry.addLine("Press B for No or X for Yes");
+        // Autonomous Options Selection
+        telemetry.addLine(autonomousOptionsTitle);
+        telemetry.addLine("Press B for Jewel and Park or X for Jewel, Cryptobox, and Park");
         telemetry.update();
 
-        gamepad1.reset();
+        gamepad1.reset();                                             // reset the gamepad to initial state
 
         prev_B_ButtonState = false;
         prev_X_ButtonState = false;
-        cur_B_ButtonState = false;
-        cur_X_ButtonState = false;
-        while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
-
-            cur_B_ButtonState = gamepad1.b;                           // get the current state of button b
-            cur_X_ButtonState = gamepad1.x;                           // get the current state of button x
-
-            if (cur_B_ButtonState) {                                  // when the "b" button on the gamepad is pressed set alliance to RED
-                if (!prev_B_ButtonState) {                            // when the previous "b" button was NOT pushed
-                    jewelSelection = yesNoOptions[0];                       // set balance stone selection to Near
-                    prev_B_ButtonState = true;                        // indicate that the previous B button state is PUSHED
-                }
-            }
-
-            else  if (cur_X_ButtonState) {                            // when the "X" button on the gamepad is pressed set the alliance to BLUE
-                if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
-                    jewelSelection = yesNoOptions[1];                       // set balance stone selection to Away
-                    prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
-                }
-            }
-
-        }
-        telemetry.addLine().addData("Hit Jewel Selection: ",bsSelection);
-        telemetry.update();
-
-        telemetry.addLine(parkTitle);
-        telemetry.addLine("Press B for No or X for Yes");
-        telemetry.update();
-
-        gamepad1.reset();
-
-        prev_B_ButtonState = false;
-        prev_X_ButtonState = false;
-        cur_B_ButtonState = false;
-        cur_X_ButtonState = false;
 
         while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
 
@@ -255,40 +182,40 @@ public class HubBot_Auto_Options extends LinearOpMode
 
             if (cur_B_ButtonState) {                                  // when the "b" button on the gamepad is pressed set alliance to RED
                 if (!prev_B_ButtonState) {                            // when the previous "b" button was NOT pushed
-                    parkSelection = yesNoOptions[0];                       // set balance stone selection to Near
+                    autonomousOptionsSelection = autonomousOptions[0];// set balance stone selection to Near
                     prev_B_ButtonState = true;                        // indicate that the previous B button state is PUSHED
                 }
             }
 
-            else  if (cur_X_ButtonState) {                            // when the "X" button on the gamepad is pressed set the alliance to BLUE
+            else if (cur_X_ButtonState) {                             // when the "X" button on the gamepad is pressed set the alliance to BLUE
                 if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
-                    parkSelection = yesNoOptions[1];                       // set balance stone selection to Away
+                    autonomousOptionsSelection = autonomousOptions[1];// set balance stone selection to Away
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
 
+            telemetry.update();                                       // so when this line is removed we get a problem with
+                                                                      // the state of the prev variables...not sure what java/android
+                                                                      // thinks is going on here...more investigation is needed
         }
-        telemetry.addLine().addData("Park Selection: ",bsSelection);
-        telemetry.update();
-        // so when this line is removed we get a problem with
-        // the state of the prev variables...not sure what java/android
-        // thinks is going on here...more investigation is needed
 
-        // Wait until we're told to go
+        telemetry.addLine().addData("Autonomous Options Selection: ", autonomousOptionsSelection);
+        telemetry.update();
+
         waitForStart();
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
+
             telemetry.update();
         }
 
-        // change the background color back to white
+        // Change the background color back to white
         relativeLayout.post(new Runnable() {
             public void run() {
-                relativeLayout.setBackgroundColor(Color.WHITE);
 
+                relativeLayout.setBackgroundColor(Color.WHITE);
             }
         });
-
     }
 }
