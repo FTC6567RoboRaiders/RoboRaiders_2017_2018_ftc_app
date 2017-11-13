@@ -14,6 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+
+
 /**
  * This is NOT an Op Mode.
  *
@@ -171,14 +173,62 @@ public class Robot {
     }
 
     /**
-     * This method will return the current position (encoder count) of the front left motor
-     *
-     * @return motorFrontLeft.getCurrentPosition() - the current position of the front left motor
+     * resetEncoders resets the encoder counts of each motor to 0. Should be used before using
+     * getEncoderCount when strafing.
      */
-    public int getEncoderCount() {
 
-        return motorFrontLeft.getCurrentPosition();
+    public void resetEncoders(){
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+
+    /**
+     * This works well for forwards and backwards only. Still need to figure out how to strafe.
+     * May need to set encoder count to zero before strafing to make this work. (see below)
+     *
+     * When strafing and using this method, the caller must call resetEncoders to reset the
+     * encoder count to 0. In addition, after strafing has been completed,
+     * the encoder count should be reset to 0 again (by calling resetEncoders).
+     *
+     * @return Returns average encoder count (throws out high and low values and calculates
+     * using middle two.)
+     *
+     */
+    public int getEncoderCount (){
+
+        int[] encoderArray = new int[4];
+
+        encoderArray[0] = Math.abs(motorFrontLeft.getCurrentPosition());
+        encoderArray[1] = Math.abs(motorFrontRight.getCurrentPosition());
+        encoderArray[2] = Math.abs(motorBackLeft.getCurrentPosition());
+        encoderArray[3] = Math.abs(motorBackRight.getCurrentPosition());
+
+      int I;
+      int J;
+      int Temp;
+
+        for (I = 0; I < 3; I++) {
+            for (J= I + 1;J < 4; J++){
+                if (encoderArray[I] < encoderArray[J]){
+                }
+                else {
+                    Temp = encoderArray[I];
+                    encoderArray[I] = encoderArray[J];
+                    encoderArray[J] = Temp;
+                }
+            }// for J=I+1 to 3
+        }// for I=0 to 2
+
+
+        int averageCount = (encoderArray[1] + encoderArray[2])/2;
+
+
+        return averageCount;
+
+    }
+
 
     /**
      * This method will return COUNTS after it is calculated from distance
