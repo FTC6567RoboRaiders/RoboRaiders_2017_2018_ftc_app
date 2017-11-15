@@ -67,7 +67,7 @@ public class HubBot_Auto_Options extends LinearOpMode
 
     // Set up strings for balance stone selection
     String bSTitle = "Balancing Stone Selection";
-    String[] bsOptions = new String[] {"Near", "Away"};
+    String[] bsOptions = new String[] {"Close", "Far"};
     String bsSelection;
 
     String jeweltitle = "Jewel Selection";
@@ -156,6 +156,7 @@ public class HubBot_Auto_Options extends LinearOpMode
         telemetry.update();
 
 
+
         // change the background color to match the alliance selection
         relativeLayout.post(new Runnable() {
             public void run() {
@@ -167,6 +168,11 @@ public class HubBot_Auto_Options extends LinearOpMode
                 }
             }
         });
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         telemetry.addLine(bSTitle);
         telemetry.addLine("Press B for Near or X for Away");
         telemetry.update();
@@ -199,11 +205,15 @@ public class HubBot_Auto_Options extends LinearOpMode
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
-
+        telemetry.update();
         }
         telemetry.addLine().addData("Balancing stone Selection: ",bsSelection);
         telemetry.update();
-
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         telemetry.addLine(jeweltitle);
         telemetry.addLine("Press B for No or X for Yes");
         telemetry.update();
@@ -232,11 +242,15 @@ public class HubBot_Auto_Options extends LinearOpMode
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
-
+telemetry.update();
         }
         telemetry.addLine().addData("Hit Jewel Selection: ",bsSelection);
         telemetry.update();
-
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         telemetry.addLine(parkTitle);
         telemetry.addLine("Press B for No or X for Yes");
         telemetry.update();
@@ -266,10 +280,18 @@ public class HubBot_Auto_Options extends LinearOpMode
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
+telemetry.update();
 
         }
         telemetry.addLine().addData("Park Selection: ",bsSelection);
         telemetry.update();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         // so when this line is removed we get a problem with
         // the state of the prev variables...not sure what java/android
         // thinks is going on here...more investigation is needed
