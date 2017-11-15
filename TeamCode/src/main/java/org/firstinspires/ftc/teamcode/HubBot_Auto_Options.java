@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name = "HubBot: Autonomous Options", group = "Auto")
 
 public class HubBot_Auto_Options extends LinearOpMode {
-
+    String[] yesNoOptions = new String[] {"No", "Yes"};
     View relativeLayout;
 
     // Set up strings for alliance selection
