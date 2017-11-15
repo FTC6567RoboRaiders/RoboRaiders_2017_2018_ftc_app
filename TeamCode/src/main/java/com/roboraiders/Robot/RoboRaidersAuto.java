@@ -330,7 +330,7 @@ public abstract class RoboRaidersAuto extends LinearOpMode {
 
         double dividersDistance = 0; //counts the number of times that the robot hits the divider with the distance sensor
 
-        bot.setDriveMotorPower(-power + 0.04, power, power, -power + 0.04); //robot is moving right at whatever power is specified
+        bot.setDriveMotorPower(-power, power, power, -power); //robot is moving left at whatever power is specified
 
         while (dividersDistance < dividersTarget && opModeIsActive()) { //while the robot has not yet hit the specified number of dividers
             //and the opMode has not been stopped

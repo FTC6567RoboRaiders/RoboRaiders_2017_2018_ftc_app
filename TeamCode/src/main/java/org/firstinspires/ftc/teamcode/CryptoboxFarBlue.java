@@ -6,12 +6,12 @@ import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
 /**
- * Created by Alex (and a little bit J-Dawg) on 11/8/17.
+ * Created by Katelin Zichittella on 11/15/17.
  */
 
 @Autonomous
 
-public class JewelFarBlue extends RoboRaidersAuto {
+public class CryptoboxFarBlue extends RoboRaidersAuto {
 
     public Robot robot = new Robot();
 
