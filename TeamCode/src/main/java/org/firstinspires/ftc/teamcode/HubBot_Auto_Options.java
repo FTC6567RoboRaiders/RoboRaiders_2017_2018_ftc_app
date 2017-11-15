@@ -133,7 +133,7 @@ public class HubBot_Auto_Options extends LinearOpMode {
         });
 
         // Balancing Stone Selection
-        telemetry.addLine(bsTitle);
+
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
