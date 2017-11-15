@@ -135,12 +135,12 @@ public class HubBot_Auto_Options extends LinearOpMode {
         // Balancing Stone Selection
         telemetry.addLine(bsTitle);
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         telemetry.addLine(bsTitle);
-        telemetry.addLine("Press B for Near or X for Away");
+        telemetry.addLine("Press B for Close or X for Far");
         telemetry.update();
 
         gamepad1.reset();                                             // reset the gamepad to initial state
@@ -180,7 +180,7 @@ public class HubBot_Auto_Options extends LinearOpMode {
         telemetry.addLine().addData("Balancing Stone Selection: ", bsSelection);
         telemetry.update();
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -215,7 +215,7 @@ public class HubBot_Auto_Options extends LinearOpMode {
             }
 telemetry.update();
         }
-        telemetry.addLine().addData("Hit Jewel Selection: ",bsSelection);
+        telemetry.addLine().addData("Hit Jewel: ",yesNoOptions);
         telemetry.update();
         try {
             Thread.sleep(500);
@@ -254,10 +254,10 @@ telemetry.update();
 telemetry.update();
 
         }
-        telemetry.addLine().addData("Park Selection: ",bsSelection);
+        telemetry.addLine().addData("Park: ",yesNoOptions);
         telemetry.update();
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
