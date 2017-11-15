@@ -215,7 +215,7 @@ public class HubBot_Auto_Options extends LinearOpMode {
             }
 telemetry.update();
         }
-        telemetry.addLine().addData("Hit Jewel: ",yesNoOptions);
+        telemetry.addLine().addData("Hit Jewel: ",jewelSelection);
         telemetry.update();
         try {
             Thread.sleep(500);
@@ -254,7 +254,7 @@ telemetry.update();
 telemetry.update();
 
         }
-        telemetry.addLine().addData("Park: ",yesNoOptions);
+        telemetry.addLine().addData("Park: ",parkSelection);
         telemetry.update();
         try {
             Thread.sleep(1000);
