@@ -21,7 +21,7 @@ public class robotMoveLeft extends RoboRaidersAuto {
 
         while(opModeIsActive()) {
 
-            encodersMove(robot, 100, 1.0, "left");
+            robot.setDriveMotorPower(1.0, -1.0, 1.0, -1.0);
         }
     }
 

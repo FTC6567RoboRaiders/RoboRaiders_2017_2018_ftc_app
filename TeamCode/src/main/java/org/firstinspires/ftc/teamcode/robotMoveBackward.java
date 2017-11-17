@@ -21,7 +21,7 @@ public class robotMoveBackward extends RoboRaidersAuto {
 
         while(opModeIsActive()) {
 
-            encodersMove(robot, 100, 1.0, "backward");
+            robot.setDriveMotorPower(-1.0, -1.0, -1.0, -1.0);
         }
     }
 

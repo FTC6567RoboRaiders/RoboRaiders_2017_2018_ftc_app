@@ -21,7 +21,7 @@ public class robotMoveForward extends RoboRaidersAuto {
 
         while(opModeIsActive()) {
 
-            encodersMove(robot, 100, 1.0, "forward");
+            robot.setDriveMotorPower(1.0, 1.0, 1.0, 1.0);
         }
     }
 
