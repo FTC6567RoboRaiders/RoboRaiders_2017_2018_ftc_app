@@ -21,7 +21,7 @@ public class JewelCloseBlue extends RoboRaidersAuto {
         robot.initialize(hardwareMap);
         vuforiaInitialization(hardwareMap);
 
-        robot.setServoPosition(0.4);
+        robot.setServoPosition(0.1);
 
         waitForStart();
 

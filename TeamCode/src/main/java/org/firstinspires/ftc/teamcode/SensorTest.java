@@ -21,7 +21,7 @@ public class SensorTest extends RoboRaidersAuto {
 
         robot.initialize(hardwareMap);
         vuforiaInitialization(hardwareMap);
-        robot.servoJewel.setPosition(1.0); //lower arm with color sensor
+        //robot.servoJewel.setPosition(1.0); //lower arm with color sensor
         telemetry.addData("Initialized", true);
         telemetry.update();
 

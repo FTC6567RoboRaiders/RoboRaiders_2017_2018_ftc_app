@@ -6,12 +6,12 @@ import com.roboraiders.Robot.RoboRaidersAuto;
 import com.roboraiders.Robot.Robot;
 
 /**
- * Created by Alex (and a little bit J-Dawg) on 11/8/17.
+ * Created by Katelin Zichittella on 11/15/17.
  */
 
 @Autonomous
 
-public class JewelFarBlue extends RoboRaidersAuto {
+public class CryptoboxFarRed extends RoboRaidersAuto {
 
     public Robot robot = new Robot();
 
@@ -26,12 +26,15 @@ public class JewelFarBlue extends RoboRaidersAuto {
         waitForStart();
 
         lowerArm(robot, 0.99);
-        selectJewel(robot, "blue");
+        selectJewel(robot, "red");
 
-        encodersMove(robot, 16, 0.5, "forward");
+        encodersMove(robot, 16, 0.5, "backward");
         Thread.sleep(500);
 
         encodersMove(robot, 12, 0.5, "right");
+        Thread.sleep(500);
+
+        imuTurn(robot, 180, 0.5, "right");
         Thread.sleep(500);
     }
 }

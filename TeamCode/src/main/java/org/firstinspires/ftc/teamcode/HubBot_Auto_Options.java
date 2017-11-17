@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name = "HubBot: Autonomous Options", group = "Auto")
 
 public class HubBot_Auto_Options extends LinearOpMode {
-    String[] yesNoOptions = new String[] {"No", "Yes"};
+
     View relativeLayout;
 
     // Set up strings for alliance selection
@@ -32,12 +32,15 @@ public class HubBot_Auto_Options extends LinearOpMode {
     String[] bsOptions = new String[] {"Close", "Far"};
     String bsSelection;
 
-    String jeweltitle = "Jewel Selection";
+    String[] yesNoOptions = new String[] {"No", "Yes"};
+
+    // Set up strings for jewel selection
+    String jewelTitle = "Jewel Selection";
     String jewelSelection;
 
+    // Set up strings for park selection
     String parkTitle = "Park Selection";
     String parkSelection;
-
 
     boolean cur_B_ButtonState;                                        // "b" button current state
     boolean cur_X_ButtonState;                                        // "x" button current state
@@ -87,7 +90,6 @@ public class HubBot_Auto_Options extends LinearOpMode {
              +--------------------+------+--------------------+--------+-------------+
              |      TRUE          | -OR- |     TRUE           | TRUE   |   FALSE     |
              +--------------------+------+--------------------+--------+-------------+
-
          */
         while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
 
@@ -109,8 +111,8 @@ public class HubBot_Auto_Options extends LinearOpMode {
             }
 
             telemetry.update();                                       // so when this line is removed we get a problem with
-                                                                      // the state of the prev variables...not sure what java/android
-                                                                      // thinks is going on here...more investigation is needed
+            // the state of the prev variables...not sure what java/android
+            // thinks is going on here...more investigation is needed
         }
 
         telemetry.addLine().addData("Alliance Selection: ", allianceSelection);
@@ -132,15 +134,18 @@ public class HubBot_Auto_Options extends LinearOpMode {
             }
         });
 
-        // Balancing Stone Selection
-        telemetry.addLine(bsTitle);
         try {
+
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
+
             e.printStackTrace();
         }
+
+        // Balancing Stone Selection
         telemetry.addLine(bsTitle);
-        telemetry.addLine("Press B for Close or X for Far");
+        telemetry.addLine("Press B for Near or X for Away");
         telemetry.update();
 
         gamepad1.reset();                                             // reset the gamepad to initial state
@@ -149,9 +154,6 @@ public class HubBot_Auto_Options extends LinearOpMode {
         prev_X_ButtonState = false;
         cur_B_ButtonState = false;
         cur_X_ButtonState = false;
-                                                 // reset the gamepad to initial state
-
-
 
         while ( !(prev_B_ButtonState | prev_X_ButtonState) ) {
 
@@ -173,18 +175,24 @@ public class HubBot_Auto_Options extends LinearOpMode {
             }
 
             telemetry.update();                                       // so when this line is removed we get a problem with
-                                                                      // the state of the prev variables...not sure what java/android
-                                                                      // thinks is going on here...more investigation is needed
+            // the state of the prev variables...not sure what java/android
+            // thinks is going on here...more investigation is needed
         }
 
         telemetry.addLine().addData("Balancing Stone Selection: ", bsSelection);
         telemetry.update();
+
         try {
+
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
+
             e.printStackTrace();
         }
-        telemetry.addLine(jeweltitle);
+
+        // Jewel Selection
+        telemetry.addLine(jewelTitle);
         telemetry.addLine("Press B for No or X for Yes");
         telemetry.update();
 
@@ -213,15 +221,25 @@ public class HubBot_Auto_Options extends LinearOpMode {
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
-telemetry.update();
+
+            telemetry.update();                                       // so when this line is removed we get a problem with
+            // the state of the prev variables...not sure what java/android
+            // thinks is going on here...more investigation is needed
         }
-        telemetry.addLine().addData("Hit Jewel: ",yesNoOptions);
+
+        telemetry.addLine().addData("Jewel Selection: ", jewelSelection);
         telemetry.update();
+
         try {
+
             Thread.sleep(500);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
+
             e.printStackTrace();
         }
+
+        // Park Selection
         telemetry.addLine(parkTitle);
         telemetry.addLine("Press B for No or X for Yes");
         telemetry.update();
@@ -240,34 +258,35 @@ telemetry.update();
 
             if (cur_B_ButtonState) {                                  // when the "b" button on the gamepad is pressed set alliance to RED
                 if (!prev_B_ButtonState) {                            // when the previous "b" button was NOT pushed
-                    parkSelection = yesNoOptions[0];                       // set balance stone selection to Near
+                    parkSelection = yesNoOptions[0];                  // set balance stone selection to Near
                     prev_B_ButtonState = true;                        // indicate that the previous B button state is PUSHED
                 }
             }
 
             else  if (cur_X_ButtonState) {                            // when the "X" button on the gamepad is pressed set the alliance to BLUE
                 if (!prev_X_ButtonState) {                            // when the previous "x" button was NOT pushed
-                    parkSelection = yesNoOptions[1];                       // set balance stone selection to Away
+                    parkSelection = yesNoOptions[1];                  // set balance stone selection to Away
                     prev_X_ButtonState = true;                        // indicate that the previous X button state is PUSHED
                 }
             }
-telemetry.update();
 
+            telemetry.update();                                       // so when this line is removed we get a problem with
+            // the state of the prev variables...not sure what java/android
+            // thinks is going on here...more investigation is needed
         }
-        telemetry.addLine().addData("Park: ",yesNoOptions);
+
+        telemetry.addLine().addData("Park Selection: ", parkSelection);
         telemetry.update();
+
         try {
+
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
+
             e.printStackTrace();
         }
 
-
-        // so when this line is removed we get a problem with
-        // the state of the prev variables...not sure what java/android
-        // thinks is going on here...more investigation is needed
-
-        // Wait until we're told to go
         waitForStart();
 
         // Loop and update the dashboard
