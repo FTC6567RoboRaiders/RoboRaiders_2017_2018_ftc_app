@@ -24,6 +24,7 @@ public class HubBot_Auto_Options extends RoboRaidersAuto {
 
     public Robot robot = new Robot();
 
+
     View relativeLayout;
 
     // Set up strings for alliance selection
@@ -57,6 +58,10 @@ public class HubBot_Auto_Options extends RoboRaidersAuto {
     //----------------------------------------------------------------------------------------------
 
     @Override public void runOpMode() throws InterruptedException {
+        robot.initialize(hardwareMap);
+        robot.setServoPosition(0.1);
+
+
 
         // Get a reference to the RelativeLayout so we can later change the background
         // color of the Robot Controller app to match the alliance selection
@@ -299,6 +304,45 @@ public class HubBot_Auto_Options extends RoboRaidersAuto {
             selectJewel(robot, allianceSelection);
 
         } else if (jewelSelection.equals("No")) {
+
+        }
+        if (parkSelection.equals("Yes")) {
+            if (allianceSelection.equals("blue") && bsSelection.equals("Close")){
+                encodersMove(robot, 20, 0.5, "forward");
+                Thread.sleep(500);
+
+                imuTurn(robot, 90, 0.5, "left");
+                Thread.sleep(500);
+            }
+            if (allianceSelection.equals("blue") && bsSelection.equals("Far")){
+                encodersMove(robot, 16, 0.5, "forward");
+                Thread.sleep(500);
+
+                encodersMove(robot, 12, 0.5, "right");
+                Thread.sleep(500);
+            }
+            if (allianceSelection.equals("red") && bsSelection.equals("Close")){
+                encodersMove(robot, 20, 0.5, "backward");
+                Thread.sleep(500);
+
+                imuTurn(robot, 90, 0.5, "left");
+                Thread.sleep(500);
+
+                encodersMove(robot, 3, 0.5, "forward");
+                Thread.sleep(500);
+            }
+            if (allianceSelection.equals("red") && bsSelection.equals("Far")){
+                encodersMove(robot, 16, 0.5, "backward");
+                Thread.sleep(500);
+
+                encodersMove(robot, 12, 0.5, "right");
+                Thread.sleep(500);
+
+                imuTurn(robot, 180, 0.5, "right");
+                Thread.sleep(500);
+            }
+        }
+        else if (parkSelection.equals("No")){
 
         }
     }
