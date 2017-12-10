@@ -61,9 +61,6 @@ public class HubBot_Auto_Options extends RoboRaidersAuto {
         robot.initialize(hardwareMap);
         robot.setServoPosition(0.1);
 
-
-
-
         // Get a reference to the RelativeLayout so we can later change the background
         // color of the Robot Controller app to match the alliance selection
         int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
